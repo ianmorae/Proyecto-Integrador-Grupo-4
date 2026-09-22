@@ -82,5 +82,4 @@ curso mantiene un único estado: **En desarrollo**, **En producción** o **Inact
 
 ## Documentación
 
-La documentación del proyecto se mantiene en la carpeta `docs/`. El documento vigente
-del catálogo de requerimientos es `Catalogo_requerimientos_SOFT11C1.pdf`.
+La documentación del proyecto se mantiene en la carpeta `docs/`.
