@@ -1,0 +1,54 @@
+/* ===== Variables ===== */
+:root {
+  --azul: #0169E9;
+  --azul-oscuro: #01469A;
+  --blanco: #FFFFFF;
+  --fondo: #F4F6F9;
+  --borde: #CCCCCC;
+  --texto: #333333;
+  --texto-secundario: #666666;
+  --error: #C62828;
+  --valido: #2E7D32;
+}
+
+/* ===== Base ===== */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--texto);
+  background-color: var(--fondo);
+}
+
+h1 {
+  font-size: 28px;
+  margin: 0 0 8px;
+}
+
+h2 {
+  font-size: 22px;
+  margin: 0 0 16px;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+a {
+  color: var(--azul);
+}
+
+img {
+  max-width: 100%;
+}
+
+.texto-ayuda {
+  color: var(--texto-secundario);
+  font-size: 14px;
+  font-weight: normal;
+}
