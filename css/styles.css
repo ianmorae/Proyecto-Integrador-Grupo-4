@@ -52,3 +52,185 @@ img {
   font-size: 14px;
   font-weight: normal;
 }
+
+/* ===== Componentes ===== */
+.btn {
+  display: inline-block;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn-primario {
+  background-color: var(--azul);
+  border: 1px solid var(--azul);
+  color: var(--blanco);
+}
+
+.btn-primario:hover {
+  background-color: var(--azul-oscuro);
+  border-color: var(--azul-oscuro);
+}
+
+.btn-secundario {
+  background-color: var(--blanco);
+  border: 1px solid var(--azul);
+  color: var(--azul);
+}
+
+.btn:disabled {
+  background-color: #E0E0E0;
+  border-color: #E0E0E0;
+  color: #757575;
+  cursor: not-allowed;
+}
+
+.btn:focus {
+  outline: 2px solid var(--azul);
+  outline-offset: 2px;
+}
+
+.campo {
+  margin-bottom: 16px;
+}
+
+.campo label {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.campo input,
+.campo select,
+.campo textarea {
+  width: 100%;
+  height: 40px;
+  padding: 8px 10px;
+  border: 1px solid var(--borde);
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 16px;
+  color: var(--texto);
+  background-color: var(--blanco);
+}
+
+.idioma button {
+  padding: 4px 12px;
+  border: 1px solid var(--borde);
+  border-radius: 12px;
+  background-color: var(--blanco);
+  color: var(--texto);
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.idioma .idioma-activo {
+  background-color: var(--azul-oscuro);
+  border-color: var(--azul-oscuro);
+  color: var(--blanco);
+}
+
+.oculto {
+  display: none;
+}
+
+/* ===== Inicio de sesión ===== */
+.pagina-login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px 16px;
+}
+
+.pagina-login .idioma {
+  align-self: flex-end;
+}
+
+.tarjeta-login {
+  width: 100%;
+  max-width: 440px;
+  margin-top: 16px;
+  padding: 32px;
+  background-color: var(--blanco);
+  border: 1px solid var(--borde);
+  border-radius: 8px;
+}
+
+.tarjeta-login img {
+  display: block;
+  width: 200px;
+  margin: 0 auto 16px;
+}
+
+.tarjeta-login h1,
+.tarjeta-login .texto-ayuda {
+  text-align: center;
+}
+
+.btn-google {
+  width: 100%;
+  margin-top: 16px;
+}
+
+.separador {
+  margin: 16px 0;
+  text-align: center;
+  color: var(--texto-secundario);
+}
+
+.tarjeta-login .btn-primario {
+  width: 100%;
+}
+
+/* ===== Estados de validación ===== */
+.campo input:focus,
+.campo select:focus,
+.campo textarea:focus {
+  outline: 2px solid var(--azul);
+}
+
+.campo .error {
+  border: 2px solid var(--error);
+}
+
+.campo .valido {
+  border: 2px solid var(--valido);
+}
+
+.mensaje-error {
+  display: block;
+  color: var(--error);
+  font-size: 14px;
+}
+
+.mensaje-general {
+  margin-top: 16px;
+  padding: 10px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.mensaje-general.error {
+  border: 1px solid var(--error);
+  color: var(--error);
+}
+
+.mensaje-general.valido {
+  border: 1px solid var(--valido);
+  color: var(--valido);
+}
+
+/* ===== Media queries ===== */
+@media (max-width: 767px) {
+  .btn {
+    width: 100%;
+  }
+
+  .tarjeta-login {
+    padding: 24px 16px;
+  }
+}

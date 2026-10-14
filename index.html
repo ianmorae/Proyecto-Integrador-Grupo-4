@@ -7,9 +7,39 @@
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-  <main>
-    <img src="img/logo.png" alt="Logo Universidad CENFOTEC">
-    <h1>Iniciar sesión</h1>
+  <main class="pagina-login">
+    <div class="idioma">
+      <button type="button" class="idioma-activo">ES</button>
+      <button type="button">EN</button>
+    </div>
+
+    <section class="tarjeta-login">
+      <img src="img/logo.png" alt="Logo Universidad CENFOTEC">
+      <h1>Iniciar sesión</h1>
+      <p class="texto-ayuda">Sistema de Gestión de Cursos y Desarrollo Curricular</p>
+
+      <button type="button" id="btnGoogle" class="btn btn-secundario btn-google">Continuar con Google</button>
+
+      <p class="separador">o</p>
+
+      <form id="formLogin" novalidate>
+        <div class="campo">
+          <label for="correoLogin">Correo institucional *</label>
+          <input type="email" id="correoLogin" placeholder="usuario@ucenfotec.ac.cr" required>
+          <small class="mensaje-error"></small>
+        </div>
+
+        <div class="campo">
+          <label for="contrasenaLogin">Contraseña *</label>
+          <input type="password" id="contrasenaLogin" required>
+          <small class="mensaje-error"></small>
+        </div>
+
+        <button type="submit" class="btn btn-primario">Ingresar</button>
+      </form>
+
+      <p id="mensajeLogin" class="mensaje-general error oculto"></p>
+    </section>
   </main>
 </body>
 </html>
