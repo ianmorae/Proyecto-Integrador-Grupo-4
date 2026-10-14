@@ -175,9 +175,30 @@ function ingresar(evento) {
   }
 }
 
+// Google simulado: no hay servidor en esta iteración
+function ingresarConGoogle() {
+  let campoCorreo = document.getElementById("correoLogin");
+  ocultarMensaje("mensajeLogin");
+
+  if (!validarCampo(campoCorreo)) {
+    campoCorreo.focus();
+    return;
+  }
+
+  let correo = campoCorreo.value.trim();
+  let usuario = buscarPorCorreo(correo);
+
+  if (correo.toLowerCase().endsWith("@ucenfotec.ac.cr") && usuario !== null) {
+    iniciarSesion(usuario);
+  } else {
+    mostrarMensaje("mensajeLogin", "La cuenta de Google no es válida.", "error");
+  }
+}
+
 // ===== Eventos de cada página =====
 if (document.getElementById("formLogin") !== null) {
   cargarAdministrador();
   agregarEventosBlur(camposLogin);
   document.getElementById("formLogin").addEventListener("submit", ingresar);
+  document.getElementById("btnGoogle").addEventListener("click", ingresarConGoogle);
 }
