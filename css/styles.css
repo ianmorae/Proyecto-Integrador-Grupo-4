@@ -202,6 +202,7 @@ img {
 
 .mensaje-error {
   display: block;
+  min-height: 21px;
   color: var(--error);
   font-size: 14px;
 }
