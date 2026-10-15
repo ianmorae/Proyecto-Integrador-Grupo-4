@@ -81,6 +81,9 @@ function obtenerMensaje(id, valor) {
   if (id === "contrasenaLogin" && valor === "") {
     return "Ingresá tu contraseña.";
   }
+  if (id === "contrasena" && !cumplePolitica(valor)) {
+    return "La contraseña debe tener entre 8 y 15 caracteres, con mayúscula, minúscula y número.";
+  }
   return "";
 }
 
