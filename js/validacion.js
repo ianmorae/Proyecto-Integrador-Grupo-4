@@ -513,3 +513,17 @@ function iniciarCatalogos() {
 if (document.getElementById("formCasa") !== null) {
   iniciarCatalogos();
 }
+
+// ===== RF-05: Permisos para registrar usuarios =====
+function verificarPermisoRegistro() {
+  let usuarioActivo = JSON.parse(
+    localStorage.getItem("usuarioActivo")
+  );
+
+  return Boolean(
+    usuarioActivo &&
+    (usuarioActivo.rol === "Administrador" || usuarioActivo.rol === "Desarrollo Curricular")
+  );
+}
+
+
