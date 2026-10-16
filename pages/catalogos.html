@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catálogos | Sistema de Gestión Curricular</title>
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+  <header class="encabezado">
+    <img src="../img/logo.png" alt="Logo Universidad CENFOTEC">
+    <p class="nombre-sistema">Sistema de Gestión Curricular</p>
+  </header>
+
+  <div class="contenedor">
+    <nav class="menu-lateral" aria-label="Menú principal">
+      <ul>
+        <li><a href="inicio.html">Inicio</a></li>
+        <li><a href="cursos.html">Cursos</a></li>
+        <li><a href="curso-formulario.html">Nuevo curso</a></li>
+        <li><a href="revision.html">Revisión</a></li>
+        <li><a href="catalogos.html" class="menu-activo" aria-current="page">Catálogos</a></li>
+        <li><a href="usuarios.html">Usuarios</a></li>
+        <li><span class="menu-deshabilitado">Reportes <small>(En construcción)</small></span></li>
+        <li><a href="perfil.html">Mi perfil</a></li>
+        <li><a href="../index.html" id="btnCerrarSesion">Cerrar sesión</a></li>
+      </ul>
+    </nav>
+
+    <main class="contenido">
+      <h1>Catálogos</h1>
+      <p class="texto-ayuda">Clasificaciones que usa el formulario del curso</p>
+
+      <div class="pestanas" role="tablist">
+        <button type="button" class="pestana-activa" role="tab" aria-selected="true" data-panel="panelCasas">Casas certificadoras</button>
+        <button type="button" role="tab" aria-selected="false" data-panel="panelMonedas">Monedas</button>
+      </div>
+
+      <section id="panelCasas" class="panel-catalogo" role="tabpanel">
+        <form id="formCasa" class="tarjeta" novalidate>
+          <h2 id="tituloFormCasa">Nueva casa certificadora</h2>
+
+          <div class="fila">
+            <div class="campo">
+              <label for="codigoCasa">Código *</label>
+              <input type="text" id="codigoCasa" placeholder="CAS-01" required>
+              <small class="mensaje-error"></small>
+            </div>
+
+            <div class="campo">
+              <label for="nombreCasa">Nombre *</label>
+              <input type="text" id="nombreCasa" required>
+              <small class="mensaje-error"></small>
+            </div>
+          </div>
+
+          <div class="acciones">
+            <button type="submit" class="btn btn-primario">Guardar</button>
+            <button type="button" id="btnCancelarCasa" class="btn btn-secundario oculto">Cancelar</button>
+          </div>
+
+          <p id="mensajeCasa" class="mensaje-general valido oculto"></p>
+        </form>
+
+        <h2>Casas certificadoras registradas</h2>
+        <div class="tabla-contenedor">
+          <table class="tabla">
+            <thead>
+              <tr>
+                <th scope="col">Código</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="tablaCasas"></tbody>
+          </table>
+        </div>
+        <p id="sinCasas" class="texto-ayuda">Todavía no hay casas certificadoras registradas.</p>
+
+        <form id="formImportar" class="tarjeta" novalidate>
+          <h2>Importar desde CSV</h2>
+          <p class="texto-ayuda">Cada fila debe tener código y nombre separados por coma, en un archivo UTF-8.</p>
+
+          <div class="campo">
+            <label for="archivoCsv">Archivo CSV *</label>
+            <input type="file" id="archivoCsv" accept=".csv" required>
+            <small class="mensaje-error"></small>
+          </div>
+
+          <button type="submit" class="btn btn-secundario">Importar CSV</button>
+        </form>
+
+        <section id="resultadoImportacion" class="tarjeta oculto" aria-live="polite">
+          <h3>Resultado de la importación</h3>
+          <p id="importacionCargados"></p>
+          <ul id="importacionRechazados"></ul>
+        </section>
+      </section>
+
+      <section id="panelMonedas" class="panel-catalogo oculto" role="tabpanel">
+        <h2>Monedas disponibles</h2>
+        <p class="texto-ayuda">Lista fija de solo lectura. Es la que se ofrece en el formulario del curso.</p>
+        <div class="tabla-contenedor">
+          <table class="tabla">
+            <thead>
+              <tr>
+                <th scope="col">Moneda</th>
+              </tr>
+            </thead>
+            <tbody id="tablaMonedas"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="../js/validacion.js"></script>
+</body>
+</html>
