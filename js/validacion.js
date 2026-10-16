@@ -84,6 +84,12 @@ function obtenerMensaje(id, valor) {
   if (id === "contrasena" && !cumplePolitica(valor)) {
     return "La contraseña debe tener entre 8 y 15 caracteres, con mayúscula, minúscula y número.";
   }
+  if (id === "codigoCasa" && valor === "") {
+    return "El código es obligatorio.";
+  }
+  if (id === "nombreCasa" && valor === "") {
+    return "El nombre es obligatorio.";
+  }
   return "";
 }
 
@@ -185,6 +191,9 @@ if (document.getElementById("formLogin") !== null) {
   document.getElementById("formLogin").addEventListener("submit", ingresar);
 }
 
+let camposCasa = ["codigoCasa", "nombreCasa"];
+let codigoEditando = "";
+
 function obtenerMonedas() {
   return ["Colones", "Dólares"];
 }
@@ -211,46 +220,6 @@ function buscarCasaPorCodigo(codigo, casas) {
   return null;
 }
 
-function obtenerMensajeCasa(id, valor) {
-  if (id === "codigoCasa" && valor === "") {
-    return "El código es obligatorio.";
-  }
-  if (id === "nombreCasa" && valor === "") {
-    return "El nombre es obligatorio.";
-  }
-  return "";
-}
-
-function validarCampoCasa(campo) {
-  let mensaje = obtenerMensajeCasa(campo.id, campo.value.trim());
-
-  if (mensaje !== "") {
-    mostrarError(campo, mensaje);
-    return false;
-  }
-  mostrarValido(campo);
-  return true;
-}
-
-function validarFormularioCasa() {
-  let ids = ["codigoCasa", "nombreCasa"];
-  let primerError = null;
-
-  for (let i = 0; i < ids.length; i++) {
-    let campo = document.getElementById(ids[i]);
-
-    if (!validarCampoCasa(campo) && primerError === null) {
-      primerError = campo;
-    }
-  }
-
-  if (primerError !== null) {
-    primerError.focus();
-    return false;
-  }
-  return true;
-}
-
 function quitarEstadoCampo(campo) {
   campo.classList.remove("error", "valido");
   campo.parentElement.querySelector(".mensaje-error").textContent = "";
@@ -262,7 +231,7 @@ function limpiarFormularioCasa() {
   let nombre = document.getElementById("nombreCasa");
 
   formulario.reset();
-  delete formulario.dataset.editando;
+  codigoEditando = "";
   codigo.readOnly = false;
   quitarEstadoCampo(codigo);
   quitarEstadoCampo(nombre);
@@ -277,14 +246,13 @@ function editarCasa(codigo) {
     return;
   }
 
-  let formulario = document.getElementById("formCasa");
   let campoCodigo = document.getElementById("codigoCasa");
   let campoNombre = document.getElementById("nombreCasa");
 
   ocultarMensaje("mensajeCasa");
   quitarEstadoCampo(campoCodigo);
   quitarEstadoCampo(campoNombre);
-  formulario.dataset.editando = casa.codigo;
+  codigoEditando = casa.codigo;
   campoCodigo.value = casa.codigo;
   campoCodigo.readOnly = true;
   campoNombre.value = casa.nombre;
@@ -323,25 +291,28 @@ function dibujarTablaCasas() {
     cuerpo.appendChild(fila);
   }
 
-  document.getElementById("sinCasas").classList.toggle("oculto", casas.length > 0);
+  if (casas.length > 0) {
+    document.getElementById("sinCasas").classList.add("oculto");
+  } else {
+    document.getElementById("sinCasas").classList.remove("oculto");
+  }
 }
 
 function guardarCasa(evento) {
   evento.preventDefault();
   ocultarMensaje("mensajeCasa");
 
-  if (!validarFormularioCasa()) {
+  if (!validarFormulario(camposCasa)) {
     return;
   }
 
-  let formulario = document.getElementById("formCasa");
   let campoCodigo = document.getElementById("codigoCasa");
   let codigo = campoCodigo.value.trim();
   let nombre = document.getElementById("nombreCasa").value.trim();
   let casas = obtenerCasas();
 
-  if (formulario.dataset.editando !== undefined) {
-    let existente = buscarCasaPorCodigo(formulario.dataset.editando, casas);
+  if (codigoEditando !== "") {
+    let existente = buscarCasaPorCodigo(codigoEditando, casas);
     existente.nombre = nombre;
     guardarCasas(casas);
     limpiarFormularioCasa();
@@ -454,7 +425,7 @@ function validarArchivoCsv() {
     mostrarError(campo, "Seleccioná un archivo.");
     return false;
   }
-  if (!campo.files[0].name.toLowerCase().endsWith(".csv")) {
+  if (campo.files[0].name.toLowerCase().slice(-4) !== ".csv") {
     mostrarError(campo, "El archivo debe tener formato .csv.");
     return false;
   }
@@ -472,12 +443,15 @@ function importarCasas(evento) {
 
   let campo = document.getElementById("archivoCsv");
 
-  campo.files[0].text().then(function (texto) {
-    mostrarResultadoImportacion(procesarCsvCasas(texto));
+  let lector = new FileReader();
+
+  lector.onload = function () {
+    mostrarResultadoImportacion(procesarCsvCasas(lector.result));
     dibujarTablaCasas();
     campo.value = "";
     quitarEstadoCampo(campo);
-  });
+  };
+  lector.readAsText(campo.files[0], "UTF-8");
 }
 
 function dibujarMonedas() {
@@ -501,13 +475,19 @@ function mostrarPestana(boton) {
   let paneles = document.querySelectorAll(".panel-catalogo");
 
   for (let i = 0; i < botones.length; i++) {
-    let activa = botones[i] === boton;
-    botones[i].classList.toggle("pestana-activa", activa);
-    botones[i].setAttribute("aria-selected", activa ? "true" : "false");
+    if (botones[i] === boton) {
+      botones[i].classList.add("pestana-activa");
+    } else {
+      botones[i].classList.remove("pestana-activa");
+    }
   }
 
   for (let i = 0; i < paneles.length; i++) {
-    paneles[i].classList.toggle("oculto", paneles[i].id !== boton.dataset.panel);
+    if (paneles[i].id === boton.getAttribute("data-panel")) {
+      paneles[i].classList.remove("oculto");
+    } else {
+      paneles[i].classList.add("oculto");
+    }
   }
 }
 
@@ -520,14 +500,7 @@ function iniciarCatalogos() {
     });
   }
 
-  let campos = ["codigoCasa", "nombreCasa"];
-
-  for (let i = 0; i < campos.length; i++) {
-    let campo = document.getElementById(campos[i]);
-    campo.addEventListener("blur", function () {
-      validarCampoCasa(campo);
-    });
-  }
+  agregarEventosBlur(camposCasa);
 
   document.getElementById("formCasa").addEventListener("submit", guardarCasa);
   document.getElementById("btnCancelarCasa").addEventListener("click", limpiarFormularioCasa);
