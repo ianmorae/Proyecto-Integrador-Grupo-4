@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Usuarios | Sistema de Gestión Curricular</title>
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+  <header class="encabezado">
+    <img src="../img/logo.png" alt="Logo Universidad CENFOTEC">
+    <p class="nombre-sistema">Sistema de Gestión Curricular</p>
+    <div class="idioma">
+      <button type="button" class="idioma-activo">ES</button>
+      <button type="button">EN</button>
+    </div>
+  </header>
+
+  <div class="contenedor">
+    <nav class="menu-lateral">
+      <ul>
+        <li><a href="inicio.html">Inicio</a></li>
+        <li><a href="cursos.html">Cursos</a></li>
+        <li><a href="curso-formulario.html">Nuevo curso</a></li>
+        <li><a href="revision.html">Revisión</a></li>
+        <li><a href="catalogos.html">Catálogos</a></li>
+        <li><a href="usuarios.html" class="menu-activo">Usuarios</a></li>
+        <li><span class="menu-deshabilitado">Reportes <small>(En construcción)</small></span></li>
+        <li><a href="perfil.html">Mi perfil</a></li>
+      </ul>
+    </nav>
+
+    <main class="contenido">
+      <h1>Registro de usuarios</h1>
+      <p class="texto-ayuda">
+        Complete la información para registrar un nuevo usuario.
+      </p>
+
+      <form id="formUsuario" class="tarjeta" novalidate>
+        <h2>Información personal</h2>
+
+        <div class="campo">
+          <label for="nombreUsuario">Nombre *</label>
+          <input type="text" id="nombreUsuario" required>
+        </div>
+
+        <div class="campo">
+          <label for="primerApellido">Primer apellido *</label>
+          <input type="text" id="primerApellido" required>
+        </div>
+
+        <div class="campo">
+          <label for="segundoApellido">Segundo apellido *</label>
+          <input type="text" id="segundoApellido" required>
+        </div>
+
+        <div class="campo">
+          <label for="identificacionUsuario">Identificación *</label>
+          <input type="text" id="identificacionUsuario" required>
+        </div>
+
+        <div class="campo">
+          <label for="fechaNacimiento">Fecha de nacimiento *</label>
+          <input type="date" id="fechaNacimiento" required>
+        </div>
+
+        <div class="campo">
+          <label for="sexoUsuario">Sexo *</label>
+          <select id="sexoUsuario" required>
+            <option value="">Seleccione una opción</option>
+            <option value="Femenino">Femenino</option>
+            <option value="Masculino">Masculino</option>
+            <option value="Prefiere no decirlo">Prefiere no decirlo</option>
+          </select>
+        </div>
+
+        <div class="campo">
+          <label for="imagenUsuario">URL de imagen (opcional)</label>
+          <input type="url" id="imagenUsuario">
+        </div>
+
+        <h2>Información de contacto</h2>
+
+        <div class="campo">
+          <label for="correoInstitucional">Correo institucional *</label>
+          <input type="email" id="correoInstitucional" required>
+        </div>
+
+        <div class="campo">
+          <label for="correoPersonal">Correo personal *</label>
+          <input type="email" id="correoPersonal" required>
+        </div>
+
+        <div class="campo">
+          <label for="celularUsuario">Celular *</label>
+          <input type="tel" id="celularUsuario" required>
+        </div>
+
+        <h2>Acceso al sistema</h2>
+
+        <div class="campo">
+          <label for="rolUsuario">Rol *</label>
+          <select id="rolUsuario" required>
+            <option value="">Seleccione un rol</option>
+            <option value="Administrador">Administrador</option>
+            <option value="Rectoría">Rectoría</option>
+            <option value="Vicerrectoría">Vicerrectoría</option>
+            <option value="Director de Escuela">Director de Escuela</option>
+            <option value="Desarrollo Curricular">Desarrollo Curricular</option>
+          </select>
+        </div>
+
+        <div class="campo">
+          <label for="contrasenaUsuario">Contraseña *</label>
+          <input type="password" id="contrasenaUsuario"
+                 minlength="8" maxlength="15" required>
+          <small>
+            De 8 a 15 caracteres alfanuméricos, con mayúscula,
+            minúscula y número.
+          </small>
+        </div>
+
+        <div class="campo">
+          <label for="confirmarContrasena">Confirmar contraseña *</label>
+          <input type="password" id="confirmarContrasena" required>
+        </div>
+
+        <div class="acciones">
+          <button type="submit" class="btn btn-primario">
+            Registrar usuario
+          </button>
+        </div>
+
+        <p id="mensajeUsuario" class="mensaje-general oculto"
+           role="status" aria-live="polite"></p>
+      </form>
+    </main>
+  </div>
+
+  <script src="../js/validacion.js"></script>
+</body>
+</html>
