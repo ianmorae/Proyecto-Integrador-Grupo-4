@@ -443,3 +443,42 @@ img {
     padding: 16px;
   }
 }
+
+
+/* ===== RF-06: Formulario de usuarios ===== */
+#formUsuario {
+  width: 100%;
+  max-width: 760px;
+  margin: 16px auto;
+}
+
+#formUsuario h2 {
+  margin-top: 28px;
+  padding-bottom: 8px;
+  color: var(--azul-oscuro);
+  border-bottom: 1px solid var(--borde);
+}
+
+#formUsuario input:focus,
+#formUsuario select:focus {
+  outline: 2px solid var(--azul);
+  outline-offset: 1px;
+}
+
+#formUsuario .acciones {
+  margin-top: 24px;
+}
+
+#mensajeUsuario {
+  margin-top: 16px;
+}
+
+#mensajeUsuario.error {
+  border: 1px solid var(--error);
+  color: var(--error);
+}
+
+#mensajeUsuario.valido {
+  border: 1px solid var(--valido);
+  color: var(--valido);
+}
