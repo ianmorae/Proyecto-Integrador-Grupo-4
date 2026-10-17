@@ -527,3 +527,163 @@ function verificarPermisoRegistro() {
 }
 
 
+/* ===== RF-06: Registro de información del usuario ===== */
+
+let formularioUsuario = document.getElementById("formUsuario");
+
+if (formularioUsuario !== null) {
+  let usuarioActivo = JSON.parse(
+    localStorage.getItem("usuarioActivo")
+  );
+
+  if (!verificarPermisoRegistro()) {
+    alert("No tienes permisos para registrar usuarios.");
+    window.location.href = "../index.html";
+  } else {
+    formularioUsuario.addEventListener("submit", function (evento) {
+      evento.preventDefault();
+
+      let mensaje = document.getElementById("mensajeUsuario");
+      mensaje.classList.add("oculto");
+      mensaje.classList.remove("error", "valido");
+
+      let nombre = document.getElementById("nombreUsuario").value.trim();
+      let primerApellido = document.getElementById("primerApellido").value.trim();
+      let segundoApellido = document.getElementById("segundoApellido").value.trim();
+      let identificacion = document.getElementById("identificacionUsuario").value.trim();
+      let fechaNacimiento = document.getElementById("fechaNacimiento").value;
+      let sexo = document.getElementById("sexoUsuario").value;
+      let imagen = document.getElementById("imagenUsuario").value.trim();
+      let correoInstitucional = document.getElementById("correoInstitucional").value.trim();
+      let correoPersonal = document.getElementById("correoPersonal").value.trim();
+      let celular = document.getElementById("celularUsuario").value.trim();
+      let rol = document.getElementById("rolUsuario").value;
+      let contrasena = document.getElementById("contrasenaUsuario").value;
+      let confirmarContrasena = document.getElementById("confirmarContrasena").value;
+
+      function mostrarErrorUsuario(texto) {
+        mensaje.textContent = texto;
+        mensaje.classList.remove("oculto", "valido");
+        mensaje.classList.add("error");
+      }
+
+      // Validar los campos obligatorios.
+      if (
+        nombre === "" ||
+        primerApellido === "" ||
+        segundoApellido === "" ||
+        identificacion === "" ||
+        fechaNacimiento === "" ||
+        sexo === "" ||
+        correoInstitucional === "" ||
+        correoPersonal === "" ||
+        celular === "" ||
+        rol === "" ||
+        contrasena === "" ||
+        confirmarContrasena === ""
+      ) {
+        mostrarErrorUsuario("Completa todos los campos obligatorios.");
+        return;
+      }
+
+      // Validar los correos con la función existente.
+      if (
+        !esCorreo(correoInstitucional) ||
+        !esCorreo(correoPersonal)
+      ) {
+        mostrarErrorUsuario("Ingresa correos electrónicos válidos.");
+        return;
+      }
+
+      // Validar la política de contraseña existente.
+      if (!cumplePolitica(contrasena)) {
+        mostrarErrorUsuario("La contraseña debe tener de 8 a 15 caracteres, " +"con mayúscula, minúscula y número.");
+        return;
+      }
+
+      // Comprobar que las contraseñas coincidan.
+      if (contrasena !== confirmarContrasena) {
+        mostrarErrorUsuario("Las contraseñas no coinciden.");
+        return;
+      }
+
+      // Impedir una fecha de nacimiento futura.
+      let hoy = new Date();
+      hoy.setHours(0, 0, 0, 0);
+
+      let fechaIngresada = new Date(fechaNacimiento + "T00:00:00");
+
+      if (fechaIngresada > hoy) {
+        mostrarErrorUsuario("La fecha de nacimiento no puede ser futura.");
+        return;
+      }
+
+      // Validar la URL de imagen si se ingresó una.
+      if (imagen !== "") {
+        try {
+          let urlImagen = new URL(imagen);
+
+          if (
+            urlImagen.protocol !== "https:" &&
+            urlImagen.protocol !== "http:"
+          ) {
+            mostrarErrorUsuario("La URL de imagen debe usar HTTP o HTTPS.");
+            return;
+          }
+        } catch (error) {
+          mostrarErrorUsuario("Ingresa una URL de imagen válida.");
+          return;
+        }
+      }
+
+      // Recuperar los usuarios guardados.
+      let usuarios = JSON.parse(
+        localStorage.getItem("usuarios") || "[]"
+      );
+
+      // Evitar identificaciones y correos institucionales duplicados.
+      let duplicado = usuarios.some(function (usuario) {
+        return (
+          usuario.identificacion === identificacion ||
+          (
+            usuario.correoInstitucional &&usuario.correoInstitucional.toLowerCase() ===
+              correoInstitucional.toLowerCase()
+          )
+        );
+      });
+
+      if (duplicado) {
+        mostrarErrorUsuario("Ya existe un usuario con esa identificación o correo institucional.");
+        return;
+      }
+
+      // Crear el objeto del nuevo usuario.
+      let nuevoUsuario = {
+        nombre: nombre,
+        primerApellido: primerApellido,
+        segundoApellido: segundoApellido,
+        apellidos: primerApellido + " " + segundoApellido,
+        identificacion: identificacion,
+        fechaNacimiento: fechaNacimiento,
+        sexo: sexo,
+        imagen: imagen,
+        correoInstitucional: correoInstitucional,
+        correoPersonal: correoPersonal,
+        celular: celular,
+        rol: rol,
+        contrasena: btoa(contrasena)
+      };
+
+      // Guardar el nuevo usuario.
+      usuarios.push(nuevoUsuario);
+      localStorage.setItem("usuarios", JSON.stringify(usuarios));
+
+      // Mostrar la confirmación y limpiar el formulario.
+      mensaje.textContent = "Usuario registrado correctamente.";
+      mensaje.classList.remove("oculto", "error");
+      mensaje.classList.add("valido");
+
+      formularioUsuario.reset();
+    });
+  }
+}
