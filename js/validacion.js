@@ -334,126 +334,6 @@ function guardarCasa(evento) {
   mostrarMensaje("mensajeCasa", "Casa certificadora guardada.", "valido");
 }
 
-function quitarComillas(texto) {
-  if (texto.length >= 2 && texto[0] === "\"" && texto[texto.length - 1] === "\"") {
-    return texto.slice(1, texto.length - 1).trim();
-  }
-  return texto;
-}
-
-function separarFilaCsv(linea) {
-  let coma = linea.indexOf(",");
-  let punto = linea.indexOf(";");
-  let corte = coma;
-
-  if (corte === -1 || (punto !== -1 && punto < corte)) {
-    corte = punto;
-  }
-
-  if (corte === -1) {
-    return { codigo: quitarComillas(linea.trim()), nombre: "" };
-  }
-  return {
-    codigo: quitarComillas(linea.slice(0, corte).trim()),
-    nombre: quitarComillas(linea.slice(corte + 1).trim())
-  };
-}
-
-function procesarCsvCasas(texto) {
-  let lineas = texto.split("\n");
-  let casas = obtenerCasas();
-  let resultado = { cargados: 0, rechazados: [] };
-  let primeraFila = true;
-
-  for (let i = 0; i < lineas.length; i++) {
-    let linea = lineas[i].trim();
-
-    if (linea === "") {
-      continue;
-    }
-
-    let datos = separarFilaCsv(linea);
-
-    if (primeraFila) {
-      primeraFila = false;
-      if (datos.codigo.toLowerCase() === "codigo" || datos.codigo.toLowerCase() === "código") {
-        continue;
-      }
-    }
-
-    if (datos.codigo === "") {
-      resultado.rechazados.push({ fila: i + 1, motivo: "código vacío" });
-    } else if (datos.nombre === "") {
-      resultado.rechazados.push({ fila: i + 1, motivo: "nombre vacío" });
-    } else if (buscarCasaPorCodigo(datos.codigo, casas) !== null) {
-      resultado.rechazados.push({ fila: i + 1, motivo: "código duplicado" });
-    } else {
-      casas.push({ codigo: datos.codigo, nombre: datos.nombre });
-      resultado.cargados++;
-    }
-  }
-
-  guardarCasas(casas);
-  return resultado;
-}
-
-function mostrarResultadoImportacion(resultado) {
-  let lista = document.getElementById("importacionRechazados");
-
-  document.getElementById("importacionCargados").textContent = "✓ " + resultado.cargados + " registros cargados";
-  lista.innerHTML = "";
-
-  if (resultado.rechazados.length > 0) {
-    let titulo = document.createElement("li");
-    titulo.textContent = "✕ " + resultado.rechazados.length + " registros rechazados:";
-    lista.appendChild(titulo);
-  }
-
-  for (let i = 0; i < resultado.rechazados.length; i++) {
-    let item = document.createElement("li");
-    item.textContent = "Fila " + resultado.rechazados[i].fila + ": " + resultado.rechazados[i].motivo;
-    lista.appendChild(item);
-  }
-
-  document.getElementById("resultadoImportacion").classList.remove("oculto");
-}
-
-function validarArchivoCsv() {
-  let campo = document.getElementById("archivoCsv");
-
-  if (campo.files.length === 0) {
-    mostrarError(campo, "Seleccioná un archivo.");
-    return false;
-  }
-  if (campo.files[0].name.toLowerCase().slice(-4) !== ".csv") {
-    mostrarError(campo, "El archivo debe tener formato .csv.");
-    return false;
-  }
-  mostrarValido(campo);
-  return true;
-}
-
-function importarCasas(evento) {
-  evento.preventDefault();
-  document.getElementById("resultadoImportacion").classList.add("oculto");
-
-  if (!validarArchivoCsv()) {
-    return;
-  }
-
-  let campo = document.getElementById("archivoCsv");
-
-  let lector = new FileReader();
-
-  lector.onload = function () {
-    mostrarResultadoImportacion(procesarCsvCasas(lector.result));
-    dibujarTablaCasas();
-    campo.value = "";
-    quitarEstadoCampo(campo);
-  };
-  lector.readAsText(campo.files[0], "UTF-8");
-}
-
 function dibujarMonedas() {
   let monedas = obtenerMonedas();
   let cuerpo = document.getElementById("tablaMonedas");
@@ -504,7 +384,6 @@ function iniciarCatalogos() {
 
   document.getElementById("formCasa").addEventListener("submit", guardarCasa);
   document.getElementById("btnCancelarCasa").addEventListener("click", limpiarFormularioCasa);
-  document.getElementById("formImportar").addEventListener("submit", importarCasas);
 
   dibujarTablaCasas();
   dibujarMonedas();
