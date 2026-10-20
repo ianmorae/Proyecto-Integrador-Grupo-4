@@ -482,3 +482,17 @@ img {
   border: 1px solid var(--valido);
   color: var(--valido);
 }
+
+/* ===== Inicio ===== */
+a.btn {
+  text-decoration: none;
+}
+
+.aviso {
+  background-color: var(--fondo);
+  color: var(--texto-secundario);
+}
+
+.aviso p {
+  margin: 0;
+}

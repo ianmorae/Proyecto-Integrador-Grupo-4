@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inicio | Sistema de Gestión Curricular</title>
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+  <header class="encabezado">
+    <img src="../img/logo.png" alt="Logo Universidad CENFOTEC">
+    <p class="nombre-sistema">Sistema de Gestión Curricular</p>
+    <div class="idioma">
+      <button type="button" class="idioma-activo">ES</button>
+      <button type="button">EN</button>
+    </div>
+  </header>
+
+  <div class="contenedor">
+    <nav class="menu-lateral">
+      <ul>
+        <li><a href="inicio.html" class="menu-activo">Inicio</a></li>
+        <li><a href="cursos.html">Cursos</a></li>
+        <li><a href="curso-formulario.html">Nuevo curso</a></li>
+        <li><a href="revision.html">Revisión</a></li>
+        <li><a href="catalogos.html">Catálogos</a></li>
+        <li><a href="usuarios.html">Usuarios</a></li>
+        <li><span class="menu-deshabilitado">Reportes <small>(En construcción)</small></span></li>
+        <li><a href="perfil.html">Mi perfil</a></li>
+      </ul>
+    </nav>
+
+    <main class="contenido">
+      <h1 id="saludoInicio">Bienvenido</h1>
+      <p id="rolInicio" class="texto-ayuda"></p>
+
+      <section>
+        <h2>Accesos rápidos</h2>
+        <div class="acciones">
+          <a href="usuarios.html" class="btn btn-primario">Registrar usuario</a>
+          <a href="catalogos.html" class="btn btn-secundario">Ver catálogos</a>
+        </div>
+      </section>
+
+      <section class="tarjeta aviso">
+        <p>Reportes · Esta sección estará disponible en la segunda iteración.</p>
+      </section>
+    </main>
+  </div>
+
+  <script src="../js/validacion.js"></script>
+</body>
+</html>

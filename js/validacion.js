@@ -566,3 +566,15 @@ if (formularioUsuario !== null) {
     });
   }
 }
+
+// ===== Página de inicio =====
+if (document.getElementById("saludoInicio") !== null) {
+  let sesion = JSON.parse(localStorage.getItem("usuarioActivo"));
+
+  if (sesion === null) {
+    window.location.href = "../index.html";
+  } else {
+    document.getElementById("saludoInicio").textContent = "Bienvenido, " + sesion.nombre;
+    document.getElementById("rolInicio").textContent = "Rol: " + sesion.rol;
+  }
+}
