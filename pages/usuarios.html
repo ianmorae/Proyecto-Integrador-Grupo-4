@@ -31,112 +31,202 @@
     </nav>
 
     <main class="contenido">
-      <h1>Registro de usuarios</h1>
+      <h1>Usuarios</h1>
       <p class="texto-ayuda">
-        Complete la información para registrar un nuevo usuario.
+        Registro y edición de usuarios (solo Administrador)
       </p>
 
-      <form id="formUsuario" class="tarjeta" novalidate>
-        <h2>Información personal</h2>
-
-        <div class="campo">
-          <label for="nombreUsuario">Nombre *</label>
-          <input type="text" id="nombreUsuario" required>
-        </div>
-
-        <div class="campo">
-          <label for="primerApellido">Primer apellido *</label>
-          <input type="text" id="primerApellido" required>
-        </div>
-
-        <div class="campo">
-          <label for="segundoApellido">Segundo apellido *</label>
-          <input type="text" id="segundoApellido" required>
-        </div>
-
-        <div class="campo">
-          <label for="identificacionUsuario">Identificación *</label>
-          <input type="text" id="identificacionUsuario" required>
-        </div>
-
-        <div class="campo">
-          <label for="fechaNacimiento">Fecha de nacimiento *</label>
-          <input type="date" id="fechaNacimiento" required>
-        </div>
-
-        <div class="campo">
-          <label for="sexoUsuario">Sexo *</label>
-          <select id="sexoUsuario" required>
-            <option value="">Seleccione una opción</option>
-            <option value="Femenino">Femenino</option>
-            <option value="Masculino">Masculino</option>
-            <option value="Prefiere no decirlo">Prefiere no decirlo</option>
-          </select>
-        </div>
-
-        <div class="campo">
-          <label for="imagenUsuario">URL de imagen (opcional)</label>
-          <input type="url" id="imagenUsuario">
-        </div>
-
-        <h2>Información de contacto</h2>
-
-        <div class="campo">
-          <label for="correoInstitucional">Correo institucional *</label>
-          <input type="email" id="correoInstitucional" required>
-        </div>
-
-        <div class="campo">
-          <label for="correoPersonal">Correo personal *</label>
-          <input type="email" id="correoPersonal" required>
-        </div>
-
-        <div class="campo">
-          <label for="celularUsuario">Celular *</label>
-          <input type="tel" id="celularUsuario" required>
-        </div>
-
-        <h2>Acceso al sistema</h2>
-
-        <div class="campo">
-          <label for="rolUsuario">Rol *</label>
-          <select id="rolUsuario" required>
-            <option value="">Seleccione un rol</option>
-            <option value="Administrador">Administrador</option>
-            <option value="Rectoría">Rectoría</option>
-            <option value="Vicerrectoría">Vicerrectoría</option>
-            <option value="Director de Escuela">Director de Escuela</option>
-            <option value="Desarrollo Curricular">Desarrollo Curricular</option>
-          </select>
-        </div>
-
-        <div class="campo">
-          <label for="contrasenaUsuario">Contraseña *</label>
-          <input type="password" id="contrasenaUsuario"
-                 minlength="8" maxlength="15" required>
-          <small>
-            De 8 a 15 caracteres alfanuméricos, con mayúscula,
-            minúscula y número.
-          </small>
-        </div>
-
-        <div class="campo">
-          <label for="confirmarContrasena">Confirmar contraseña *</label>
-          <input type="password" id="confirmarContrasena" required>
-        </div>
-
-        <div class="acciones">
-          <button type="submit" class="btn btn-primario">
-            Registrar usuario
+      <!-- RF-05: Lista de usuarios -->
+      <section id="listaUsuarios">
+        <div class="acciones acciones-lista">
+          <button type="button" id="btnNuevoUsuario"
+                  class="btn btn-primario">
+            + Nuevo usuario
           </button>
         </div>
 
-        <p id="mensajeUsuario" class="mensaje-general oculto"
-           role="status" aria-live="polite"></p>
+        <div class="tabla-contenedor">
+          <table class="tabla">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Correo institucional</th>
+                <th>Rol</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="tablaUsuarios"></tbody>
+          </table>
+        </div>
+
+        <p id="sinUsuarios" class="texto-ayuda oculto">
+          No hay usuarios registrados.
+        </p>
+
+        <p id="mensajeListaUsuarios"
+          class="mensaje-general oculto"
+          role="status" aria-live="polite"></p>
+      </section>
+
+      <!-- RF-06: Registro de información del usuario -->
+      <form id="formUsuario" class="tarjeta" novalidate>
+        <h2>Registrar / editar usuario</h2>
+
+        <div class="rejilla-usuarios">
+          <div class="campo">
+            <label for="nombreUsuario">Nombre *</label>
+            <input type="text" id="nombreUsuario" required>
+            <small class="mensaje-error"></small>
+          </div>
+
+          <div class="campo">
+            <label for="apellidosUsuario">Apellidos *</label>
+            <input type="text" id="apellidosUsuario" required>
+            <small class="mensaje-error"></small>
+          </div>
+
+          <div class="campo">
+            <label for="identificacionUsuario">Identificación *</label>
+            <input type="text" id="identificacionUsuario" required>
+            <small class="mensaje-error"></small>
+          </div>
+
+          <div class="campo">
+            <label for="correoInstitucional">Correo institucional *</label>
+            <input type="email" id="correoInstitucional" required>
+            <small class="mensaje-error"></small>
+          </div>
+
+          <div class="campo">
+            <label for="celularUsuario">Celular *</label>
+            <input type="tel" id="celularUsuario" required>
+            <small class="mensaje-error"></small>
+          </div>
+
+          <div class="campo">
+            <label for="correoPersonal">Correo personal *</label>
+            <input type="email" id="correoPersonal" required>
+            <small class="mensaje-error"></small>
+          </div>
+
+          <div class="campo">
+            <label for="fechaNacimiento">Fecha de nacimiento *</label>
+            <input type="date" id="fechaNacimiento" required>
+            <small class="mensaje-error"></small>
+          </div>
+
+          <div class="campo">
+            <label for="edadUsuario">Edad (calculada)</label>
+            <input type="number" id="edadUsuario" readonly>
+          </div>
+
+          <div class="campo">
+            <label for="rolUsuario">Rol *</label>
+            <select id="rolUsuario" required>
+              <option value="">Seleccione...</option>
+              <option value="Administrador">Administrador</option>
+              <option value="Rectoría">Rectoría</option>
+              <option value="Vicerrectoría">Vicerrectoría</option>
+              <option value="Director de Escuela">Director de Escuela</option>
+              <option value="Desarrollo Curricular">Desarrollo Curricular</option>
+            </select>
+            <small class="mensaje-error"></small>
+          </div>
+
+          <div class="campo">
+            <label for="sexoUsuario">Sexo *</label>
+            <select id="sexoUsuario" required>
+              <option value="">Seleccione...</option>
+              <option value="Femenino">Femenino</option>
+              <option value="Masculino">Masculino</option>
+              <option value="Prefiere no decirlo">Prefiere no decirlo</option>
+            </select>
+            <small class="mensaje-error"></small>
+          </div>
+
+          <div class="campo">
+            <label for="contrasenaUsuario">Contraseña *</label>
+            <input type="password" id="contrasenaUsuario"
+                  minlength="8" maxlength="15" required>
+            <small class="texto-ayuda">
+              De 8 a 15 caracteres, con mayúscula, minúscula y número.
+            </small>
+            <small class="mensaje-error"></small>
+          </div>
+
+          <div class="campo">
+            <label for="confirmarContrasena">Confirmar contraseña *</label>
+            <input type="password" id="confirmarContrasena" required>
+            <small class="mensaje-error"></small>
+          </div>
+
+          <div class="campo campo-avatares">
+            <label>Imagen de perfil (avatar)</label>
+
+            <input type="hidden" id="imagenUsuario" value="">
+
+            <div class="avatar-opciones">
+              <label class="avatar-opcion">
+                <input type="radio" name="avatarUsuario" value="A1">
+                <span>A1</span>
+              </label>
+
+              <label class="avatar-opcion">
+                <input type="radio" name="avatarUsuario" value="A2">
+                <span>A2</span>
+              </label>
+
+              <label class="avatar-opcion">
+                <input type="radio" name="avatarUsuario" value="A3">
+                <span>A3</span>
+              </label>
+
+              <label class="avatar-opcion">
+                <input type="radio" name="avatarUsuario" value="A4">
+                <span>A4</span>
+              </label>
+
+              <label class="avatar-opcion">
+                <input type="radio" name="avatarUsuario" value="A5">
+                <span>A5</span>
+              </label>
+
+              <label class="avatar-opcion">
+                <input type="radio" name="avatarUsuario" value="A6">
+                <span>A6</span>
+              </label>
+
+              <label class="avatar-opcion">
+                <input type="radio" name="avatarUsuario" value="A7">
+                <span>A7</span>
+              </label>
+
+              <label class="avatar-opcion">
+                <input type="radio" name="avatarUsuario" value="A8">
+                <span>A8</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="acciones acciones-formulario">
+          <button type="submit" class="btn btn-primario">
+            Guardar
+          </button>
+
+          <button type="button" id="btnCancelarUsuario"
+                  class="btn btn-secundario">
+            Cancelar
+          </button>
+        </div>
+
+        <p id="mensajeUsuario"
+          class="mensaje-general oculto"
+          role="status" aria-live="polite"></p>
       </form>
     </main>
   </div>
-
   <script src="../js/validacion.js"></script>
 </body>
 </html>
