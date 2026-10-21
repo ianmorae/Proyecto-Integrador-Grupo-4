@@ -533,36 +533,6 @@ if (formularioUsuario !== null) {
       });
     }
 
-    // Calcular la edad a partir de la fecha de nacimiento.
-    function actualizarEdad() {
-      let fechaTexto = document.getElementById("fechaNacimiento").value;
-      let campoEdad = document.getElementById("edadUsuario");
-
-      if (fechaTexto === "") {
-        campoEdad.value = "";
-        return;
-      }
-
-      let fecha = new Date(fechaTexto + "T00:00:00");
-      let hoy = new Date();
-      let edad = hoy.getFullYear() - fecha.getFullYear();
-
-      if (
-        hoy.getMonth() < fecha.getMonth() ||
-        (
-          hoy.getMonth() === fecha.getMonth() &&
-          hoy.getDate() < fecha.getDate()
-        )
-      ) {
-        edad--;
-      }
-
-      campoEdad.value = edad;
-    }
-
-    document.getElementById("fechaNacimiento")
-      .addEventListener("change", actualizarEdad);
-
     formularioUsuario.addEventListener("submit", function (evento) {
       evento.preventDefault();
 
