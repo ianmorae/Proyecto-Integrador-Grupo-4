@@ -406,6 +406,74 @@ function verificarPermisoRegistro() {
 }
 
 
+// ===== RF-05: Lista de usuarios =====
+
+function dibujarUsuarios() {
+  let tabla = document.getElementById("tablaUsuarios");
+
+  if (tabla === null) {
+    return;
+  }
+
+  let usuarios = JSON.parse(
+    localStorage.getItem("usuarios") || "[]"
+  );
+
+  tabla.innerHTML = "";
+
+  for (let i = 0; i < usuarios.length; i++) {
+    let usuario = usuarios[i];
+
+    let fila = document.createElement("tr");
+    let nombre = document.createElement("td");
+    let correo = document.createElement("td");
+    let rol = document.createElement("td");
+    let estado = document.createElement("td");
+    let acciones = document.createElement("td");
+
+    nombre.textContent =
+      (usuario.nombre || "") + " " +
+      (usuario.apellidos || "");
+
+    correo.textContent =
+      usuario.correoInstitucional || "";
+
+    rol.textContent = usuario.rol || "";
+
+    estado.textContent = usuario.estado || "Activo";
+
+    // Estos dos requerimientos se completan en su sprint.
+    let editar = document.createElement("button");
+    editar.type = "button";
+    editar.className = "btn-enlace";
+    editar.textContent = "Editar";
+    editar.disabled = true;
+
+    let cambiarEstado = document.createElement("button");
+    cambiarEstado.type = "button";
+    cambiarEstado.className = "btn-enlace";
+    cambiarEstado.textContent = "Cambiar estado";
+    cambiarEstado.disabled = true;
+
+    acciones.appendChild(editar);
+    acciones.appendChild(cambiarEstado);
+
+    fila.appendChild(nombre);
+    fila.appendChild(correo);
+    fila.appendChild(rol);
+    fila.appendChild(estado);
+    fila.appendChild(acciones);
+
+    tabla.appendChild(fila);
+  }
+
+  let sinUsuarios = document.getElementById("sinUsuarios");
+
+  if (sinUsuarios !== null) {
+    sinUsuarios.classList.toggle("oculto", usuarios.length > 0);
+  }
+}
+
 /* ===== RF-06: Registro de información del usuario ===== */
 
 let formularioUsuario = document.getElementById("formUsuario");
@@ -419,6 +487,82 @@ if (formularioUsuario !== null) {
     alert("No tienes permisos para registrar usuarios.");
     window.location.href = "../index.html";
   } else {
+    
+    // Dibujar la lista cuando se abre la página.
+    dibujarUsuarios();
+
+    // Botón para mostrar el formulario.
+    document.getElementById("btnNuevoUsuario")
+      .addEventListener("click", function () {
+        formularioUsuario.classList.remove("oculto");
+        ocultarMensaje("mensajeUsuario");
+        ocultarMensaje("mensajeListaUsuarios");
+
+        formularioUsuario.scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
+      });
+
+    // Botón para cancelar el registro.
+    document.getElementById("btnCancelarUsuario")
+      .addEventListener("click", function () {
+        formularioUsuario.reset();
+
+        document.getElementById("imagenUsuario").value = "";
+        formularioUsuario.classList.add("oculto");
+
+        ocultarMensaje("mensajeUsuario");
+
+        document.getElementById("listaUsuarios")
+          .scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+          });
+      });
+
+    // Guardar el avatar elegido en el campo oculto.
+    let opcionesAvatar = document.querySelectorAll(
+      'input[name="avatarUsuario"]'
+    );
+
+    for (let i = 0; i < opcionesAvatar.length; i++) {
+      opcionesAvatar[i].addEventListener("change", function () {
+        document.getElementById("imagenUsuario").value =
+          opcionesAvatar[i].value;
+      });
+    }
+
+    // Calcular la edad a partir de la fecha de nacimiento.
+    function actualizarEdad() {
+      let fechaTexto = document.getElementById("fechaNacimiento").value;
+      let campoEdad = document.getElementById("edadUsuario");
+
+      if (fechaTexto === "") {
+        campoEdad.value = "";
+        return;
+      }
+
+      let fecha = new Date(fechaTexto + "T00:00:00");
+      let hoy = new Date();
+      let edad = hoy.getFullYear() - fecha.getFullYear();
+
+      if (
+        hoy.getMonth() < fecha.getMonth() ||
+        (
+          hoy.getMonth() === fecha.getMonth() &&
+          hoy.getDate() < fecha.getDate()
+        )
+      ) {
+        edad--;
+      }
+
+      campoEdad.value = edad;
+    }
+
+    document.getElementById("fechaNacimiento")
+      .addEventListener("change", actualizarEdad);
+
     formularioUsuario.addEventListener("submit", function (evento) {
       evento.preventDefault();
 
@@ -427,8 +571,7 @@ if (formularioUsuario !== null) {
       mensaje.classList.remove("error", "valido");
 
       let nombre = document.getElementById("nombreUsuario").value.trim();
-      let primerApellido = document.getElementById("primerApellido").value.trim();
-      let segundoApellido = document.getElementById("segundoApellido").value.trim();
+      let apellidos = document.getElementById("apellidosUsuario").value.trim();
       let identificacion = document.getElementById("identificacionUsuario").value.trim();
       let fechaNacimiento = document.getElementById("fechaNacimiento").value;
       let sexo = document.getElementById("sexoUsuario").value;
@@ -449,8 +592,7 @@ if (formularioUsuario !== null) {
       // Validar los campos obligatorios.
       if (
         nombre === "" ||
-        primerApellido === "" ||
-        segundoApellido === "" ||
+        apellidos === "" ||
         identificacion === "" ||
         fechaNacimiento === "" ||
         sexo === "" ||
@@ -497,24 +639,6 @@ if (formularioUsuario !== null) {
         return;
       }
 
-      // Validar la URL de imagen si se ingresó una.
-      if (imagen !== "") {
-        try {
-          let urlImagen = new URL(imagen);
-
-          if (
-            urlImagen.protocol !== "https:" &&
-            urlImagen.protocol !== "http:"
-          ) {
-            mostrarErrorUsuario("La URL de imagen debe usar HTTP o HTTPS.");
-            return;
-          }
-        } catch (error) {
-          mostrarErrorUsuario("Ingresa una URL de imagen válida.");
-          return;
-        }
-      }
-
       // Recuperar los usuarios guardados.
       let usuarios = JSON.parse(
         localStorage.getItem("usuarios") || "[]"
@@ -539,9 +663,7 @@ if (formularioUsuario !== null) {
       // Crear el objeto del nuevo usuario.
       let nuevoUsuario = {
         nombre: nombre,
-        primerApellido: primerApellido,
-        segundoApellido: segundoApellido,
-        apellidos: primerApellido + " " + segundoApellido,
+        apellidos: apellidos,
         identificacion: identificacion,
         fechaNacimiento: fechaNacimiento,
         sexo: sexo,
@@ -553,16 +675,37 @@ if (formularioUsuario !== null) {
         contrasena: btoa(contrasena)
       };
 
+      
       // Guardar el nuevo usuario.
       usuarios.push(nuevoUsuario);
-      localStorage.setItem("usuarios", JSON.stringify(usuarios));
 
-      // Mostrar la confirmación y limpiar el formulario.
-      mensaje.textContent = "Usuario registrado correctamente.";
-      mensaje.classList.remove("oculto", "error");
-      mensaje.classList.add("valido");
+      localStorage.setItem(
+        "usuarios",
+        JSON.stringify(usuarios)
+      );
 
+      // Actualizar la lista de usuarios.
+      dibujarUsuarios();
+
+      // Limpiar y ocultar el formulario.
       formularioUsuario.reset();
+      document.getElementById("imagenUsuario").value = "";
+      formularioUsuario.classList.add("oculto");
+
+      // Mostrar el mensaje en la lista.
+      mostrarMensaje(
+        "mensajeListaUsuarios",
+        "Usuario registrado correctamente.",
+        "valido"
+      );
+
+      // Regresar visualmente a la lista.
+      document.getElementById("listaUsuarios")
+        .scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
+
     });
   }
 }
