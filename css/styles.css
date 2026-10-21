@@ -496,3 +496,9 @@ a.btn {
 .aviso p {
   margin: 0;
 }
+
+/* ===== Catálogo Área SFIA ===== */
+.campo textarea {
+  height: 80px;
+  resize: vertical;
+}

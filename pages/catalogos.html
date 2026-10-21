@@ -37,6 +37,7 @@
       <div class="pestanas">
         <button type="button" class="pestana-activa" data-panel="panelCasas">Casas certificadoras</button>
         <button type="button" data-panel="panelMonedas">Monedas</button>
+        <button type="button" data-panel="panelSfia">Área SFIA</button>
       </div>
 
       <section id="panelCasas" class="panel-catalogo">
@@ -113,6 +114,53 @@
             <tbody id="tablaMonedas"></tbody>
           </table>
         </div>
+      </section>
+
+      <section id="panelSfia" class="panel-catalogo oculto">
+        <form id="formSfia" class="tarjeta" novalidate>
+          <h2>Nueva área SFIA</h2>
+
+          <div class="fila">
+            <div class="campo">
+              <label for="codigoSfia">Código *</label>
+              <input type="text" id="codigoSfia" placeholder="SFIA-01" required>
+              <small class="mensaje-error"></small>
+            </div>
+
+            <div class="campo">
+              <label for="nombreSfia">Nombre *</label>
+              <input type="text" id="nombreSfia" required>
+              <small class="mensaje-error"></small>
+            </div>
+          </div>
+
+          <div class="campo">
+            <label for="descripcionSfia">Descripción <span class="texto-ayuda">(opcional)</span></label>
+            <textarea id="descripcionSfia"></textarea>
+            <small class="mensaje-error"></small>
+          </div>
+
+          <div class="acciones">
+            <button type="submit" class="btn btn-primario">Guardar</button>
+          </div>
+
+          <p id="mensajeSfia" class="mensaje-general oculto"></p>
+        </form>
+
+        <h2>Áreas SFIA registradas</h2>
+        <div class="tabla-contenedor">
+          <table class="tabla">
+            <thead>
+              <tr>
+                <th scope="col">Código</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Descripción</th>
+              </tr>
+            </thead>
+            <tbody id="tablaSfia"></tbody>
+          </table>
+        </div>
+        <p id="sinSfia" class="texto-ayuda">Todavía no hay áreas SFIA registradas.</p>
       </section>
     </main>
   </div>
