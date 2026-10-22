@@ -64,34 +64,81 @@ o **Inactivo**.
 
 ```
 /
-├── documentos/   Documentación del proyecto (ERS y documento de diseño)
-├── index.html    Inicio de sesión
-├── pages/        Demás páginas del sistema
-├── css/          Hoja de estilos (styles.css)
-├── js/           Scripts de validación
-├── img/          Imágenes y recursos
+├── index.html              Inicio de sesión
+├── pages/
+│   ├── inicio.html         Página de inicio después del login
+│   ├── usuarios.html       Registro y lista de usuarios
+│   └── catalogos.html      Catálogos (casas certificadoras, monedas, área SFIA)
+├── css/
+│   └── styles.css          Hoja de estilos única
+├── js/
+│   ├── almacenamiento.js   Lectura y escritura en Local Storage
+│   ├── validaciones.js     Validaciones y mensajes compartidos
+│   ├── login.js            Inicio de sesión
+│   ├── inicio.js           Página de inicio
+│   ├── usuarios.js         Gestión de usuarios
+│   └── catalogos.js        Gestión de catálogos
+├── img/                    Logo e imágenes
+├── documentos/             ERS, documento de diseño y wireframes
 └── README.md
 ```
 
-Las carpetas de código se crean durante la programación de la primera iteración.
+Cada página carga primero `almacenamiento.js` y `validaciones.js` (si tiene
+formularios), y después el script propio de la página.
+
+## Cómo ejecutar
+
+1. Clonar el repositorio.
+2. Abrir `index.html` en el navegador (o con la extensión Live Server de VS Code).
+3. Ingresar con el administrador inicial:
+   - Correo: `admin@ucenfotec.ac.cr`
+   - Contraseña: `Admin2026`
+
+Los datos se guardan en el Local Storage del navegador. Para empezar de cero, se
+borra desde las herramientas de desarrollador (F12 → Application → Local Storage);
+al volver a abrir el inicio de sesión se crea de nuevo el administrador inicial.
+
+## Primera iteración
+
+Se desarrolla en tres sprints de una semana:
+
+| Sprint | Fechas |
+|---|---|
+| Semana 1 | 12 al 18 de octubre |
+| Semana 2 | 19 al 25 de octubre |
+| Semana 3 | 26 de octubre al 1 de noviembre |
+
+Quedan para la segunda iteración: la integración con Google y con Gemini, las
+notificaciones, la lógica del flujo de aprobación, los reportes, la eliminación de
+registros, los filtros avanzados y la importación por CSV.
 
 ## Milestones
 
 | # | Entregable | Fecha | Estado |
 |---|---|---|---|
 | 1 | Especificación de Requerimientos (ERS) | 27 de setiembre | Entregado |
-| 2 | Documento de diseño de la primera iteración | 11 de octubre | En curso |
-| 3 | Programación con Local Storage | 12 de octubre al 1 de noviembre | Pendiente |
+| 2 | Documento de diseño de la primera iteración | 11 de octubre | Entregado |
+| 3 | Programación con Local Storage | 12 de octubre al 1 de noviembre | En curso |
 | 4 | Diseño final y desarrollo conectado a MongoDB | — | Pendiente |
 
 ## Documentación
 
 - [Especificación de Requerimientos de Software (ERS)](<documentos/Especificación de requerimientos de software (ERS) - Grupo 4.pdf>)
 - [Documento de diseño — Primera iteración](documentos/Documento_Diseno_Iteracion_1_Grupo_4.docx)
+- [Wireframes](documentos/Wireframes)
 
 ## Convenciones del repositorio
 
 - **Nombres de archivo** sin tildes, ñ ni espacios (por ejemplo, `Documento_Diseno_Iteracion_1_Grupo_4.docx`).
 - **Una versión por documento:** se reemplaza el mismo archivo y el historial de git conserva las versiones anteriores; no se suben copias como "(2)" o "(3)".
-- **Commits** con un prefijo que indique el tipo de cambio: `docs:` para documentación, `feat:` para funcionalidades nuevas y `fix:` para correcciones.
-- Revisar `git status` antes de cada commit y agregar solo los archivos que corresponden.
+- **Commits** con un prefijo que indique el tipo de cambio: `feat:` para funcionalidades nuevas, `fix:` para correcciones, `docs:` para documentación, `refactor:` para reorganizar código sin cambiar su funcionamiento y `chore:` para tareas de mantenimiento.
+- Hacer `git pull` antes de empezar a trabajar y antes de subir cambios.
+- Revisar `git status` antes de cada commit y agregar solo los archivos que corresponden (`git add js/usuarios.js`, no `git add .`).
+- No usar `git push --force`.
+
+## Convenciones de código
+
+- Todo acceso a Local Storage se hace mediante las funciones de `js/almacenamiento.js`; los demás scripts no usan `localStorage` directamente.
+- Las validaciones compartidas (`validarCampo`, `validarFormulario`, `mostrarError`, etc.) están en `js/validaciones.js` y se reutilizan en lugar de duplicarlas.
+- Los `id` de los campos y los mensajes de error siguen el documento de diseño.
+- Clases CSS en español, en minúscula y con guiones (por ejemplo, `.mensaje-error`).
