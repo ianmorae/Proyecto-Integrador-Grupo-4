@@ -202,6 +202,34 @@ function limpiarFormularioSfia() {
   }
 }
 
+function dibujarTablaSfia() {
+  let areas = obtenerAreasSfia();
+  let tabla = document.getElementById("tablaSfia");
+  tabla.innerHTML = "";
+
+  for (let i = 0; i < areas.length; i++) {
+    let fila = document.createElement("tr");
+    let celdaCodigo = document.createElement("td");
+    let celdaNombre = document.createElement("td");
+    let celdaDescripcion = document.createElement("td");
+
+    celdaCodigo.textContent = areas[i].codigo;
+    celdaNombre.textContent = areas[i].nombre;
+    celdaDescripcion.textContent = areas[i].descripcion;
+
+    fila.appendChild(celdaCodigo);
+    fila.appendChild(celdaNombre);
+    fila.appendChild(celdaDescripcion);
+    tabla.appendChild(fila);
+  }
+
+  if (areas.length > 0) {
+    document.getElementById("sinSfia").classList.add("oculto");
+  } else {
+    document.getElementById("sinSfia").classList.remove("oculto");
+  }
+}
+
 function guardarAreaSfia(evento) {
   evento.preventDefault();
   ocultarMensaje("mensajeSfia");
@@ -229,8 +257,10 @@ function guardarAreaSfia(evento) {
   guardarAreasSfia(areas);
 
   limpiarFormularioSfia();
+  dibujarTablaSfia();
   mostrarMensaje("mensajeSfia", "Área SFIA guardada.", "valido");
 }
 
 agregarEventosBlur(camposSfia);
 document.getElementById("formSfia").addEventListener("submit", guardarAreaSfia);
+dibujarTablaSfia();
