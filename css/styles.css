@@ -603,17 +603,27 @@ a.btn {
   font-size: 13px;
 }
 
+/* Adaptar el formulario a pantallas más pequeñas*/
+/* En pantallas medianas, como tablets, el formulario se muestra en 2 columnas */
+@media (max-width: 1023px) {
+  .rejilla-usuarios {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* En pantallas pequeñas, como celulares, el formulario se muestra en 1 columna*/
 @media (max-width: 767px) {
   .rejilla-usuarios {
     grid-template-columns: 1fr;
   }
 
+  /* El campo de avatares ocupa el espacio de una sola columna */
   .campo-avatares {
     grid-column: auto;
   }
 
+  /* Los botones de acciones de la lista se ajustan al espacio disponible */
   .acciones-lista {
     justify-content: stretch;
   }
 }
-
