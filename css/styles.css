@@ -598,9 +598,36 @@ a.btn {
   margin-top: 20px;
 }
 
-#tablaUsuarios .btn-enlace {
-  margin-right: 8px;
+#tablaUsuarios .acciones-usuario {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+#tablaUsuarios .btn-accion {
+  padding: 6px 10px;
+  border: 1px solid var(--azul);
+  border-radius: 4px;
+  background-color: var(--blanco);
+  color: var(--azul);
   font-size: 13px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#tablaUsuarios .btn-accion:hover {
+  background-color: var(--azul);
+  color: var(--blanco);
+}
+
+#tablaUsuarios .btn-accion:focus {
+  outline: 2px solid var(--azul);
+  outline-offset: 2px;
+}
+
+#tablaUsuarios .btn-accion:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 /* Adaptar el formulario a pantallas más pequeñas*/
