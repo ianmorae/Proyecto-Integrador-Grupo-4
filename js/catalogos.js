@@ -1,6 +1,7 @@
 // Catálogos (catalogos.html).
 
 let camposCasa = ["codigoCasa", "nombreCasa"];
+let camposSfia = ["codigoSfia", "nombreSfia"];
 let codigoEditando = "";
 
 function obtenerMonedas() {
@@ -162,6 +163,11 @@ function mostrarPestana(boton) {
   }
 }
 
+function validarEnvioSfia(evento) {
+  evento.preventDefault();
+  validarFormulario(camposSfia);
+}
+
 function iniciarCatalogos() {
   let botones = document.querySelectorAll(".pestanas button");
 
@@ -172,9 +178,11 @@ function iniciarCatalogos() {
   }
 
   agregarEventosBlur(camposCasa);
+  agregarEventosBlur(camposSfia);
 
   document.getElementById("formCasa").addEventListener("submit", guardarCasa);
   document.getElementById("btnCancelarCasa").addEventListener("click", limpiarFormularioCasa);
+  document.getElementById("formSfia").addEventListener("submit", validarEnvioSfia);
 
   dibujarTablaCasas();
   dibujarMonedas();
