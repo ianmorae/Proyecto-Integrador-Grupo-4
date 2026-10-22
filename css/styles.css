@@ -598,14 +598,58 @@ a.btn {
   margin-top: 20px;
 }
 
+/* Evitar que la tabla de usuarios desborde el contenido */
+#listaUsuarios {
+  width: 100%;
+  min-width: 0;
+}
+
+#listaUsuarios .tabla-contenedor {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+#listaUsuarios .tabla {
+  width: 100%;
+  table-layout: fixed;
+}
+
+#listaUsuarios .tabla th,
+#listaUsuarios .tabla td {
+  overflow-wrap: anywhere;
+  word-wrap: break-word;
+}
+
+#listaUsuarios .tabla th:nth-child(1) {
+  width: 17%;
+}
+
+#listaUsuarios .tabla th:nth-child(2) {
+  width: 27%;
+}
+
+#listaUsuarios .tabla th:nth-child(3) {
+  width: 14%;
+}
+
+#listaUsuarios .tabla th:nth-child(4) {
+  width: 12%;
+}
+
+#listaUsuarios .tabla th:nth-child(5) {
+  width: 30%;
+}
+
 #tablaUsuarios .acciones-usuario {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
 }
 
+
 #tablaUsuarios .btn-accion {
-  padding: 6px 10px;
+  padding: 6px 8px;
   border: 1px solid var(--azul);
   border-radius: 4px;
   background-color: var(--blanco);
@@ -613,6 +657,8 @@ a.btn {
   font-size: 13px;
   font-weight: bold;
   cursor: pointer;
+  white-space: normal;
+  max-width: 100%;
 }
 
 #tablaUsuarios .btn-accion:hover {
@@ -653,4 +699,32 @@ a.btn {
   .acciones-lista {
     justify-content: stretch;
   }
+}
+
+
+/* Corregir el desbordamiento horizontal de la página de usuarios */
+html,
+body {
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+#formUsuario,
+#listaUsuarios {
+  min-width: 0;
+  max-width: 100%;
+}
+
+#formUsuario .rejilla-usuarios {
+  width: 100%;
+  min-width: 0;
+}
+
+#formUsuario .campo {
+  min-width: 0;
+}
+
+#formUsuario input,
+#formUsuario select {
+  max-width: 100%;
 }
