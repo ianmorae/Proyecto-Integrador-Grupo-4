@@ -90,12 +90,6 @@ function obtenerMensaje(id, valor) {
   if (id === "nombreCasa" && valor === "") {
     return "El nombre es obligatorio.";
   }
-  if (id === "codigoSfia" && valor === "") {
-    return "El código es obligatorio.";
-  }
-  if (id === "nombreSfia" && valor === "") {
-    return "El nombre es obligatorio.";
-  }
   return "";
 }
 
@@ -413,6 +407,8 @@ function verificarPermisoRegistro() {
 
 
 // ===== RF-05: Lista de usuarios =====
+let identificacionUsuarioEditando = "";
+
 
 function dibujarUsuarios() {
   let tabla = document.getElementById("tablaUsuarios");
@@ -446,20 +442,31 @@ function dibujarUsuarios() {
 
     rol.textContent = usuario.rol || "";
 
-    estado.textContent = usuario.estado || "Activo";
+    if (!usuario.estado) {
+      usuario.estado = "Activo";
+    }
 
-    // Estos dos requerimientos se completan en su sprint.
+    estado.textContent = usuario.estado;
+    acciones.className = "acciones-usuario";
+
     let editar = document.createElement("button");
     editar.type = "button";
-    editar.className = "btn-enlace";
+    editar.className = "btn-accion";
     editar.textContent = "Editar";
-    editar.disabled = true;
+
+    editar.addEventListener("click", function () {
+      editarUsuario(usuario.identificacion);
+    });
 
     let cambiarEstado = document.createElement("button");
     cambiarEstado.type = "button";
-    cambiarEstado.className = "btn-enlace";
-    cambiarEstado.textContent = "Cambiar estado";
-    cambiarEstado.disabled = true;
+    cambiarEstado.className = "btn-accion";
+    cambiarEstado.textContent =
+      usuario.estado === "Activo" ? "Desactivar" : "Activar";
+
+    cambiarEstado.addEventListener("click", function () {
+      cambiarEstadoUsuario(usuario.identificacion);
+    });
 
     acciones.appendChild(editar);
     acciones.appendChild(cambiarEstado);
@@ -472,6 +479,8 @@ function dibujarUsuarios() {
 
     tabla.appendChild(fila);
   }
+
+  localStorage.setItem("usuarios", JSON.stringify(usuarios));
 
   let sinUsuarios = document.getElementById("sinUsuarios");
 
@@ -744,16 +753,4 @@ if (document.getElementById("saludoInicio") !== null) {
     document.getElementById("saludoInicio").textContent = "Bienvenido, " + sesion.nombre;
     document.getElementById("rolInicio").textContent = "Rol: " + sesion.rol;
   }
-}
-
-let camposSfia = ["codigoSfia", "nombreSfia"];
-
-function validarEnvioSfia(evento) {
-  evento.preventDefault();
-  validarFormulario(camposSfia);
-}
-
-if (document.getElementById("formSfia") !== null) {
-  agregarEventosBlur(camposSfia);
-  document.getElementById("formSfia").addEventListener("submit", validarEnvioSfia);
 }
