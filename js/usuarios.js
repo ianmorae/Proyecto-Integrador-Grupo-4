@@ -65,8 +65,7 @@ function dibujarUsuarios() {
     let cambiarEstado = document.createElement("button");
     cambiarEstado.type = "button";
     cambiarEstado.className = "btn-accion";
-    cambiarEstado.textContent =
-      usuario.estado === "Activo" ? "Desactivar" : "Activar";
+    cambiarEstado.textContent = "Cambiar estado";
 
     cambiarEstado.addEventListener("click", function () {
       cambiarEstadoUsuario(usuario.identificacion);
