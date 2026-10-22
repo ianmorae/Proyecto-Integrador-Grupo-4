@@ -90,6 +90,12 @@ function obtenerMensaje(id, valor) {
   if (id === "nombreCasa" && valor === "") {
     return "El nombre es obligatorio.";
   }
+  if (id === "codigoSfia" && valor === "") {
+    return "El código es obligatorio.";
+  }
+  if (id === "nombreSfia" && valor === "") {
+    return "El nombre es obligatorio.";
+  }
   return "";
 }
 
@@ -738,4 +744,16 @@ if (document.getElementById("saludoInicio") !== null) {
     document.getElementById("saludoInicio").textContent = "Bienvenido, " + sesion.nombre;
     document.getElementById("rolInicio").textContent = "Rol: " + sesion.rol;
   }
+}
+
+let camposSfia = ["codigoSfia", "nombreSfia"];
+
+function validarEnvioSfia(evento) {
+  evento.preventDefault();
+  validarFormulario(camposSfia);
+}
+
+if (document.getElementById("formSfia") !== null) {
+  agregarEventosBlur(camposSfia);
+  document.getElementById("formSfia").addEventListener("submit", validarEnvioSfia);
 }
