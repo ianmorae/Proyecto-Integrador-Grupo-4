@@ -533,6 +533,54 @@ if (formularioUsuario !== null) {
       });
     }
 
+    // Calcula la edad a partir de la fecha de nacimiento.
+    function actualizarEdad() {
+
+      // Obtiene la fecha de nacimiento ingresada en el formulario.
+      let fechaTexto = document.getElementById("fechaNacimiento").value;
+
+      // Obtener el campo donde se mostrará la edad calculada.
+      let campoEdad = document.getElementById("edadUsuario");
+
+      // Comprueba si el usuario todavía no ha ingresado su fecha de nacimiento.
+      if (fechaTexto === "") {
+
+        // Deja vacío el campo de edad si no hay una fecha ingresada.
+        campoEdad.value = "";
+        return;
+      }
+
+      // Convierte la fecha ingresada en un objeto de tipo Date.
+      // Se agrega la hora para evitar problemas al interpretar la fecha.
+      let fecha = new Date(fechaTexto + "T00:00:00");
+
+      // Obtiene la fecha actual del sistema.
+      let hoy = new Date();
+
+      // Calcula una edad inicial restando los años.
+      let edad = hoy.getFullYear() - fecha.getFullYear();
+
+      // Comprueba si la persona todavía no ha cumplido años este año.
+      if (
+        hoy.getMonth() < fecha.getMonth() ||
+        (
+          hoy.getMonth() === fecha.getMonth() &&
+          hoy.getDate() < fecha.getDate()
+        )
+      ) {
+        // Resta un año porque todavía no ha llegado su cumpleaños.
+        edad--;
+      }
+
+      // Muestra la edad calculada en el campo correspondiente del formulario.
+      campoEdad.value = edad;
+    }
+
+    // Detecta cuando el usuario cambia la fecha de nacimiento.
+    // En ese momento, ejecuta la función para actualizar la edad automáticamente.
+    document.getElementById("fechaNacimiento")
+      .addEventListener("change", actualizarEdad);
+
     formularioUsuario.addEventListener("submit", function (evento) {
       evento.preventDefault();
 
