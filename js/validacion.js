@@ -407,6 +407,7 @@ function verificarPermisoRegistro() {
 
 
 // ===== RF-05: Lista de usuarios =====
+/*Permite distinguir si se está registrando un usuario nuevo o modificando uno existente*/
 let identificacionUsuarioEditando = "";
 
 
