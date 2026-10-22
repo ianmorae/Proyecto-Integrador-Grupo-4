@@ -67,3 +67,17 @@ function obtenerCasas() {
 function guardarCasas(casas) {
   localStorage.setItem("casasCertificadoras", JSON.stringify(casas));
 }
+
+// ===== Áreas SFIA =====
+function obtenerAreasSfia() {
+  let areas = JSON.parse(localStorage.getItem("areasSfia"));
+
+  if (areas === null) {
+    return [];
+  }
+  return areas;
+}
+
+function guardarAreasSfia(areas) {
+  localStorage.setItem("areasSfia", JSON.stringify(areas));
+}

@@ -189,3 +189,86 @@ function iniciarCatalogos() {
 }
 
 iniciarCatalogos();
+
+// ===== RF-26: Área SFIA =====
+let camposSfia = ["codigoSfia", "nombreSfia"];
+
+function buscarAreaSfia(codigo, areas) {
+  for (let i = 0; i < areas.length; i++) {
+    if (areas[i].codigo.toLowerCase() === codigo.toLowerCase()) {
+      return areas[i];
+    }
+  }
+  return null;
+}
+
+function limpiarFormularioSfia() {
+  document.getElementById("formSfia").reset();
+
+  for (let i = 0; i < camposSfia.length; i++) {
+    quitarEstadoCampo(document.getElementById(camposSfia[i]));
+  }
+}
+
+function dibujarTablaSfia() {
+  let areas = obtenerAreasSfia();
+  let tabla = document.getElementById("tablaSfia");
+  tabla.innerHTML = "";
+
+  for (let i = 0; i < areas.length; i++) {
+    let fila = document.createElement("tr");
+    let celdaCodigo = document.createElement("td");
+    let celdaNombre = document.createElement("td");
+    let celdaDescripcion = document.createElement("td");
+
+    celdaCodigo.textContent = areas[i].codigo;
+    celdaNombre.textContent = areas[i].nombre;
+    celdaDescripcion.textContent = areas[i].descripcion;
+
+    fila.appendChild(celdaCodigo);
+    fila.appendChild(celdaNombre);
+    fila.appendChild(celdaDescripcion);
+    tabla.appendChild(fila);
+  }
+
+  if (areas.length > 0) {
+    document.getElementById("sinSfia").classList.add("oculto");
+  } else {
+    document.getElementById("sinSfia").classList.remove("oculto");
+  }
+}
+
+function guardarAreaSfia(evento) {
+  evento.preventDefault();
+  ocultarMensaje("mensajeSfia");
+
+  if (!validarFormulario(camposSfia)) {
+    return;
+  }
+
+  let campoCodigo = document.getElementById("codigoSfia");
+  let areas = obtenerAreasSfia();
+
+  if (buscarAreaSfia(campoCodigo.value.trim(), areas) !== null) {
+    mostrarError(campoCodigo, "Ya existe un área SFIA con ese código.");
+    campoCodigo.focus();
+    return;
+  }
+
+  let area = {
+    codigo: campoCodigo.value.trim(),
+    nombre: document.getElementById("nombreSfia").value.trim(),
+    descripcion: document.getElementById("descripcionSfia").value.trim()
+  };
+
+  areas.push(area);
+  guardarAreasSfia(areas);
+
+  limpiarFormularioSfia();
+  dibujarTablaSfia();
+  mostrarMensaje("mensajeSfia", "Área SFIA guardada.", "valido");
+}
+
+agregarEventosBlur(camposSfia);
+document.getElementById("formSfia").addEventListener("submit", guardarAreaSfia);
+dibujarTablaSfia();
