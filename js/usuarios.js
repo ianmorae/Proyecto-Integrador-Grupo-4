@@ -336,3 +336,75 @@ if (formularioUsuario !== null) {
     });
   }
 }
+
+
+function limpiarEdicionUsuario() {
+  identificacionUsuarioEditando = "";
+  formularioUsuario.reset();
+  document.getElementById("imagenUsuario").value = "";
+  document.getElementById("identificacionUsuario").readOnly = false;
+}
+
+function buscarUsuarioPorIdentificacion(identificacion) {
+  let usuarios = obtenerUsuarios();
+
+  for (let i = 0; i < usuarios.length; i++) {
+    if (usuarios[i].identificacion === identificacion) {
+      return usuarios[i];
+    }
+  }
+  return null;
+}
+
+function editarUsuario(identificacion) {
+  let sesion = obtenerSesion();
+
+  if (sesion === null || sesion.rol !== "Administrador") {
+    mostrarMensaje("mensajeListaUsuarios", "Solo el administrador puede editar usuarios.", "error");
+    return;
+  }
+
+  let usuario = buscarUsuarioPorIdentificacion(identificacion);
+
+  if (usuario === null) {
+    return;
+  }
+
+  limpiarEdicionUsuario();
+  identificacionUsuarioEditando = usuario.identificacion;
+
+  document.getElementById("nombreUsuario").value = usuario.nombre || "";
+  document.getElementById("apellidosUsuario").value = usuario.apellidos || "";
+  document.getElementById("identificacionUsuario").value = usuario.identificacion;
+  document.getElementById("identificacionUsuario").readOnly = true;
+  document.getElementById("fechaNacimiento").value = usuario.fechaNacimiento || "";
+  document.getElementById("sexoUsuario").value = usuario.sexo || "";
+  document.getElementById("correoInstitucional").value = usuario.correoInstitucional || "";
+  document.getElementById("correoPersonal").value = usuario.correoPersonal || "";
+  document.getElementById("celularUsuario").value = usuario.celular || "";
+  document.getElementById("rolUsuario").value = usuario.rol || "";
+  document.getElementById("contrasenaUsuario").value = atob(usuario.contrasena);
+  document.getElementById("confirmarContrasena").value = atob(usuario.contrasena);
+  document.getElementById("imagenUsuario").value = usuario.imagen || "";
+
+  let opcionesAvatar = document.querySelectorAll('input[name="avatarUsuario"]');
+
+  for (let i = 0; i < opcionesAvatar.length; i++) {
+    opcionesAvatar[i].checked = opcionesAvatar[i].value === usuario.imagen;
+  }
+
+  document.getElementById("fechaNacimiento").dispatchEvent(new Event("change"));
+
+  ocultarMensaje("mensajeUsuario");
+  ocultarMensaje("mensajeListaUsuarios");
+  formularioUsuario.classList.remove("oculto");
+  formularioUsuario.scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
+}
+
+if (formularioUsuario !== null) {
+  document.getElementById("btnNuevoUsuario").addEventListener("click", limpiarEdicionUsuario);
+  document.getElementById("btnCancelarUsuario").addEventListener("click", limpiarEdicionUsuario);
+}
