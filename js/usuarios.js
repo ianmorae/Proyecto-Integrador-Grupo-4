@@ -276,7 +276,7 @@ if (formularioUsuario !== null) {
 
       // Evitar identificaciones y correos institucionales duplicados.
       let duplicado = usuarios.some(function (usuario) {
-        return (
+        return usuario.identificacion !== identificacionUsuarioEditando && (
           usuario.identificacion === identificacion ||
           (
             usuario.correoInstitucional &&usuario.correoInstitucional.toLowerCase() ===
@@ -307,7 +307,14 @@ if (formularioUsuario !== null) {
 
       
       // Guardar el nuevo usuario.
-      usuarios.push(nuevoUsuario);
+      let textoMensaje = "Usuario registrado correctamente.";
+
+      if (identificacionUsuarioEditando !== "") {
+        actualizarUsuario(usuarios, nuevoUsuario);
+        textoMensaje = "Usuario actualizado correctamente.";
+      } else {
+        usuarios.push(nuevoUsuario);
+      }
 
       guardarUsuarios(usuarios);
 
@@ -318,11 +325,12 @@ if (formularioUsuario !== null) {
       formularioUsuario.reset();
       document.getElementById("imagenUsuario").value = "";
       formularioUsuario.classList.add("oculto");
+      limpiarEdicionUsuario();
 
       // Mostrar el mensaje en la lista.
       mostrarMensaje(
         "mensajeListaUsuarios",
-        "Usuario registrado correctamente.",
+        textoMensaje,
         "valido"
       );
 
@@ -407,4 +415,27 @@ function editarUsuario(identificacion) {
 if (formularioUsuario !== null) {
   document.getElementById("btnNuevoUsuario").addEventListener("click", limpiarEdicionUsuario);
   document.getElementById("btnCancelarUsuario").addEventListener("click", limpiarEdicionUsuario);
+}
+
+function actualizarSesionUsuario(anterior, editado) {
+  let sesion = obtenerSesion();
+
+  if (sesion !== null && sesion.correo.toLowerCase() === anterior.correoInstitucional.toLowerCase()) {
+    guardarSesion({
+      nombre: editado.nombre,
+      apellidos: editado.apellidos,
+      correo: editado.correoInstitucional,
+      rol: editado.rol
+    });
+  }
+}
+
+function actualizarUsuario(usuarios, usuarioEditado) {
+  for (let i = 0; i < usuarios.length; i++) {
+    if (usuarios[i].identificacion === identificacionUsuarioEditando) {
+      usuarioEditado.estado = usuarios[i].estado;
+      actualizarSesionUsuario(usuarios[i], usuarioEditado);
+      usuarios[i] = usuarioEditado;
+    }
+  }
 }
