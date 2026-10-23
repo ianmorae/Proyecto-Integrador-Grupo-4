@@ -290,6 +290,11 @@ if (formularioUsuario !== null) {
         return;
       }
 
+      if (identificacionUsuarioEditando !== "" && rolOcupado(rol)) {
+        mostrarErrorUsuario("Ya existe un usuario con el rol " + rol + ".");
+        return;
+      }
+
       // Crear el objeto del nuevo usuario.
       let nuevoUsuario = {
         nombre: nombre,
@@ -438,4 +443,19 @@ function actualizarUsuario(usuarios, usuarioEditado) {
       usuarios[i] = usuarioEditado;
     }
   }
+}
+
+function rolOcupado(rol) {
+  if (rol !== "Administrador" && rol !== "Rectoría" && rol !== "Vicerrectoría") {
+    return false;
+  }
+
+  let usuarios = obtenerUsuarios();
+
+  for (let i = 0; i < usuarios.length; i++) {
+    if (usuarios[i].identificacion !== identificacionUsuarioEditando && usuarios[i].rol === rol) {
+      return true;
+    }
+  }
+  return false;
 }
