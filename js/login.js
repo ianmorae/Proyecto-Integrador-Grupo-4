@@ -7,7 +7,8 @@ function iniciarSesion(usuario) {
     nombre: usuario.nombre,
     apellidos: usuario.apellidos,
     correo: usuario.correoInstitucional,
-    rol: usuario.rol
+    rol: usuario.rol,
+    imagen: usuario.imagen || "A1"
   };
   guardarSesion(sesion);
   window.location.href = "pages/inicio.html";
