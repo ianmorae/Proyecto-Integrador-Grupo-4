@@ -244,6 +244,15 @@ if (formularioUsuario !== null) {
         return;
       }
 
+      
+      // RF-09: Validar que el avatar seleccionado sea uno de los permitidos.
+      const avataresPermitidos = ["A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8"];
+
+      if (!avataresPermitidos.includes(imagen)) {
+        mostrarErrorUsuario("Selecciona una imagen de perfil válida.");
+        return;
+      }
+
       // Validar los correos con la función existente.
       if (
         !esCorreo(correoInstitucional) ||
