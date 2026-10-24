@@ -117,7 +117,7 @@
           </div>
 
           <div class="campo">
-            <label for="edadUsuario">Edad</label>
+            <label for="edadUsuario">Edad *</label>
             <input type="number" id="edadUsuario" readonly>
           </div>
 
@@ -161,14 +161,25 @@
             <small class="mensaje-error"></small>
           </div>
 
+          <!-- RF-09 y RF-10: Selección del avatar del usuario -->
           <div class="campo campo-avatares">
-            <label>Imagen de perfil (avatar)</label>
+            <label>Imagen de perfil (avatar) *</label>
+
+            <p class="texto-ayuda"> Selecciona el avatar que identificará tu cuenta.</p>
 
             <input type="hidden" id="imagenUsuario" value="">
 
             <div class="avatar-opciones">
+              <!-- Opción de avatar A1 para la imagen de perfil del usuario -->
               <label class="avatar-opcion">
-                <input type="radio" name="avatarUsuario" value="A1">
+
+                <!-- Permite seleccionar el avatar A1 mediante un botón de opción.
+                El atributo name agrupa los avatares para permitir seleccionar solo uno.
+                El atributo value identifica este avatar como A1.
+                El atributo checked lo establece como seleccionado por defecto. -->
+                <input type="radio" name="avatarUsuario" value="A1" checked>
+
+                <!-- Muestra la etiqueta A1 junto al botón de selección. -->
                 <span>A1</span>
               </label>
 
