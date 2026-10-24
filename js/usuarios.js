@@ -207,7 +207,12 @@ if (formularioUsuario !== null) {
       let identificacion = document.getElementById("identificacionUsuario").value.trim();
       let fechaNacimiento = document.getElementById("fechaNacimiento").value;
       let sexo = document.getElementById("sexoUsuario").value;
-      let imagen = document.getElementById("imagenUsuario").value.trim();
+      // RF-09: Obtener el avatar seleccionado por el usuario. Permite leer directamente la opción seleccionada entre A1 y A8.
+      let avatarSeleccionado = document.querySelector('input[name="avatarUsuario"]:checked');
+      let imagen = avatarSeleccionado ? avatarSeleccionado.value: "";
+
+      // Mantener actualizado el campo oculto del formulario.
+      document.getElementById("imagenUsuario").value = imagen;
       let correoInstitucional = document.getElementById("correoInstitucional").value.trim();
       let correoPersonal = document.getElementById("correoPersonal").value.trim();
       let celular = document.getElementById("celularUsuario").value.trim();
