@@ -728,3 +728,157 @@ body {
 #formUsuario select {
   max-width: 100%;
 }
+
+/* ===== RF-09: Perfil del usuario ===== */
+
+.perfil-encabezado {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+}
+
+.perfil-encabezado > div:first-child {
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+}
+
+.perfil-encabezado small {
+  color: var(--texto-secundario, #777);
+  font-size: 11px;
+}
+
+.perfil-distribucion {
+  display: grid;
+  grid-template-columns: minmax(200px, 0.7fr) minmax(0, 1.5fr);
+  gap: 20px;
+  align-items: stretch;
+}
+
+.perfil-resumen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.perfil-resumen h2 {
+  margin-bottom: 6px;
+}
+
+.avatar-perfil {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: 1px solid var(--borde);
+  border-radius: 50%;
+  background: #e9e9e9;
+  color: #555;
+  font-weight: bold;
+}
+
+.avatar-grande {
+  width: 94px;
+  height: 94px;
+  margin: 8px auto 14px;
+  font-size: 18px;
+}
+
+.avatar-pequeno {
+  width: 38px;
+  height: 38px;
+  font-size: 11px;
+}
+
+.datos-perfil {
+  display: grid;
+  grid-template-columns: minmax(130px, 0.8fr) minmax(0, 1.4fr);
+  gap: 16px 12px;
+}
+
+.datos-perfil dt {
+  font-weight: bold;
+}
+
+.datos-perfil dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.seleccion-avatar {
+  min-width: 0;
+  margin: 20px 0 0;
+}
+
+.seleccion-avatar legend {
+  padding: 0 8px;
+  font-weight: bold;
+}
+
+.opciones-avatar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 16px 10px;
+  margin: 14px 0 24px;
+}
+
+.opciones-avatar label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.opciones-avatar input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+
+.opciones-avatar span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border: 1px solid #999;
+  border-radius: 50%;
+  background: #e9e9e9;
+  color: #777;
+  font-size: 10px;
+}
+
+.opciones-avatar input:checked + span {
+  outline: 2px solid #222;
+  outline-offset: 2px;
+}
+
+.opciones-avatar input:focus-visible + span {
+  outline: 2px solid var(--azul);
+  outline-offset: 3px;
+}
+
+@media (max-width: 767px) {
+  .perfil-distribucion {
+    grid-template-columns: 1fr;
+  }
+
+  .datos-perfil {
+    grid-template-columns: 1fr;
+    gap: 5px;
+  }
+
+  .datos-perfil dd {
+    margin-bottom: 10px;
+  }
+
+  .opciones-avatar {
+    justify-content: flex-start;
+  }
+}

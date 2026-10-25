@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -14,6 +15,13 @@
       <button type="button" class="idioma-activo">ES</button>
       <button type="button">EN</button>
     </div>
+    <div class="perfil-encabezado">
+      <div>
+        <strong id="nombreEncabezado"></strong>
+        <small id="rolEncabezado"></small>
+      </div>
+      <div id="avatarEncabezado" class="avatar-perfil avatar-pequeno">A1</div>
+    </div>
   </header>
 
   <div class="contenedor">
@@ -27,41 +35,54 @@
         <li><a href="usuarios.html">Usuarios</a></li>
         <li><span class="menu-deshabilitado">Reportes <small>(En construcción)</small></span></li>
         <li><a href="perfil.html" class="menu-activo">Mi perfil</a></li>
+        <li><button type="button" id="btnCerrarSesion" class="btn-enlace">Cerrar sesión</button></li>
       </ul>
     </nav>
 
     <main class="contenido">
       <h1>Mi perfil</h1>
-      <p class="texto-ayuda">Consulta tus datos y selecciona la imagen que identificará tu cuenta.</p>
 
-      <section class="tarjeta">
-        <h2>Información personal</h2>
-
-        <div class="perfil-avatar-actual">
-          <div id="avatarActual" class="avatar-perfil" aria-label="Avatar actual">A1</div>
-          <p id="nombrePerfil"></p>
+      <div class="perfil-distribucion">
+        <section class="tarjeta perfil-resumen">
+          <div id="avatarActual" class="avatar-perfil avatar-grande">A1</div>
+          <h2 id="nombrePerfil"></h2>
           <p id="rolPerfil" class="texto-ayuda"></p>
-        </div>
+          <p id="escuelaPerfil" class="texto-ayuda"></p>
+          <button type="button" id="btnCambiarAvatar" class="btn btn-secundario">
+            Cambiar avatar
+          </button>
+        </section>
 
-        <dl class="datos-perfil">
-          <dt>Identificación</dt>
-          <dd id="identificacionPerfil"></dd>
+        <section class="tarjeta perfil-datos">
+          <h2>Datos personales</h2>
+          <dl class="datos-perfil">
+            <dt>Identificación</dt>
+            <dd id="identificacionPerfil"></dd>
 
-          <dt>Correo institucional</dt>
-          <dd id="correoPerfil"></dd>
+            <dt>Correo institucional</dt>
+            <dd id="correoPerfil"></dd>
 
-          <dt>Correo personal</dt>
-          <dd id="correoPersonalPerfil"></dd>
+            <dt>Correo personal</dt>
+            <dd id="correoPersonalPerfil"></dd>
 
-          <dt>Celular</dt>
-          <dd id="celularPerfil"></dd>
-        </dl>
-      </section>
+            <dt>Celular</dt>
+            <dd id="celularPerfil"></dd>
 
-      <section class="tarjeta">
-        <h2>Imagen de perfil</h2>
-        <p>Selecciona el avatar que deseas utilizar para identificar tu cuenta.</p>
+            <dt>Fecha de nacimiento</dt>
+            <dd id="fechaNacimientoPerfil"></dd>
 
+            <dt>Edad</dt>
+            <dd id="edadPerfil"></dd>
+
+            <dt>Sexo</dt>
+            <dd id="sexoPerfil"></dd>
+          </dl>
+          <p class="texto-ayuda">Los datos los registra el Administrador; el usuario solo cambia su avatar.</p>
+        </section>
+      </div>
+
+      <fieldset id="seleccionAvatar" class="tarjeta seleccion-avatar oculto">
+        <legend>Seleccionar avatar</legend>
         <form id="formImagenPerfil">
           <div class="opciones-avatar">
             <label><input type="radio" name="imagenPerfil" value="A1"><span>A1</span></label>
@@ -72,15 +93,17 @@
             <label><input type="radio" name="imagenPerfil" value="A6"><span>A6</span></label>
             <label><input type="radio" name="imagenPerfil" value="A7"><span>A7</span></label>
             <label><input type="radio" name="imagenPerfil" value="A8"><span>A8</span></label>
+            <label><input type="radio" name="imagenPerfil" value="A9"><span>A9</span></label>
+            <label><input type="radio" name="imagenPerfil" value="A10"><span>A10</span></label>
           </div>
 
           <div class="acciones">
-            <button type="submit" class="btn btn-primario">Guardar imagen</button>
+            <button type="submit" class="btn btn-primario">Guardar</button>
+            <button type="button" id="btnCancelarAvatar" class="btn btn-secundario">Cancelar</button>
           </div>
-
-          <p id="mensajeImagenPerfil" class="texto-ayuda" role="status" aria-live="polite"></p>
+          <p id="mensajeImagenPerfil" role="status" aria-live="polite"></p>
         </form>
-      </section>
+      </fieldset>
     </main>
   </div>
 

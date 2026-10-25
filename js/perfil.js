@@ -1,4 +1,4 @@
-// Gestión de la imagen de perfil.
+// RF-09: Imagen de perfil.
 
 const sesionPerfil = obtenerSesion();
 
@@ -10,42 +10,93 @@ if (sesionPerfil === null) {
   if (usuarioPerfil === null) {
     window.location.href = "../index.html";
   } else {
-    const avatarActual = document.getElementById("avatarActual");
     const formulario = document.getElementById("formImagenPerfil");
+    const seleccionAvatar = document.getElementById("seleccionAvatar");
     const mensaje = document.getElementById("mensajeImagenPerfil");
+
+    function calcularEdad(fechaNacimiento) {
+      if (!fechaNacimiento) {
+        return "No disponible";
+      }
+
+      const fecha = new Date(fechaNacimiento + "T00:00:00");
+
+      if (isNaN(fecha.getTime())) {
+        return "No disponible";
+      }
+
+      const hoy = new Date();
+      let edad = hoy.getFullYear() - fecha.getFullYear();
+
+      if (
+        hoy.getMonth() < fecha.getMonth() ||
+        (hoy.getMonth() === fecha.getMonth() &&
+          hoy.getDate() < fecha.getDate())
+      ) {
+        edad--;
+      }
+
+      return edad + " años";
+    }
 
     function mostrarPerfil() {
       const imagen = usuarioPerfil.imagen || "A1";
-
-      avatarActual.textContent = imagen;
-      avatarActual.setAttribute("aria-label", "Avatar actual: " + imagen);
-
-      document.getElementById("nombrePerfil").textContent =
+      const nombreCompleto =
         usuarioPerfil.nombre + " " + usuarioPerfil.apellidos;
 
+      document.getElementById("nombreEncabezado").textContent =
+        nombreCompleto;
+      document.getElementById("rolEncabezado").textContent =
+        usuarioPerfil.rol || "";
+
+      document.getElementById("nombrePerfil").textContent =
+        nombreCompleto;
       document.getElementById("rolPerfil").textContent =
         usuarioPerfil.rol || "Sin rol asignado";
+      document.getElementById("escuelaPerfil").textContent =
+        usuarioPerfil.escuela || "";
 
       document.getElementById("identificacionPerfil").textContent =
         usuarioPerfil.identificacion || "No disponible";
-
       document.getElementById("correoPerfil").textContent =
         usuarioPerfil.correoInstitucional || "No disponible";
-
       document.getElementById("correoPersonalPerfil").textContent =
         usuarioPerfil.correoPersonal || "No disponible";
-
       document.getElementById("celularPerfil").textContent =
         usuarioPerfil.celular || "No disponible";
+      document.getElementById("fechaNacimientoPerfil").textContent =
+        usuarioPerfil.fechaNacimiento || "No disponible";
+      document.getElementById("edadPerfil").textContent =
+        calcularEdad(usuarioPerfil.fechaNacimiento);
+      document.getElementById("sexoPerfil").textContent =
+        usuarioPerfil.sexo || "No disponible";
 
-      const opciones = document.querySelectorAll(
-        'input[name="imagenPerfil"]'
+      document.getElementById("avatarActual").textContent = imagen;
+      document.getElementById("avatarEncabezado").textContent = imagen;
+
+      document.querySelectorAll('input[name="imagenPerfil"]').forEach(
+        function (opcion) {
+          opcion.checked = opcion.value === imagen;
+        }
       );
-
-      opciones.forEach(function (opcion) {
-        opcion.checked = opcion.value === imagen;
-      });
     }
+
+    document.getElementById("btnCambiarAvatar").addEventListener(
+      "click",
+      function () {
+        seleccionAvatar.classList.remove("oculto");
+        mensaje.textContent = "";
+      }
+    );
+
+    document.getElementById("btnCancelarAvatar").addEventListener(
+      "click",
+      function () {
+        mostrarPerfil();
+        seleccionAvatar.classList.add("oculto");
+        mensaje.textContent = "";
+      }
+    );
 
     formulario.addEventListener("submit", function (evento) {
       evento.preventDefault();
@@ -55,26 +106,27 @@ if (sesionPerfil === null) {
       );
 
       if (seleccion === null) {
-        mensaje.textContent = "Selecciona una imagen antes de guardar.";
+        mensaje.textContent = "Selecciona un avatar.";
         return;
       }
 
-      const actualizado = actualizarImagenPerfil(seleccion.value);
-
-      if (actualizado) {
+      if (actualizarImagenPerfil(seleccion.value)) {
         usuarioPerfil.imagen = seleccion.value;
-        avatarActual.textContent = seleccion.value;
-        avatarActual.setAttribute(
-          "aria-label",
-          "Avatar actual: " + seleccion.value
-        );
-
-        mensaje.textContent = "La imagen de perfil se guardó correctamente.";
+        mostrarPerfil();
+        seleccionAvatar.classList.add("oculto");
+        mensaje.textContent = "Avatar actualizado correctamente.";
       } else {
-        mensaje.textContent =
-          "No se pudo guardar la imagen. Inténtalo nuevamente.";
+        mensaje.textContent = "No se pudo actualizar el avatar.";
       }
     });
+
+    document.getElementById("btnCerrarSesion").addEventListener(
+      "click",
+      function () {
+        cerrarSesion();
+        window.location.href = "../index.html";
+      }
+    );
 
     mostrarPerfil();
   }
