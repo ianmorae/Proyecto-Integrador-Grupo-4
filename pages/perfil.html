@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi perfil | Sistema de Gestión Curricular</title>
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+  <header class="encabezado">
+    <img src="../img/logo.png" alt="Logo Universidad CENFOTEC">
+    <p class="nombre-sistema">Sistema de Gestión Curricular</p>
+    <div class="idioma">
+      <button type="button" class="idioma-activo">ES</button>
+      <button type="button">EN</button>
+    </div>
+  </header>
+
+  <div class="contenedor">
+    <nav class="menu-lateral">
+      <ul>
+        <li><a href="inicio.html">Inicio</a></li>
+        <li><a href="cursos.html">Cursos</a></li>
+        <li><a href="curso-formulario.html">Nuevo curso</a></li>
+        <li><a href="revision.html">Revisión</a></li>
+        <li><a href="catalogos.html">Catálogos</a></li>
+        <li><a href="usuarios.html">Usuarios</a></li>
+        <li><span class="menu-deshabilitado">Reportes <small>(En construcción)</small></span></li>
+        <li><a href="perfil.html" class="menu-activo">Mi perfil</a></li>
+      </ul>
+    </nav>
+
+    <main class="contenido">
+      <h1>Mi perfil</h1>
+      <p class="texto-ayuda">Consulta tus datos y selecciona la imagen que identificará tu cuenta.</p>
+
+      <section class="tarjeta">
+        <h2>Información personal</h2>
+
+        <div class="perfil-avatar-actual">
+          <div id="avatarActual" class="avatar-perfil" aria-label="Avatar actual">A1</div>
+          <p id="nombrePerfil"></p>
+          <p id="rolPerfil" class="texto-ayuda"></p>
+        </div>
+
+        <dl class="datos-perfil">
+          <dt>Identificación</dt>
+          <dd id="identificacionPerfil"></dd>
+
+          <dt>Correo institucional</dt>
+          <dd id="correoPerfil"></dd>
+
+          <dt>Correo personal</dt>
+          <dd id="correoPersonalPerfil"></dd>
+
+          <dt>Celular</dt>
+          <dd id="celularPerfil"></dd>
+        </dl>
+      </section>
+
+      <section class="tarjeta">
+        <h2>Imagen de perfil</h2>
+        <p>Selecciona el avatar que deseas utilizar para identificar tu cuenta.</p>
+
+        <form id="formImagenPerfil">
+          <div class="opciones-avatar">
+            <label><input type="radio" name="imagenPerfil" value="A1"><span>A1</span></label>
+            <label><input type="radio" name="imagenPerfil" value="A2"><span>A2</span></label>
+            <label><input type="radio" name="imagenPerfil" value="A3"><span>A3</span></label>
+            <label><input type="radio" name="imagenPerfil" value="A4"><span>A4</span></label>
+            <label><input type="radio" name="imagenPerfil" value="A5"><span>A5</span></label>
+            <label><input type="radio" name="imagenPerfil" value="A6"><span>A6</span></label>
+            <label><input type="radio" name="imagenPerfil" value="A7"><span>A7</span></label>
+            <label><input type="radio" name="imagenPerfil" value="A8"><span>A8</span></label>
+          </div>
+
+          <div class="acciones">
+            <button type="submit" class="btn btn-primario">Guardar imagen</button>
+          </div>
+
+          <p id="mensajeImagenPerfil" class="texto-ayuda" role="status" aria-live="polite"></p>
+        </form>
+      </section>
+    </main>
+  </div>
+
+  <script src="../js/almacenamiento.js"></script>
+  <script src="../js/perfil.js"></script>
+</body>
+</html>
