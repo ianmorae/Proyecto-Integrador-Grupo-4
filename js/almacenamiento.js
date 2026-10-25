@@ -82,33 +82,38 @@ function guardarAreasSfia(areas) {
   localStorage.setItem("areasSfia", JSON.stringify(areas));
 }
 
-// ===== RF-09: Imagen de perfil =====
+
+ // ===== RF-09: Imagen de perfil =====
 function actualizarImagenPerfil(imagen) {
-  let avataresPermitidos = ["A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8"];
+  const avataresPermitidos = ["A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8"];
 
   if (!avataresPermitidos.includes(imagen)) {
     return false;
   }
 
-  let sesion = obtenerSesion();
+  const sesion = obtenerSesion();
 
-  if (sesion === null) {
+  if (sesion === null || !sesion.correo) {
     return false;
   }
 
-  let usuario = buscarPorCorreo(sesion.correo);
-
-  if (usuario === null) {
-    return false;
-  }
-
-  let usuarios = obtenerUsuarios();
+  const usuarios = obtenerUsuarios();
+  let encontrado = false;
 
   for (let i = 0; i < usuarios.length; i++) {
-    if ( usuarios[i].correoInstitucional.toLowerCase() === sesion.correo.toLowerCase()) {
+    if (
+      usuarios[i].correoInstitucional &&
+      usuarios[i].correoInstitucional.toLowerCase() ===
+      sesion.correo.toLowerCase()
+    ) {
       usuarios[i].imagen = imagen;
+      encontrado = true;
       break;
     }
+  }
+
+  if (!encontrado) {
+    return false;
   }
 
   guardarUsuarios(usuarios);
