@@ -92,6 +92,34 @@ function dibujarUsuarios() {
   }
 }
 
+// ===== RF-14: Catálogo de roles =====
+function obtenerRoles() {
+  return ["Administrador", "Rectoría", "Vicerrectoría", "Director de Escuela", "Desarrollo Curricular"];
+}
+
+function cargarRoles() {
+  let roles = obtenerRoles();
+  let lista = document.getElementById("rolUsuario");
+
+  for (let i = 0; i < roles.length; i++) {
+    let opcion = document.createElement("option");
+    opcion.value = roles[i];
+    opcion.textContent = roles[i];
+    lista.appendChild(opcion);
+  }
+}
+
+function esRolValido(rol) {
+  let roles = obtenerRoles();
+
+  for (let i = 0; i < roles.length; i++) {
+    if (roles[i] === rol) {
+      return true;
+    }
+  }
+  return false;
+}
+
 /* ===== RF-06: Registro de información del usuario ===== */
 
 let formularioUsuario = document.getElementById("formUsuario");
@@ -104,6 +132,7 @@ if (formularioUsuario !== null) {
     
     // Dibujar la lista cuando se abre la página.
     dibujarUsuarios();
+    cargarRoles();
 
     // Botón para mostrar el formulario.
     document.getElementById("btnNuevoUsuario")
@@ -250,6 +279,12 @@ if (formularioUsuario !== null) {
 
       if (!avataresPermitidos.includes(imagen)) {
         mostrarErrorUsuario("Selecciona una imagen de perfil válida.");
+        return;
+      }
+
+      // RF-14: El rol debe ser uno del catálogo de roles.
+      if (!esRolValido(rol)) {
+        mostrarErrorUsuario("Selecciona un rol válido.");
         return;
       }
 
