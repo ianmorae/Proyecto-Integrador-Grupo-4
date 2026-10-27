@@ -402,6 +402,7 @@ if (formularioUsuario !== null) {
 
 function limpiarEdicionUsuario() {
   identificacionUsuarioEditando = "";
+  limpiarEstadosUsuario();
   formularioUsuario.reset();
   document.getElementById("imagenUsuario").value = "";
   document.getElementById("identificacionUsuario").readOnly = false;
@@ -508,4 +509,28 @@ function rolOcupado(rol) {
     }
   }
   return false;
+}
+
+let camposUsuario = [
+  "nombreUsuario",
+  "apellidosUsuario",
+  "identificacionUsuario",
+  "correoInstitucional",
+  "celularUsuario",
+  "correoPersonal",
+  "fechaNacimiento",
+  "rolUsuario",
+  "sexoUsuario",
+  "contrasenaUsuario",
+  "confirmarContrasena"
+];
+
+function limpiarEstadosUsuario() {
+  for (let i = 0; i < camposUsuario.length; i++) {
+    quitarEstadoCampo(document.getElementById(camposUsuario[i]));
+  }
+}
+
+if (formularioUsuario !== null) {
+  agregarEventosBlur(camposUsuario);
 }
