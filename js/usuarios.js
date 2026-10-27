@@ -293,7 +293,9 @@ if (formularioUsuario !== null) {
         return;
       }
 
-      if (identificacionUsuarioEditando !== "" && rolOcupado(rol)) {
+      // RF-15: Rectoría, Vicerrectoría y Administrador solo los puede tener un usuario.
+      if (rolOcupado(rol)) {
+        mostrarError(document.getElementById("rolUsuario"), "Ya existe un usuario con el rol " + rol + ".");
         mostrarErrorUsuario("Ya existe un usuario con el rol " + rol + ".");
         return;
       }
