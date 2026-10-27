@@ -40,6 +40,7 @@
         <button type="button" data-panel="panelSfia">Área SFIA</button>
         <button type="button" data-panel="panelTematicas">Temáticas</button>
         <button type="button" data-panel="panelMetodologias">Metodologías</button>
+        <button type="button" data-panel="panelCertificaciones">Certificaciones</button>
       </div>
 
       <section id="panelCasas" class="panel-catalogo">
@@ -228,6 +229,47 @@
 
         <!-- Mensaje que aparece cuando no hay temáticas registradas -->
         <p id="sinTematicas" class="texto-ayuda"> Todavía no hay temáticas registradas. </p>
+      </section>
+      <section id="panelCertificaciones" class="panel-catalogo oculto">
+        <form id="formCertificacion" class="tarjeta" novalidate>
+          <h2 id="tituloFormCertificacion">Nueva certificación</h2>
+
+          <div class="fila">
+            <div class="campo">
+              <label for="codigoCertificacion">Código *</label>
+              <input type="text" id="codigoCertificacion" placeholder="CER-01" required>
+              <small class="mensaje-error"></small>
+            </div>
+
+            <div class="campo">
+              <label for="nombreCertificacion">Nombre *</label>
+              <input type="text" id="nombreCertificacion" required>
+              <small class="mensaje-error"></small>
+            </div>
+          </div>
+
+          <div class="acciones">
+            <button type="submit" class="btn btn-primario">Guardar</button>
+            <button type="button" id="btnCancelarCertificacion" class="btn btn-secundario oculto">Cancelar</button>
+          </div>
+
+          <p id="mensajeCertificacion" class="mensaje-general oculto"></p>
+        </form>
+
+        <h2>Certificaciones registradas</h2>
+        <p class="texto-ayuda">La opción «No tiene» siempre está disponible para los cursos sin certificación.</p>
+        <div class="tabla-contenedor">
+          <table class="tabla">
+            <thead>
+              <tr>
+                <th scope="col">Código</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="tablaCertificaciones"></tbody>
+          </table>
+        </div>
       </section>
     </main>
   </div>

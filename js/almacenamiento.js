@@ -123,3 +123,16 @@ function actualizarImagenPerfil(imagen) {
 
   return true;
 }
+
+function obtenerCertificaciones() {
+  let certificaciones = JSON.parse(localStorage.getItem("certificaciones"));
+
+  if (certificaciones === null) {
+    return [];
+  }
+  return certificaciones;
+}
+
+function guardarCertificaciones(certificaciones) {
+  localStorage.setItem("certificaciones", JSON.stringify(certificaciones));
+}
