@@ -81,6 +81,7 @@ if (sesionPerfil === null) {
       );
     }
 
+    // Hace que aparezca Cambiar Avatar cuando se pulsa el botón
     document.getElementById("btnCambiarAvatar").addEventListener(
       "click",
       function () {
@@ -101,6 +102,7 @@ if (sesionPerfil === null) {
     formulario.addEventListener("submit", function (evento) {
       evento.preventDefault();
 
+      // Identifica cuál se seleccionó
       const seleccion = document.querySelector(
         'input[name="imagenPerfil"]:checked'
       );
@@ -110,6 +112,7 @@ if (sesionPerfil === null) {
         return;
       }
 
+      // Guarda el cambio
       if (actualizarImagenPerfil(seleccion.value)) {
         usuarioPerfil.imagen = seleccion.value;
         mostrarPerfil();
