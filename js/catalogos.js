@@ -3,9 +3,7 @@
 let camposCasa = ["codigoCasa", "nombreCasa"];
 let codigoEditando = "";
 
-function obtenerMonedas() {
-  return ["Colones", "Dólares"];
-}
+let monedas = ["Colones", "Dólares"];
 
 function buscarCasaPorCodigo(codigo, casas) {
   for (let i = 0; i < casas.length; i++) {
@@ -126,7 +124,6 @@ function guardarCasa(evento) {
 }
 
 function dibujarMonedas() {
-  let monedas = obtenerMonedas();
   let cuerpo = document.getElementById("tablaMonedas");
 
   cuerpo.innerHTML = "";
