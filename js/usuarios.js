@@ -256,23 +256,9 @@ if (formularioUsuario !== null) {
       }
 
       // Validar los campos obligatorios.
-      if (
-        nombre === "" ||
-        apellidos === "" ||
-        identificacion === "" ||
-        fechaNacimiento === "" ||
-        sexo === "" ||
-        correoInstitucional === "" ||
-        correoPersonal === "" ||
-        celular === "" ||
-        rol === "" ||
-        contrasena === "" ||
-        confirmarContrasena === ""
-      ) {
-        mostrarErrorUsuario("Completa todos los campos obligatorios.");
+      if (!validarFormulario(camposUsuario)) {
         return;
       }
-      
 
       // RF-09: Validar que el avatar seleccionado sea uno de los permitidos.
       const avataresPermitidos = ["A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8","A9", "A10"];
@@ -285,38 +271,6 @@ if (formularioUsuario !== null) {
       // RF-14: El rol debe ser uno del catálogo de roles.
       if (!esRolValido(rol)) {
         mostrarErrorUsuario("Selecciona un rol válido.");
-        return;
-      }
-
-      // Validar los correos con la función existente.
-      if (
-        !esCorreo(correoInstitucional) ||
-        !esCorreo(correoPersonal)
-      ) {
-        mostrarErrorUsuario("Ingresa correos electrónicos válidos.");
-        return;
-      }
-
-      // Validar la política de contraseña existente.
-      if (!cumplePolitica(contrasena)) {
-        mostrarErrorUsuario("La contraseña debe tener de 8 a 15 caracteres, " +"con mayúscula, minúscula y número.");
-        return;
-      }
-
-      // Comprobar que las contraseñas coincidan.
-      if (contrasena !== confirmarContrasena) {
-        mostrarErrorUsuario("Las contraseñas no coinciden.");
-        return;
-      }
-
-      // Impedir una fecha de nacimiento futura.
-      let hoy = new Date();
-      hoy.setHours(0, 0, 0, 0);
-
-      let fechaIngresada = new Date(fechaNacimiento + "T00:00:00");
-
-      if (fechaIngresada > hoy) {
-        mostrarErrorUsuario("La fecha de nacimiento no puede ser futura.");
         return;
       }
 
