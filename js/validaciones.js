@@ -70,6 +70,12 @@ function obtenerMensaje(id, valor) {
   if (id === "nombreSfia" && valor === "") {
     return "El nombre es obligatorio.";
   }
+  if (id === "codigoCertificacion" && valor === "") {
+    return "El código es obligatorio.";
+  }
+  if (id === "nombreCertificacion" && valor === "") {
+    return "El nombre es obligatorio.";
+  }
   if (id === "nombreUsuario" && valor === "") {
     return "El nombre es obligatorio.";
   }

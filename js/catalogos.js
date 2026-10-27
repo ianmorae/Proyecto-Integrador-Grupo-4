@@ -264,3 +264,106 @@ function guardarAreaSfia(evento) {
 agregarEventosBlur(camposSfia);
 document.getElementById("formSfia").addEventListener("submit", guardarAreaSfia);
 dibujarTablaSfia();
+
+let camposCertificacion = ["codigoCertificacion", "nombreCertificacion"];
+
+function buscarCertificacion(codigo, certificaciones) {
+  for (let i = 0; i < certificaciones.length; i++) {
+    if (certificaciones[i].codigo.toLowerCase() === codigo.toLowerCase()) {
+      return certificaciones[i];
+    }
+  }
+  return null;
+}
+
+function obtenerOpcionesCertificacion() {
+  let certificaciones = obtenerCertificaciones();
+  let opciones = ["No tiene"];
+
+  for (let i = 0; i < certificaciones.length; i++) {
+    opciones.push(certificaciones[i].nombre);
+  }
+  return opciones;
+}
+
+function limpiarFormularioCertificacion() {
+  document.getElementById("formCertificacion").reset();
+
+  for (let i = 0; i < camposCertificacion.length; i++) {
+    quitarEstadoCampo(document.getElementById(camposCertificacion[i]));
+  }
+}
+
+function dibujarTablaCertificaciones() {
+  let certificaciones = obtenerCertificaciones();
+  let cuerpo = document.getElementById("tablaCertificaciones");
+
+  cuerpo.innerHTML = "";
+
+  let filaFija = document.createElement("tr");
+  let codigoFijo = document.createElement("td");
+  let nombreFijo = document.createElement("td");
+  let accionesFijo = document.createElement("td");
+
+  codigoFijo.textContent = "—";
+  nombreFijo.textContent = "No tiene";
+  accionesFijo.textContent = "Opción fija";
+  accionesFijo.className = "texto-ayuda";
+
+  filaFija.appendChild(codigoFijo);
+  filaFija.appendChild(nombreFijo);
+  filaFija.appendChild(accionesFijo);
+  cuerpo.appendChild(filaFija);
+
+  for (let i = 0; i < certificaciones.length; i++) {
+    let fila = document.createElement("tr");
+    let celdaCodigo = document.createElement("td");
+    let celdaNombre = document.createElement("td");
+    let celdaAcciones = document.createElement("td");
+
+    celdaCodigo.textContent = certificaciones[i].codigo;
+    celdaNombre.textContent = certificaciones[i].nombre;
+
+    fila.appendChild(celdaCodigo);
+    fila.appendChild(celdaNombre);
+    fila.appendChild(celdaAcciones);
+    cuerpo.appendChild(fila);
+  }
+}
+
+function guardarCertificacion(evento) {
+  evento.preventDefault();
+  ocultarMensaje("mensajeCertificacion");
+
+  if (!validarFormulario(camposCertificacion)) {
+    return;
+  }
+
+  let campoCodigo = document.getElementById("codigoCertificacion");
+  let campoNombre = document.getElementById("nombreCertificacion");
+  let codigo = campoCodigo.value.trim();
+  let nombre = campoNombre.value.trim();
+  let certificaciones = obtenerCertificaciones();
+
+  if (nombre.toLowerCase() === "no tiene") {
+    mostrarError(campoNombre, "La opción «No tiene» ya está incluida.");
+    campoNombre.focus();
+    return;
+  }
+
+  if (buscarCertificacion(codigo, certificaciones) !== null) {
+    mostrarError(campoCodigo, "Ya existe una certificación con ese código.");
+    campoCodigo.focus();
+    return;
+  }
+
+  certificaciones.push({ codigo: codigo, nombre: nombre });
+  guardarCertificaciones(certificaciones);
+  limpiarFormularioCertificacion();
+  dibujarTablaCertificaciones();
+  mostrarMensaje("mensajeCertificacion", "Certificación guardada.", "valido");
+}
+
+agregarEventosBlur(camposCertificacion);
+document.getElementById("formCertificacion").addEventListener("submit", guardarCertificacion);
+dibujarTablaCertificaciones();
