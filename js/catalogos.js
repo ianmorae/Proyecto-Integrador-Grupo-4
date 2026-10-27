@@ -266,6 +266,7 @@ document.getElementById("formSfia").addEventListener("submit", guardarAreaSfia);
 dibujarTablaSfia();
 
 let camposCertificacion = ["codigoCertificacion", "nombreCertificacion"];
+let codigoCertificacionEditando = "";
 
 function buscarCertificacion(codigo, certificaciones) {
   for (let i = 0; i < certificaciones.length; i++) {
@@ -288,10 +289,36 @@ function obtenerOpcionesCertificacion() {
 
 function limpiarFormularioCertificacion() {
   document.getElementById("formCertificacion").reset();
+  codigoCertificacionEditando = "";
+  document.getElementById("codigoCertificacion").readOnly = false;
+  document.getElementById("tituloFormCertificacion").textContent = "Nueva certificación";
+  document.getElementById("btnCancelarCertificacion").classList.add("oculto");
 
   for (let i = 0; i < camposCertificacion.length; i++) {
     quitarEstadoCampo(document.getElementById(camposCertificacion[i]));
   }
+}
+
+function editarCertificacion(codigo) {
+  let certificacion = buscarCertificacion(codigo, obtenerCertificaciones());
+
+  if (certificacion === null) {
+    return;
+  }
+
+  limpiarFormularioCertificacion();
+  ocultarMensaje("mensajeCertificacion");
+  codigoCertificacionEditando = certificacion.codigo;
+
+  let campoCodigo = document.getElementById("codigoCertificacion");
+  let campoNombre = document.getElementById("nombreCertificacion");
+
+  campoCodigo.value = certificacion.codigo;
+  campoCodigo.readOnly = true;
+  campoNombre.value = certificacion.nombre;
+  document.getElementById("tituloFormCertificacion").textContent = "Editar certificación";
+  document.getElementById("btnCancelarCertificacion").classList.remove("oculto");
+  campoNombre.focus();
 }
 
 function dibujarTablaCertificaciones() {
@@ -320,9 +347,19 @@ function dibujarTablaCertificaciones() {
     let celdaCodigo = document.createElement("td");
     let celdaNombre = document.createElement("td");
     let celdaAcciones = document.createElement("td");
+    let botonEditar = document.createElement("button");
 
     celdaCodigo.textContent = certificaciones[i].codigo;
     celdaNombre.textContent = certificaciones[i].nombre;
+
+    botonEditar.type = "button";
+    botonEditar.className = "btn-enlace";
+    botonEditar.textContent = "Editar";
+    botonEditar.addEventListener("click", function () {
+      editarCertificacion(certificaciones[i].codigo);
+    });
+
+    celdaAcciones.appendChild(botonEditar);
 
     fila.appendChild(celdaCodigo);
     fila.appendChild(celdaNombre);
@@ -351,6 +388,16 @@ function guardarCertificacion(evento) {
     return;
   }
 
+  if (codigoCertificacionEditando !== "") {
+    let existente = buscarCertificacion(codigoCertificacionEditando, certificaciones);
+    existente.nombre = nombre;
+    guardarCertificaciones(certificaciones);
+    limpiarFormularioCertificacion();
+    dibujarTablaCertificaciones();
+    mostrarMensaje("mensajeCertificacion", "Certificación actualizada.", "valido");
+    return;
+  }
+
   if (buscarCertificacion(codigo, certificaciones) !== null) {
     mostrarError(campoCodigo, "Ya existe una certificación con ese código.");
     campoCodigo.focus();
@@ -366,4 +413,5 @@ function guardarCertificacion(evento) {
 
 agregarEventosBlur(camposCertificacion);
 document.getElementById("formCertificacion").addEventListener("submit", guardarCertificacion);
+document.getElementById("btnCancelarCertificacion").addEventListener("click", limpiarFormularioCertificacion);
 dibujarTablaCertificaciones();
