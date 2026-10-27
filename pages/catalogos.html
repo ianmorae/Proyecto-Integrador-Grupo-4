@@ -38,6 +38,8 @@
         <button type="button" class="pestana-activa" data-panel="panelCasas">Casas certificadoras</button>
         <button type="button" data-panel="panelMonedas">Monedas</button>
         <button type="button" data-panel="panelSfia">Área SFIA</button>
+        <button type="button" data-panel="panelTematicas">Temáticas</button>
+        <button type="button" data-panel="panelMetodologias">Metodologías</button>
       </div>
 
       <section id="panelCasas" class="panel-catalogo">
@@ -161,6 +163,71 @@
           </table>
         </div>
         <p id="sinSfia" class="texto-ayuda">Todavía no hay áreas SFIA registradas.</p>
+      </section>
+
+      <!-- RF-28: Catálogo de temáticas -->
+      <section id="panelTematicas" class="panel-catalogo oculto">
+        <!-- Formulario para registrar o editar una temática -->
+        <form id="formTematica" class="tarjeta" novalidate>
+          <h2 id="tituloFormTematica">Nueva temática</h2>
+
+          <div class="fila">
+            <div class="campo">
+              <!-- Código obligatorio de la temática -->
+              <label for="codigoTematica">Código *</label>
+              <input type="text" id="codigoTematica" placeholder="TEM-01" required>
+              <small class="mensaje-error"></small>
+            </div>
+
+            <div class="campo">
+              <!-- Nombre obligatorio de la temática -->
+              <label for="nombreTematica">Nombre *</label>
+              <input type="text" id="nombreTematica" required>
+              <small class="mensaje-error"></small>
+            </div>
+          </div>
+
+          <div class="campo">
+            <!-- Descripción opcional de la temática -->
+            <label for="descripcionTematica">
+              Descripción <span class="texto-ayuda">(opcional)</span>
+            </label>
+            <textarea id="descripcionTematica"></textarea>
+            <small class="mensaje-error"></small>
+          </div>
+
+          <div class="acciones">
+            <!-- Botón para guardar la temática -->
+            <button type="submit" class="btn btn-primario">Guardar</button>
+
+            <!-- Botón para cancelar la edición -->
+            <button type="button" id="btnCancelarTematica" class="btn btn-secundario oculto">Cancelar</button>
+          </div>
+
+          <!-- Área para mostrar mensajes de éxito o error -->
+          <p id="mensajeTematica" class="mensaje-general oculto" role="status" aria-live="polite"></p>
+        </form>
+
+        <!-- Tabla con las temáticas registradas -->
+        <h2>Temáticas registradas</h2>
+        <div class="tabla-contenedor">
+          <table class="tabla">
+            <thead>
+              <tr>
+                <th scope="col">Código</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Descripción</th>
+                <th scope="col">Acciones</th>
+              </tr>
+            </thead>
+
+            <!-- Aquí JavaScript agrega las temáticas registradas -->
+            <tbody id="tablaTematicas"></tbody>
+          </table>
+        </div>
+
+        <!-- Mensaje que aparece cuando no hay temáticas registradas -->
+        <p id="sinTematicas" class="texto-ayuda"> Todavía no hay temáticas registradas. </p>
       </section>
     </main>
   </div>
