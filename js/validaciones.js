@@ -35,6 +35,19 @@ function cumplePolitica(valor) {
   return mayuscula && minuscula && numero;
 }
 
+function esCelular(valor) {
+  if (valor.length !== 8) {
+    return false;
+  }
+
+  for (let i = 0; i < valor.length; i++) {
+    if (valor[i] < "0" || valor[i] > "9") {
+      return false;
+    }
+  }
+  return true;
+}
+
 function obtenerMensaje(id, valor) {
   if (id === "correoLogin" && !esCorreo(valor)) {
     return "Ingresá un correo válido.";
@@ -56,6 +69,42 @@ function obtenerMensaje(id, valor) {
   }
   if (id === "nombreSfia" && valor === "") {
     return "El nombre es obligatorio.";
+  }
+  if (id === "nombreUsuario" && valor === "") {
+    return "El nombre es obligatorio.";
+  }
+  if (id === "apellidosUsuario" && valor === "") {
+    return "Los apellidos son obligatorios.";
+  }
+  if (id === "identificacionUsuario" && valor === "") {
+    return "La identificación es obligatoria.";
+  }
+  if (id === "correoInstitucional" && !esCorreo(valor)) {
+    return "Ingresá un correo institucional válido.";
+  }
+  if (id === "celularUsuario" && !esCelular(valor)) {
+    return "El celular debe tener 8 dígitos.";
+  }
+  if (id === "correoPersonal" && !esCorreo(valor)) {
+    return "Ingresá un correo personal válido.";
+  }
+  if (id === "fechaNacimiento" && (valor === "" || new Date(valor + "T00:00:00") > new Date())) {
+    return "La fecha de nacimiento no es válida.";
+  }
+  if (id === "sexoUsuario" && valor === "") {
+    return "Seleccioná una opción.";
+  }
+  if (id === "rolUsuario" && valor === "") {
+    return "Seleccioná un rol.";
+  }
+  if (id === "contrasenaUsuario" && !cumplePolitica(valor)) {
+    return "La contraseña debe tener entre 8 y 15 caracteres, con mayúscula, minúscula y número.";
+  }
+  if (id === "confirmarContrasena" && valor === "") {
+    return "Confirmá la contraseña.";
+  }
+  if (id === "confirmarContrasena" && valor !== document.getElementById("contrasenaUsuario").value) {
+    return "Las contraseñas no coinciden.";
   }
   return "";
 }
