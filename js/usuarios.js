@@ -479,7 +479,8 @@ function actualizarSesionUsuario(anterior, editado) {
       nombre: editado.nombre,
       apellidos: editado.apellidos,
       correo: editado.correoInstitucional,
-      rol: editado.rol
+      rol: editado.rol,
+      imagen: editado.imagen || "A1"
     });
   }
 }
