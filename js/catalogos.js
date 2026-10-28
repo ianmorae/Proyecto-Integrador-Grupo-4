@@ -412,3 +412,23 @@ agregarEventosBlur(camposCertificacion);
 document.getElementById("formCertificacion").addEventListener("submit", guardarCertificacion);
 document.getElementById("btnCancelarCertificacion").addEventListener("click", limpiarFormularioCertificacion);
 dibujarTablaCertificaciones();
+
+// ===== RF-30: Nivel de complejidad =====
+let niveles = ["Básico", "Intermedio", "Avanzado", "Certificación", "Nivel variable"];
+
+function dibujarNiveles() {
+  let cuerpo = document.getElementById("tablaNiveles");
+
+  cuerpo.innerHTML = "";
+
+  for (let i = 0; i < niveles.length; i++) {
+    let fila = document.createElement("tr");
+    let celda = document.createElement("td");
+
+    celda.textContent = niveles[i];
+    fila.appendChild(celda);
+    cuerpo.appendChild(fila);
+  }
+}
+
+dibujarNiveles();
