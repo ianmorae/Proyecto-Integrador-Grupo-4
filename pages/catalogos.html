@@ -287,6 +287,77 @@
           </table>
         </div>
       </section>
+
+      <!-- RF-29: Catálogo de metodologías de aprendizaje -->
+      <section id="panelMetodologias" class="panel-catalogo oculto">
+
+        <!-- Formulario para registrar o editar una metodología -->
+        <form id="formMetodologia" class="tarjeta" novalidate>
+
+          <!-- Título que puede cambiar según la acción -->
+          <h2 id="tituloFormMetodologia">
+            Nueva metodología de aprendizaje
+          </h2>
+
+          <div class="fila">
+            <div class="campo">
+              <!-- Código único de la metodología -->
+              <label for="codigoMetodologia">Código *</label>
+              <input type="text" id="codigoMetodologia"
+                    placeholder="MET-01" required>
+              <small class="mensaje-error"></small>
+            </div>
+
+            <div class="campo">
+              <!-- Nombre de la metodología -->
+              <label for="nombreMetodologia">Nombre *</label>
+              <input type="text" id="nombreMetodologia" required>
+              <small class="mensaje-error"></small>
+            </div>
+          </div>
+
+          <!-- Descripción de la metodología -->
+          <div class="campo">
+            <label for="descripcionMetodologia">Descripción *</label>
+            <textarea id="descripcionMetodologia" required></textarea>
+            <small class="mensaje-error"></small>
+          </div>
+
+          <!-- Botones para guardar o cancelar la edición -->
+          <div class="acciones">
+            <button type="submit" class="btn btn-primario">Guardar</button>
+            <button type="button" id="btnCancelarMetodologia"
+                    class="btn btn-secundario oculto">Cancelar</button>
+          </div>
+
+          <!-- Mensaje para informar el resultado de las acciones -->
+          <p id="mensajeMetodologia"
+            class="mensaje-general oculto"
+            role="status" aria-live="polite"></p>
+        </form>
+
+        <!-- Tabla para mostrar las metodologías registradas -->
+        <h2>Metodologías registradas</h2>
+        <div class="tabla-contenedor">
+          <table class="tabla">
+            <thead>
+              <tr>
+                <th scope="col">Código</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Descripción</th>
+                <th scope="col">Acciones</th>
+              </tr>
+            </thead>
+
+            <!-- JavaScript inserta aquí las metodologías -->
+            <tbody id="tablaMetodologias"></tbody>
+          </table>
+        </div>
+
+        <!-- Mensaje que se muestra cuando no existen registros -->
+        <p id="sinMetodologias" class="texto-ayuda"> Todavía no hay metodologías registradas. </p>
+
+      </section>
     </main>
   </div>
 
