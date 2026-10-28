@@ -82,6 +82,67 @@ function guardarAreasSfia(areas) {
   localStorage.setItem("areasSfia", JSON.stringify(areas));
 }
 
+// ===== RF-28: Catálogo de temáticas =====
+
+// Obtiene las temáticas almacenadas en localStorage.
+function obtenerTematicas() {
+  let tematicas = JSON.parse(localStorage.getItem("tematicas"));
+
+  // Si no existen temáticas guardadas, devuelve una lista vacía.
+  if (tematicas === null) {
+    return [];
+  }
+
+  return tematicas;
+}
+
+// Guarda las temáticas en localStorage en formato JSON.
+function guardarTematicas(tematicas) {
+  localStorage.setItem("tematicas", JSON.stringify(tematicas));
+}
+
+// ===== RF-29: Catálogo de metodologías =====
+
+// Obtiene las metodologías almacenadas en localStorage.
+function obtenerMetodologias() {
+  let metodologias = JSON.parse(
+    localStorage.getItem("metodologias")
+  );
+
+  // Si no existen metodologías guardadas, devuelve una lista vacía.
+  if (metodologias === null) {
+    return [];
+  }
+
+  return metodologias;
+}
+
+// Guarda las metodologías en localStorage en formato JSON.
+function guardarMetodologias(metodologias) {
+  localStorage.setItem(
+    "metodologias",
+    JSON.stringify(metodologias)
+  );
+}
+
+// ===== RF-28: Catálogo de temáticas =====
+
+// Obtiene las temáticas almacenadas en localStorage.
+function obtenerTematicas() {
+  let tematicas = JSON.parse(localStorage.getItem("tematicas"));
+
+  // Si no existen temáticas guardadas, devuelve una lista vacía.
+  if (tematicas === null) {
+    return [];
+  }
+
+  return tematicas;
+}
+
+// Guarda las temáticas en localStorage en formato JSON.
+function guardarTematicas(tematicas) {
+  localStorage.setItem("tematicas", JSON.stringify(tematicas));
+}
 
  // ===== RF-09: Imagen de perfil =====
 function actualizarImagenPerfil(imagen) {
