@@ -432,3 +432,165 @@ function dibujarNiveles() {
 }
 
 dibujarNiveles();
+
+/* ===== RF-28 y RF-29: Catálogos de cursos ===== */
+
+// Configura el formulario y la tabla de cada catálogo.
+function configurarCatalogo({
+  prefijo,
+  obtener,
+  guardar,
+  descripcionOpcional
+}) {
+  // Obtiene los elementos HTML del catálogo.
+  let formulario = document.getElementById("form" + prefijo);
+  let campoCodigo = document.getElementById("codigo" + prefijo);
+  let campoNombre = document.getElementById("nombre" + prefijo);
+  let campoDescripcion = document.getElementById("descripcion" + prefijo);
+  let tabla = document.getElementById("tabla" + (prefijo === "Tematica" ? "Tematicas" : "Metodologias"));
+  let mensaje = document.getElementById("mensaje" + prefijo);
+  let sinRegistros = document.getElementById("sin" + (prefijo === "Tematica" ? "Tematicas" : "Metodologias"));
+  let botonCancelar = document.getElementById("btnCancelar" + prefijo);
+  let codigoEditando = "";
+
+  // Limpia el formulario y restablece sus valores.
+  function limpiar() {
+    formulario.reset();
+    codigoEditando = "";
+    campoCodigo.readOnly = false;
+    botonCancelar.classList.add("oculto");
+    ocultarMensaje(mensaje.id);
+  }
+
+  // Muestra los registros en la tabla.
+  function dibujar() {
+    let registros = obtener();
+    tabla.innerHTML = "";
+
+    for (let i = 0; i < registros.length; i++) {
+      let fila = document.createElement("tr");
+
+      // Agrega los datos de cada registro.
+      ["codigo", "nombre", "descripcion"].forEach(function (propiedad) {
+        let celda = document.createElement("td");
+        celda.textContent = registros[i][propiedad] || "";
+        fila.appendChild(celda);
+      });
+
+      // Crea el botón para editar.
+      let acciones = document.createElement("td");
+      let botonEditar = document.createElement("button");
+      botonEditar.type = "button";
+      botonEditar.className = "btn-enlace";
+      botonEditar.textContent = "Editar";
+
+      botonEditar.addEventListener("click", function () {
+        // Carga los datos del registro seleccionado.
+        codigoEditando = registros[i].codigo;
+        campoCodigo.value = registros[i].codigo;
+        campoCodigo.readOnly = true;
+        campoNombre.value = registros[i].nombre;
+        campoDescripcion.value = registros[i].descripcion || "";
+        botonCancelar.classList.remove("oculto");
+        formulario.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+
+      acciones.appendChild(botonEditar);
+      fila.appendChild(acciones);
+      tabla.appendChild(fila);
+    }
+
+    // Oculta el aviso si existen registros.
+    sinRegistros.classList.toggle("oculto", registros.length > 0);
+  }
+
+  // Procesa el envío del formulario.
+  formulario.addEventListener("submit", function (evento) {
+    evento.preventDefault();
+    ocultarMensaje(mensaje.id);
+
+    let codigo = campoCodigo.value.trim();
+    let nombre = campoNombre.value.trim();
+    let descripcion = campoDescripcion.value.trim();
+
+    // Comprueba que los campos obligatorios estén completos.
+    if (
+      codigo === "" ||
+      nombre === "" ||
+      (!descripcionOpcional && descripcion === "")
+    ) {
+      mostrarMensaje(
+        mensaje.id,
+        "Completa los campos obligatorios.",
+        "error"
+      );
+      return;
+    }
+
+    let registros = obtener();
+
+    // Comprueba que el código no esté repetido.
+    let duplicado = registros.some(function (registro) {
+      return registro.codigo.toLowerCase() === codigo.toLowerCase() &&
+        registro.codigo !== codigoEditando;
+    });
+
+    if (duplicado) {
+      mostrarMensaje(
+        mensaje.id,
+        "Ya existe un registro con ese código.",
+        "error"
+      );
+      campoCodigo.focus();
+      return;
+    }
+
+    // Crea el objeto con los datos ingresados.
+    let registro = {
+      codigo: codigo,
+      nombre: nombre,
+      descripcion: descripcion
+    };
+
+    // Modifica el registro o agrega uno nuevo.
+    if (codigoEditando !== "") {
+      registros = registros.map(function (actual) {
+        return actual.codigo === codigoEditando ? registro : actual;
+      });
+    } else {
+      registros.push(registro);
+    }
+
+    // Guarda los datos y actualiza la tabla.
+    guardar(registros);
+    limpiar();
+    dibujar();
+
+    // Informa que el registro se guardó correctamente.
+    mostrarMensaje(
+      mensaje.id,
+      "Registro guardado correctamente.",
+      "valido"
+    );
+  });
+
+  // Permite cancelar la edición.
+  botonCancelar.addEventListener("click", limpiar);
+  dibujar();
+}
+
+// Configura el catálogo de temáticas.
+configurarCatalogo({
+  prefijo: "Tematica",
+  obtener: obtenerTematicas,
+  guardar: guardarTematicas,
+  descripcionOpcional: true
+});
+
+// Configura el catálogo de metodologías.
+configurarCatalogo({
+  prefijo: "Metodologia",
+  obtener: obtenerMetodologias,
+  guardar: guardarMetodologias,
+  descripcionOpcional: false
+});
