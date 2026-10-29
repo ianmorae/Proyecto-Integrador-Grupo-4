@@ -108,7 +108,6 @@ if (sesionPerfil === null) {
       );
 
       if (seleccion === null) {
-        mensaje.textContent = "Selecciona un avatar.";
         return;
       }
 
