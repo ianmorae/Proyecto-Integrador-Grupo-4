@@ -1,4 +1,4 @@
-// Menú lateral según el rol del usuario (RF-16).
+// Menú lateral y acceso a las páginas según el rol del usuario (RF-16).
 
 function opcionesDelRol(rol) {
   if (rol === "Administrador") {
@@ -45,8 +45,19 @@ function armarMenu(rol) {
   }
 }
 
-let sesionMenu = obtenerSesion();
+function paginaActual() {
+  let partes = window.location.pathname.split("/");
+  return partes[partes.length - 1];
+}
 
-if (sesionMenu !== null) {
+let sesionMenu = obtenerSesion();
+let paginaMenu = paginaActual();
+
+if (sesionMenu === null) {
+  window.location.href = "../index.html";
+} else if (paginaMenu !== "usuarios.html" && !tieneOpcion(sesionMenu.rol, paginaMenu)) {
+  // usuarios.html ya valida su permiso en usuarios.js (RF-05).
+  window.location.href = "inicio.html";
+} else {
   armarMenu(sesionMenu.rol);
 }
