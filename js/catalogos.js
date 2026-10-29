@@ -218,12 +218,27 @@ function limpiarFormularioSfia() {
   mostrarCodigoSfia();
 }
 
+// Revisa si el código o el nombre contienen el texto buscado.
+function coincideSfia(area, texto) {
+  let codigo = String(area.codigo).toLowerCase();
+  let nombre = area.nombre.toLowerCase();
+
+  return codigo.includes(texto) || nombre.includes(texto);
+}
+
 function dibujarTablaSfia() {
   let areas = obtenerAreasSfia();
+  let texto = document.getElementById("buscarSfia").value.trim().toLowerCase();
   let tabla = document.getElementById("tablaSfia");
+  let encontradas = 0;
   tabla.innerHTML = "";
 
   for (let i = 0; i < areas.length; i++) {
+    if (!coincideSfia(areas[i], texto)) {
+      continue;
+    }
+    encontradas++;
+
     let fila = document.createElement("tr");
     let celdaCodigo = document.createElement("td");
     let celdaNombre = document.createElement("td");
@@ -243,6 +258,13 @@ function dibujarTablaSfia() {
     document.getElementById("sinSfia").classList.add("oculto");
   } else {
     document.getElementById("sinSfia").classList.remove("oculto");
+  }
+
+  // Si hay áreas pero ninguna coincide con la búsqueda, se avisa.
+  if (areas.length > 0 && encontradas === 0) {
+    document.getElementById("sinResultadosSfia").classList.remove("oculto");
+  } else {
+    document.getElementById("sinResultadosSfia").classList.add("oculto");
   }
 }
 
@@ -279,6 +301,7 @@ function guardarAreaSfia(evento) {
 
 agregarEventosBlur(camposSfia);
 document.getElementById("formSfia").addEventListener("submit", guardarAreaSfia);
+document.getElementById("buscarSfia").addEventListener("input", dibujarTablaSfia);
 mostrarCodigoSfia();
 dibujarTablaSfia();
 
