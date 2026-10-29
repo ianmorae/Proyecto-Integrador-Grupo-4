@@ -68,23 +68,52 @@ o **Inactivo**.
 ├── pages/
 │   ├── inicio.html         Página de inicio después del login
 │   ├── usuarios.html       Registro y lista de usuarios
-│   └── catalogos.html      Catálogos (casas certificadoras, monedas, área SFIA)
+│   ├── catalogos.html      Catálogos (casas certificadoras, monedas, área SFIA,
+│   │                       temáticas, metodologías, certificaciones y niveles)
+│   └── perfil.html         Perfil del usuario y cambio de avatar
 ├── css/
 │   └── styles.css          Hoja de estilos única
 ├── js/
 │   ├── almacenamiento.js   Lectura y escritura en Local Storage
 │   ├── validaciones.js     Validaciones y mensajes compartidos
+│   ├── menu.js             Menú lateral y acceso según el rol
 │   ├── login.js            Inicio de sesión
 │   ├── inicio.js           Página de inicio
 │   ├── usuarios.js         Gestión de usuarios
-│   └── catalogos.js        Gestión de catálogos
+│   ├── catalogos.js        Gestión de catálogos
+│   └── perfil.js           Perfil del usuario
 ├── img/                    Logo e imágenes
 ├── documentos/             ERS, documento de diseño y wireframes
 └── README.md
 ```
 
-Cada página carga primero `almacenamiento.js` y `validaciones.js` (si tiene
-formularios), y después el script propio de la página.
+Cada página interna carga primero `almacenamiento.js`, después `menu.js`,
+`validaciones.js` (si tiene formularios) y por último el script propio de la página.
+
+## Guía de estilos
+
+La interfaz aplica la identidad institucional de la Universidad CENFOTEC (RF-75).
+Como el libro de marca todavía no se ha recibido, la paleta se tomó del logo
+oficial. Todos los colores están definidos como variables al inicio de
+`css/styles.css`, por lo que se actualizan en un solo lugar cuando llegue el libro.
+
+| Variable | Color | Uso |
+|---|---|---|
+| `--azul` | #0169E9 | Botones principales, enlaces, pestaña activa y foco |
+| `--azul-oscuro` | #01469A | Encabezado, opción activa del menú y hover |
+| `--azul-claro` | #EAF2FF | Opción seleccionada (avatares) |
+| `--blanco` | #FFFFFF | Contenido, tarjetas y campos |
+| `--fondo` | #F4F6F9 | Fondo general, menú lateral y campos de solo lectura |
+| `--borde` | #CCCCCC | Bordes de campos, tablas y separadores |
+| `--texto` | #333333 | Texto principal |
+| `--texto-secundario` | #666666 | Textos de ayuda |
+| `--error` | #C62828 | Campos con error y cerrar sesión |
+| `--valido` | #2E7D32 | Campos válidos y mensajes de confirmación |
+| `--gris-deshabilitado` / `--texto-deshabilitado` | #E0E0E0 / #757575 | Botones deshabilitados |
+
+- **Tipografía:** Arial, Helvetica, sans-serif; 16 px de base, h1 de 28 px, h2 de 22 px y h3 de 18 px.
+- **Botones:** principal con fondo azul y texto blanco; secundario blanco con borde azul.
+- **Campos:** 40 px de alto, etiqueta siempre encima y mensaje de error debajo del campo.
 
 ## Cómo ejecutar
 
