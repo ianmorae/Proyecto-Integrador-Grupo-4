@@ -180,15 +180,33 @@ function iniciarCatalogos() {
 iniciarCatalogos();
 
 // ===== RF-26: Área SFIA =====
-let camposSfia = ["codigoSfia", "nombreSfia"];
+let camposSfia = ["nombreSfia"];
 
-function buscarAreaSfia(codigo, areas) {
+// Busca un área por nombre para no repetirla.
+function buscarAreaSfia(nombre, areas) {
   for (let i = 0; i < areas.length; i++) {
-    if (areas[i].codigo.toLowerCase() === codigo.toLowerCase()) {
+    if (areas[i].nombre.toLowerCase() === nombre.toLowerCase()) {
       return areas[i];
     }
   }
   return null;
+}
+
+// El código es el número más alto registrado más uno.
+function siguienteCodigoSfia(areas) {
+  let mayor = 0;
+
+  for (let i = 0; i < areas.length; i++) {
+    let numero = Number(areas[i].codigo);
+    if (numero > mayor) {
+      mayor = numero;
+    }
+  }
+  return mayor + 1;
+}
+
+function mostrarCodigoSfia() {
+  document.getElementById("codigoSfia").value = siguienteCodigoSfia(obtenerAreasSfia());
 }
 
 function limpiarFormularioSfia() {
@@ -197,6 +215,7 @@ function limpiarFormularioSfia() {
   for (let i = 0; i < camposSfia.length; i++) {
     quitarEstadoCampo(document.getElementById(camposSfia[i]));
   }
+  mostrarCodigoSfia();
 }
 
 function dibujarTablaSfia() {
@@ -235,18 +254,18 @@ function guardarAreaSfia(evento) {
     return;
   }
 
-  let campoCodigo = document.getElementById("codigoSfia");
+  let campoNombre = document.getElementById("nombreSfia");
   let areas = obtenerAreasSfia();
 
-  if (buscarAreaSfia(campoCodigo.value.trim(), areas) !== null) {
-    mostrarError(campoCodigo, "Ya existe un área SFIA con ese código.");
-    campoCodigo.focus();
+  if (buscarAreaSfia(campoNombre.value.trim(), areas) !== null) {
+    mostrarError(campoNombre, "Ya existe un área SFIA con ese nombre.");
+    campoNombre.focus();
     return;
   }
 
   let area = {
-    codigo: campoCodigo.value.trim(),
-    nombre: document.getElementById("nombreSfia").value.trim(),
+    codigo: siguienteCodigoSfia(areas),
+    nombre: campoNombre.value.trim(),
     descripcion: document.getElementById("descripcionSfia").value.trim()
   };
 
@@ -255,11 +274,12 @@ function guardarAreaSfia(evento) {
 
   limpiarFormularioSfia();
   dibujarTablaSfia();
-  mostrarMensaje("mensajeSfia", "Área SFIA guardada.", "valido");
+  mostrarMensaje("mensajeSfia", "Área SFIA guardada con el código " + area.codigo + ".", "valido");
 }
 
 agregarEventosBlur(camposSfia);
 document.getElementById("formSfia").addEventListener("submit", guardarAreaSfia);
+mostrarCodigoSfia();
 dibujarTablaSfia();
 
 let camposCertificacion = ["codigoCertificacion", "nombreCertificacion"];

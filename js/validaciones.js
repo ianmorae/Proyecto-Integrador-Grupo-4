@@ -64,9 +64,6 @@ function obtenerMensaje(id, valor) {
   if (id === "nombreCasa" && valor === "") {
     return "El nombre es obligatorio.";
   }
-  if (id === "codigoSfia" && valor === "") {
-    return "El código es obligatorio.";
-  }
   if (id === "nombreSfia" && valor === "") {
     return "El nombre es obligatorio.";
   }
