@@ -506,13 +506,28 @@ function limpiarFormularioNivel() {
   mostrarCodigoNivel();
 }
 
+// Revisa si el código o el nombre contienen el texto buscado.
+function coincideNivel(nivel, texto) {
+  let codigo = String(nivel.codigo).toLowerCase();
+  let nombre = nivel.nombre.toLowerCase();
+
+  return codigo.includes(texto) || nombre.includes(texto);
+}
+
 function dibujarNiveles() {
   let niveles = obtenerNiveles();
+  let texto = document.getElementById("buscarNivel").value.trim().toLowerCase();
   let cuerpo = document.getElementById("tablaNiveles");
+  let encontrados = 0;
 
   cuerpo.innerHTML = "";
 
   for (let i = 0; i < niveles.length; i++) {
+    if (!coincideNivel(niveles[i], texto)) {
+      continue;
+    }
+    encontrados++;
+
     let fila = document.createElement("tr");
     let celdaCodigo = document.createElement("td");
     let celdaNombre = document.createElement("td");
@@ -535,6 +550,13 @@ function dibujarNiveles() {
     document.getElementById("sinNiveles").classList.add("oculto");
   } else {
     document.getElementById("sinNiveles").classList.remove("oculto");
+  }
+
+  // Si hay niveles pero ninguno coincide con la búsqueda, se avisa.
+  if (niveles.length > 0 && encontrados === 0) {
+    document.getElementById("sinResultadosNivel").classList.remove("oculto");
+  } else {
+    document.getElementById("sinResultadosNivel").classList.add("oculto");
   }
 }
 
@@ -573,6 +595,7 @@ function guardarNivel(evento) {
 cargarOpcionesNivel();
 agregarEventosBlur(camposNivel);
 document.getElementById("formNivel").addEventListener("submit", guardarNivel);
+document.getElementById("buscarNivel").addEventListener("input", dibujarNiveles);
 mostrarCodigoNivel();
 dibujarNiveles();
 
