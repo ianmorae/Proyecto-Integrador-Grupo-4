@@ -163,9 +163,9 @@ function guardarMetodologias(metodologias) {
   localStorage.setItem("metodologias", JSON.stringify(metodologias));
 }
 
- // ===== RF-09: Imagen de perfil =====
+ // ===== RF-09, RF-10: Imagen de perfil =====
 function actualizarImagenPerfil(imagen) {
-  const avataresPermitidos = ["A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8"];
+  const avataresPermitidos = ["A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8", "A9", "A10"];
 
   if (!avataresPermitidos.includes(imagen)) {
     return false;
