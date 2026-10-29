@@ -586,17 +586,27 @@ a.btn {
   height: 1px;
 }
 
-.avatar-opcion span {
-  display: flex;
-  width: 38px;
-  height: 38px;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid var(--borde);
+/* Define el diseño de las imágenes de los avatares. */
+.avatar-opcion img {
+  display: block;
+  width: 90px;
+  height: 90px;
+  object-fit: contain;
+  border: 2px solid transparent;
   border-radius: 50%;
-  background-color: var(--fondo);
-  color: var(--texto);
-  font-size: 12px;
+  cursor: pointer;
+}
+
+/* Resalta el avatar seleccionado. */
+.avatar-opcion input:checked + img {
+  border-color: var(--azul);
+  box-shadow: 0 0 0 2px var(--azul-claro);
+}
+
+/* Resalta el avatar cuando recibe el foco del teclado. */
+.avatar-opcion input:focus-visible + img {
+  outline: 2px solid var(--azul);
+  outline-offset: 3px;
 }
 
 .avatar-opcion input:checked + span {
