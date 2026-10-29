@@ -922,3 +922,7 @@ body {
     justify-content: center;
   }
 }
+
+#formImagenPerfil .acciones {
+  margin-top: 20px;
+}
