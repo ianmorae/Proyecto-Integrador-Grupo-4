@@ -1,4 +1,5 @@
 /* ===== Variables ===== */
+/* RF-75: paleta institucional. Todos los colores del sistema salen de aquí. */
 :root {
   --azul: #0169E9;
   --azul-oscuro: #01469A;
@@ -9,6 +10,9 @@
   --texto-secundario: #666666;
   --error: #C62828;
   --valido: #2E7D32;
+  --azul-claro: #EAF2FF;
+  --gris-deshabilitado: #E0E0E0;
+  --texto-deshabilitado: #757575;
 }
 
 /* ===== Base ===== */
@@ -81,9 +85,9 @@ img {
 }
 
 .btn:disabled {
-  background-color: #E0E0E0;
-  border-color: #E0E0E0;
-  color: #757575;
+  background-color: var(--gris-deshabilitado);
+  border-color: var(--gris-deshabilitado);
+  color: var(--texto-deshabilitado);
   cursor: not-allowed;
 }
 
@@ -297,8 +301,20 @@ img {
   text-decoration: none;
 }
 
-.menu-lateral a:hover {
+.menu-lateral a:hover,
+.menu-lateral .btn-enlace:hover {
   background-color: var(--borde);
+}
+
+/* Cerrar sesión se ve como una opción más del menú. */
+.menu-lateral .btn-enlace {
+  display: block;
+  width: 100%;
+  padding: 10px 24px;
+  color: var(--error);
+  font-family: inherit;
+  text-align: left;
+  text-decoration: none;
 }
 
 .menu-lateral .menu-activo {
@@ -585,7 +601,7 @@ a.btn {
 
 .avatar-opcion input:checked + span {
   border: 2px solid var(--azul);
-  background-color: #EAF2FF;
+  background-color: var(--azul-claro);
   color: var(--azul-oscuro);
 }
 
@@ -742,10 +758,11 @@ body {
   display: flex;
   flex-direction: column;
   text-align: right;
+  color: var(--blanco);
 }
 
 .perfil-encabezado small {
-  color: var(--texto-secundario, #777);
+  color: var(--blanco);
   font-size: 11px;
 }
 
@@ -775,8 +792,8 @@ body {
   flex-shrink: 0;
   border: 1px solid var(--borde);
   border-radius: 50%;
-  background: #e9e9e9;
-  color: #555;
+  background-color: var(--fondo);
+  color: var(--texto-secundario);
   font-weight: bold;
 }
 
@@ -847,15 +864,18 @@ body {
   justify-content: center;
   width: 42px;
   height: 42px;
-  border: 1px solid #999;
+  border: 1px solid var(--borde);
   border-radius: 50%;
-  background: #e9e9e9;
-  color: #777;
+  background-color: var(--fondo);
+  color: var(--texto-secundario);
   font-size: 10px;
 }
 
 .opciones-avatar input:checked + span {
-  outline: 2px solid #222;
+  border-color: var(--azul);
+  background-color: var(--azul-claro);
+  color: var(--azul-oscuro);
+  outline: 2px solid var(--azul-oscuro);
   outline-offset: 2px;
 }
 
