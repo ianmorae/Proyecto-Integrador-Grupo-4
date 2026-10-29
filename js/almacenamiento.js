@@ -82,6 +82,28 @@ function guardarAreasSfia(areas) {
   localStorage.setItem("areasSfia", JSON.stringify(areas));
 }
 
+// ===== RF-30: Niveles de complejidad =====
+// La primera vez se cargan los cinco niveles del curso.
+function obtenerNiveles() {
+  let niveles = JSON.parse(localStorage.getItem("nivelesComplejidad"));
+
+  if (niveles === null) {
+    niveles = [
+      { codigo: 1, nombre: "Básico", nivel: "Básico", descripcion: "Curso introductorio, no requiere conocimientos previos." },
+      { codigo: 2, nombre: "Intermedio", nivel: "Intermedio", descripcion: "Requiere conocimientos básicos del tema." },
+      { codigo: 3, nombre: "Avanzado", nivel: "Avanzado", descripcion: "Profundiza en temas especializados." },
+      { codigo: 4, nombre: "Certificación", nivel: "Certificación", descripcion: "Prepara para la certificación de una casa certificadora." },
+      { codigo: 5, nombre: "Nivel variable", nivel: "Nivel variable", descripcion: "El nivel se ajusta al perfil de los participantes." }
+    ];
+    guardarNiveles(niveles);
+  }
+  return niveles;
+}
+
+function guardarNiveles(niveles) {
+  localStorage.setItem("nivelesComplejidad", JSON.stringify(niveles));
+}
+
 // ===== RF-28: Catálogo de temáticas =====
 
 // Obtiene las temáticas almacenadas en localStorage.

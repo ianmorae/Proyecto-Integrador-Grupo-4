@@ -67,6 +67,15 @@ function obtenerMensaje(id, valor) {
   if (id === "nombreSfia" && valor === "") {
     return "El nombre es obligatorio.";
   }
+  if (id === "nombreNivel" && valor === "") {
+    return "El nombre es obligatorio.";
+  }
+  if (id === "tipoNivel" && valor === "") {
+    return "Seleccioná un nivel.";
+  }
+  if (id === "descripcionNivel" && valor === "") {
+    return "La descripción es obligatoria.";
+  }
   if (id === "codigoCertificacion" && valor === "") {
     return "El código es obligatorio.";
   }

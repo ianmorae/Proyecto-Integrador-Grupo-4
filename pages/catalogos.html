@@ -279,18 +279,59 @@
       </section>
 
       <section id="panelNiveles" class="panel-catalogo oculto">
-        <h2>Niveles de complejidad</h2>
-        <p class="texto-ayuda">Lista fija de solo lectura. Es la que se ofrece en el formulario del curso.</p>
+        <form id="formNivel" class="tarjeta" novalidate>
+          <h2>Nuevo nivel de complejidad</h2>
+
+          <div class="fila">
+            <div class="campo">
+              <label for="codigoNivel">Código</label>
+              <input type="text" id="codigoNivel" readonly>
+              <small class="texto-ayuda">Se asigna automáticamente.</small>
+            </div>
+
+            <div class="campo">
+              <label for="nombreNivel">Nombre *</label>
+              <input type="text" id="nombreNivel" required>
+              <small class="mensaje-error"></small>
+            </div>
+          </div>
+
+          <div class="campo">
+            <label for="tipoNivel">Nivel *</label>
+            <select id="tipoNivel" required>
+              <option value="">Seleccione...</option>
+            </select>
+            <small class="mensaje-error"></small>
+          </div>
+
+          <div class="campo">
+            <label for="descripcionNivel">Descripción *</label>
+            <textarea id="descripcionNivel" required></textarea>
+            <small class="mensaje-error"></small>
+          </div>
+
+          <div class="acciones">
+            <button type="submit" class="btn btn-primario">Guardar</button>
+          </div>
+
+          <p id="mensajeNivel" class="mensaje-general oculto"></p>
+        </form>
+
+        <h2>Niveles de complejidad registrados</h2>
         <div class="tabla-contenedor">
           <table class="tabla">
             <thead>
               <tr>
+                <th scope="col">Código</th>
+                <th scope="col">Nombre</th>
                 <th scope="col">Nivel</th>
+                <th scope="col">Descripción</th>
               </tr>
             </thead>
             <tbody id="tablaNiveles"></tbody>
           </table>
         </div>
+        <p id="sinNiveles" class="texto-ayuda oculto">Todavía no hay niveles de complejidad registrados.</p>
       </section>
 
       <!-- RF-29: Catálogo de metodologías de aprendizaje -->

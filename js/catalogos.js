@@ -457,23 +457,123 @@ document.getElementById("btnCancelarCertificacion").addEventListener("click", li
 dibujarTablaCertificaciones();
 
 // ===== RF-30: Nivel de complejidad =====
-let niveles = ["Básico", "Intermedio", "Avanzado", "Certificación", "Nivel variable"];
+let opcionesNivel = ["Básico", "Intermedio", "Avanzado", "Certificación", "Nivel variable"];
+let camposNivel = ["nombreNivel", "tipoNivel", "descripcionNivel"];
+
+function cargarOpcionesNivel() {
+  let lista = document.getElementById("tipoNivel");
+
+  for (let i = 0; i < opcionesNivel.length; i++) {
+    let opcion = document.createElement("option");
+    opcion.value = opcionesNivel[i];
+    opcion.textContent = opcionesNivel[i];
+    lista.appendChild(opcion);
+  }
+}
+
+// Busca un nivel por nombre para no repetirlo.
+function buscarNivel(nombre, niveles) {
+  for (let i = 0; i < niveles.length; i++) {
+    if (niveles[i].nombre.toLowerCase() === nombre.toLowerCase()) {
+      return niveles[i];
+    }
+  }
+  return null;
+}
+
+// El código es el número más alto registrado más uno.
+function siguienteCodigoNivel(niveles) {
+  let mayor = 0;
+
+  for (let i = 0; i < niveles.length; i++) {
+    if (niveles[i].codigo > mayor) {
+      mayor = niveles[i].codigo;
+    }
+  }
+  return mayor + 1;
+}
+
+function mostrarCodigoNivel() {
+  document.getElementById("codigoNivel").value = siguienteCodigoNivel(obtenerNiveles());
+}
+
+function limpiarFormularioNivel() {
+  document.getElementById("formNivel").reset();
+
+  for (let i = 0; i < camposNivel.length; i++) {
+    quitarEstadoCampo(document.getElementById(camposNivel[i]));
+  }
+  mostrarCodigoNivel();
+}
 
 function dibujarNiveles() {
+  let niveles = obtenerNiveles();
   let cuerpo = document.getElementById("tablaNiveles");
 
   cuerpo.innerHTML = "";
 
   for (let i = 0; i < niveles.length; i++) {
     let fila = document.createElement("tr");
-    let celda = document.createElement("td");
+    let celdaCodigo = document.createElement("td");
+    let celdaNombre = document.createElement("td");
+    let celdaNivel = document.createElement("td");
+    let celdaDescripcion = document.createElement("td");
 
-    celda.textContent = niveles[i];
-    fila.appendChild(celda);
+    celdaCodigo.textContent = niveles[i].codigo;
+    celdaNombre.textContent = niveles[i].nombre;
+    celdaNivel.textContent = niveles[i].nivel;
+    celdaDescripcion.textContent = niveles[i].descripcion;
+
+    fila.appendChild(celdaCodigo);
+    fila.appendChild(celdaNombre);
+    fila.appendChild(celdaNivel);
+    fila.appendChild(celdaDescripcion);
     cuerpo.appendChild(fila);
+  }
+
+  if (niveles.length > 0) {
+    document.getElementById("sinNiveles").classList.add("oculto");
+  } else {
+    document.getElementById("sinNiveles").classList.remove("oculto");
   }
 }
 
+function guardarNivel(evento) {
+  evento.preventDefault();
+  ocultarMensaje("mensajeNivel");
+
+  if (!validarFormulario(camposNivel)) {
+    return;
+  }
+
+  let campoNombre = document.getElementById("nombreNivel");
+  let niveles = obtenerNiveles();
+
+  if (buscarNivel(campoNombre.value.trim(), niveles) !== null) {
+    mostrarError(campoNombre, "Ya existe un nivel de complejidad con ese nombre.");
+    campoNombre.focus();
+    return;
+  }
+
+  let nivel = {
+    codigo: siguienteCodigoNivel(niveles),
+    nombre: campoNombre.value.trim(),
+    nivel: document.getElementById("tipoNivel").value,
+    descripcion: document.getElementById("descripcionNivel").value.trim()
+  };
+
+  niveles.push(nivel);
+  guardarNiveles(niveles);
+
+  limpiarFormularioNivel();
+  dibujarNiveles();
+  mostrarMensaje("mensajeNivel", "Nivel de complejidad guardado con el código " + nivel.codigo + ".", "valido");
+}
+
+cargarOpcionesNivel();
+agregarEventosBlur(camposNivel);
+document.getElementById("formNivel").addEventListener("submit", guardarNivel);
+mostrarCodigoNivel();
 dibujarNiveles();
 
 /* ===== RF-28 y RF-29: Catálogos de cursos ===== */
