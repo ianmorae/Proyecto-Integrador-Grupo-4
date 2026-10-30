@@ -24,11 +24,18 @@ function dibujarUsuarios() {
   }
 
   let usuarios = obtenerUsuarios();
+  let texto = textoBusquedaUsuario();
+  let encontrados = 0;
 
   tabla.innerHTML = "";
 
   for (let i = 0; i < usuarios.length; i++) {
     let usuario = usuarios[i];
+
+    if (!coincideUsuario(usuario, texto)) {
+      continue;
+    }
+    encontrados++;
 
     let fila = document.createElement("tr");
     let nombre = document.createElement("td");
@@ -90,6 +97,8 @@ function dibujarUsuarios() {
   if (sinUsuarios !== null) {
     sinUsuarios.classList.toggle("oculto", usuarios.length > 0);
   }
+
+  mostrarSinResultadosUsuarios(usuarios.length, encontrados);
 }
 
 // ===== RF-14: Catálogo de roles =====
@@ -489,4 +498,40 @@ function limpiarEstadosUsuario() {
 
 if (formularioUsuario !== null) {
   agregarEventosBlur(camposUsuario);
+}
+
+function textoBusquedaUsuario() {
+  let campo = document.getElementById("buscarUsuario");
+
+  if (campo === null) {
+    return "";
+  }
+  return campo.value.trim().toLowerCase();
+}
+
+function coincideUsuario(usuario, texto) {
+  let identificacion = (usuario.identificacion || "").toLowerCase();
+  let nombre = (usuario.nombre || "").toLowerCase();
+  let apellidos = (usuario.apellidos || "").toLowerCase();
+  let correo = (usuario.correoInstitucional || "").toLowerCase();
+
+  return identificacion.includes(texto) || nombre.includes(texto) || apellidos.includes(texto) || correo.includes(texto);
+}
+
+function mostrarSinResultadosUsuarios(total, encontrados) {
+  let aviso = document.getElementById("sinResultadosUsuarios");
+
+  if (aviso === null) {
+    return;
+  }
+
+  if (total > 0 && encontrados === 0) {
+    aviso.classList.remove("oculto");
+  } else {
+    aviso.classList.add("oculto");
+  }
+}
+
+if (document.getElementById("buscarUsuario") !== null && formularioUsuario !== null) {
+  document.getElementById("buscarUsuario").addEventListener("input", dibujarUsuarios);
 }
