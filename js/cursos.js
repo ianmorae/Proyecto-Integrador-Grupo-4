@@ -50,42 +50,145 @@ function crearCelda(texto) {
   return celda;
 }
 
-// Construye y muestra la tabla con los cursos registrados.
+// Agrega una opción a una lista desplegable.
+function agregarOpcionFiltro(id, valor, texto) {
+  let opcion = document.createElement("option");
+
+  opcion.value = valor;
+  opcion.textContent = texto;
+  document.getElementById(id).appendChild(opcion);
+}
+
+// Carga las opciones disponibles en los filtros.
+function cargarFiltros() {
+  let escuelas = obtenerEscuelas();
+
+  // Agrega las escuelas registradas al filtro.
+  for (let i = 0; i < escuelas.length; i++) {
+    agregarOpcionFiltro("filtroEscuela", escuelas[i].codigo, escuelas[i].nombre);
+  }
+
+  // Agrega los estados disponibles al filtro.
+  for (let i = 0; i < estadosFiltro.length; i++) {
+    agregarOpcionFiltro("filtroEstado", estadosFiltro[i], estadosFiltro[i]);
+  }
+
+  // Agrega las modalidades disponibles al filtro.
+  for (let i = 0; i < modalidadesFiltro.length; i++) {
+    agregarOpcionFiltro("filtroModalidad", modalidadesFiltro[i], modalidadesFiltro[i]);
+  }
+}
+
+// Revisa si el curso cumple el texto y los filtros elegidos.
+function cumpleFiltros(curso) {
+  let texto = document.getElementById("buscarCurso").value.trim().toLowerCase();
+  let escuela = document.getElementById("filtroEscuela").value;
+  let estado = document.getElementById("filtroEstado").value;
+  let modalidad = document.getElementById("filtroModalidad").value;
+
+  // Convierte el código y el nombre a minúsculas para facilitar la búsqueda.
+  let codigo = curso.codigo.toLowerCase();
+  let nombre = curso.nombreOficial.toLowerCase();
+
+  // Verifica si el código o el nombre contienen el texto buscado.
+  if (texto !== "" && !codigo.includes(texto) && !nombre.includes(texto)) {
+    return false;
+  }
+
+  // Verifica si el curso pertenece a la escuela seleccionada.
+  if (escuela !== "" && curso.escuela !== escuela) {
+    return false;
+  }
+
+  // Verifica si el curso tiene el estado seleccionado.
+  if (estado !== "" && curso.estado !== estado) {
+    return false;
+  }
+
+  // Verifica si el curso tiene la modalidad seleccionada.
+  if (modalidad !== "" && curso.modalidad !== modalidad) {
+    return false;
+  }
+
+  return true;
+}
+
+// Restablece los filtros y actualiza la tabla.
+function restablecerFiltros() {
+  document.getElementById("formFiltros").reset();
+  dibujarTablaCursos();
+}
+
+// Construye la tabla mostrando únicamente los cursos que cumplen los filtros.
 function dibujarTablaCursos() {
   let cursos = obtenerCursos();
   let cuerpo = document.getElementById("tablaCursos");
+  let encontrados = 0;
 
-  // Limpia la tabla antes de agregar los datos.
+  // Limpia la tabla antes de mostrar los resultados.
   cuerpo.innerHTML = "";
 
-  // Recorre los cursos y crea una fila para cada uno.
+  // Recorre los cursos registrados.
   for (let i = 0; i < cursos.length; i++) {
+
+    // Omite los cursos que no cumplen los filtros.
+    if (!cumpleFiltros(cursos[i])) {
+      continue;
+    }
+
+    encontrados++;
+
+    // Crea una fila para mostrar la información del curso.
     let fila = document.createElement("tr");
 
-    // Agrega los datos del curso en sus respectivas columnas.
     fila.appendChild(crearCelda(textoCodigo(cursos[i])));
     fila.appendChild(crearCelda(cursos[i].nombreOficial));
     fila.appendChild(crearCelda(nombreEscuela(cursos[i].escuela)));
     fila.appendChild(crearCelda(cursos[i].modalidad));
     fila.appendChild(crearCelda(cursos[i].estado));
-
-    // Agrega la fila completa a la tabla.
     cuerpo.appendChild(fila);
   }
 
-  // Actualiza el mensaje con la cantidad de cursos encontrados.
-  document.getElementById("totalCursos").textContent = textoTotal(cursos.length);
+  // Actualiza la cantidad de cursos encontrados.
+  document.getElementById("totalCursos").textContent = textoTotal(encontrados);
 
-  // Muestra la tabla si existen cursos registrados.
-  if (cursos.length > 0) {
+  // Si ningún curso coincide, se muestra un mensaje en lugar de la tabla.
+  if (encontrados > 0) {
     document.getElementById("contenedorTabla").classList.remove("oculto");
     document.getElementById("sinCursos").classList.add("oculto");
   } else {
-    // Oculta la tabla y muestra el mensaje cuando no hay cursos.
     document.getElementById("contenedorTabla").classList.add("oculto");
     document.getElementById("sinCursos").classList.remove("oculto");
+
+    // Muestra un mensaje diferente según existan cursos registrados o no.
+    if (cursos.length === 0) {
+      document.getElementById("sinCursos").textContent = "Todavía no hay cursos registrados.";
+    } else {
+      document.getElementById("sinCursos").textContent = "No hay cursos que coincidan con los filtros.";
+    }
   }
 }
 
-// Ejecuta la función para mostrar los cursos al cargar el archivo.
+// Carga los filtros y muestra los cursos al iniciar.
+cargarFiltros();
 dibujarTablaCursos();
+
+// Evita que el formulario se envíe y recargue la página.
+document.getElementById("formFiltros").addEventListener("submit", function (evento) {
+  evento.preventDefault();
+});
+
+// Actualiza la tabla cada vez que cambia el texto de búsqueda.
+document.getElementById("buscarCurso").addEventListener("input", dibujarTablaCursos);
+
+// Actualiza la tabla cuando cambia la escuela seleccionada.
+document.getElementById("filtroEscuela").addEventListener("change", dibujarTablaCursos);
+
+// Actualiza la tabla cuando cambia el estado seleccionado.
+document.getElementById("filtroEstado").addEventListener("change", dibujarTablaCursos);
+
+// Actualiza la tabla cuando cambia la modalidad seleccionada.
+document.getElementById("filtroModalidad").addEventListener("change", dibujarTablaCursos);
+
+// Restablece los filtros cuando se hace clic en el botón.
+document.getElementById("btnRestablecer").addEventListener("click", restablecerFiltros);
