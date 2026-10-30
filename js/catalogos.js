@@ -781,3 +781,104 @@ configurarCatalogo({
   guardar: guardarMetodologias,
   descripcionOpcional: false
 });
+
+// ===== Escuelas =====
+
+// Lista de campos que se validan en el formulario de escuelas.
+let camposEscuela = ["codigoEscuela", "nombreEscuela", "directorEscuela"];
+
+// Llena la lista con los usuarios que tienen el rol Director de Escuela.
+function cargarDirectores() {
+  // Obtiene la lista de directores y los usuarios registrados.
+  let lista = document.getElementById("directorEscuela");
+  let usuarios = obtenerUsuarios();
+
+  // Recorre los usuarios registrados.
+  for (let i = 0; i < usuarios.length; i++) {
+
+    // Verifica si el usuario tiene el rol Director de Escuela.
+    if (usuarios[i].rol === "Director de Escuela") {
+      let opcion = document.createElement("option");
+
+      // Asigna el correo como valor y el nombre como texto visible.
+      opcion.value = usuarios[i].correoInstitucional;
+      opcion.textContent = usuarios[i].nombre + " " + usuarios[i].apellidos;
+
+      // Agrega el director a la lista.
+      lista.appendChild(opcion);
+    }
+  }
+}
+
+// Busca una escuela por su código.
+function buscarEscuelaPorCodigo(codigo, escuelas) {
+  // Recorre las escuelas registradas.
+  for (let i = 0; i < escuelas.length; i++) {
+
+    // Compara los códigos sin distinguir mayúsculas y minúsculas.
+    if (escuelas[i].codigo.toLowerCase() === codigo.toLowerCase()) {
+      return escuelas[i];
+    }
+  }
+
+  // Devuelve null si no encuentra la escuela.
+  return null;
+}
+
+// Limpia el formulario y los estados de validación.
+function limpiarFormularioEscuela() {
+  document.getElementById("formEscuela").reset();
+
+  // Quita los estados de los campos.
+  for (let i = 0; i < camposEscuela.length; i++) {
+    quitarEstadoCampo(document.getElementById(camposEscuela[i]));
+  }
+}
+
+// Guarda una nueva escuela.
+function guardarEscuela(evento) {
+  // Evita que se recargue la página al enviar el formulario.
+  evento.preventDefault();
+
+  // Oculta los mensajes anteriores.
+  ocultarMensaje("mensajeEscuela");
+
+  // Verifica que los campos sean válidos.
+  if (!validarFormulario(camposEscuela)) {
+    return;
+  }
+
+  // Obtiene el código ingresado y las escuelas registradas.
+  let campoCodigo = document.getElementById("codigoEscuela");
+  let escuelas = obtenerEscuelas();
+
+  // Verifica que no exista otra escuela con el mismo código.
+  if (buscarEscuelaPorCodigo(campoCodigo.value.trim(), escuelas) !== null) {
+    mostrarError(campoCodigo, "Ya existe una escuela con ese código.");
+    campoCodigo.focus();
+    return;
+  }
+
+  // Agrega la nueva escuela a la lista.
+  escuelas.push({
+    codigo: campoCodigo.value.trim(),
+    nombre: document.getElementById("nombreEscuela").value.trim(),
+    director: document.getElementById("directorEscuela").value
+  });
+
+  // Guarda las escuelas actualizadas.
+  guardarEscuelas(escuelas);
+
+  // Limpia el formulario y muestra un mensaje de éxito.
+  limpiarFormularioEscuela();
+  mostrarMensaje("mensajeEscuela", "Escuela guardada.", "valido");
+}
+
+// Agrega la validación cuando se sale de cada campo.
+agregarEventosBlur(camposEscuela);
+
+// Ejecuta la función al enviar el formulario.
+document.getElementById("formEscuela").addEventListener("submit", guardarEscuela);
+
+// Carga los directores disponibles al iniciar.
+cargarDirectores();
