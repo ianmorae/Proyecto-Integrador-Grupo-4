@@ -93,6 +93,31 @@
           <p id="mensajeEscuela" class="mensaje-general oculto" role="status" aria-live="polite"></p>
 
         </form>
+
+        <!-- Título de la lista de escuelas registradas. -->
+        <h2>Escuelas registradas</h2>
+
+        <!-- Contenedor de la tabla de escuelas. -->
+        <div class="tabla-contenedor">
+          <table class="tabla">
+
+            <!-- Encabezados de las columnas. -->
+            <thead>
+              <tr>
+                <th scope="col">Código</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Director de Escuela</th>
+              </tr>
+            </thead>
+
+            <!-- Espacio donde se muestran las escuelas registradas. -->
+            <tbody id="tablaEscuelas"></tbody>
+          </table>
+        </div>
+
+        <!-- Mensaje que se muestra cuando no hay escuelas registradas. -->
+        <p id="sinEscuelas" class="texto-ayuda">Todavía no hay escuelas registradas.</p>
+
       </section>
 
       <!-- Panel para gestionar las casas certificadoras -->
