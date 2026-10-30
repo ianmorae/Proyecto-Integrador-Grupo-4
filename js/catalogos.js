@@ -938,3 +938,6 @@ document.getElementById("formEscuela").addEventListener("submit", guardarEscuela
 
 // Carga los directores disponibles al iniciar.
 cargarDirectores();
+
+// Actualiza la tabla de escuelas registradas.
+dibujarTablaEscuelas();
