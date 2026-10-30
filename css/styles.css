@@ -856,25 +856,27 @@ body {
 }
 
 
+/* Organiza las imágenes de perfil en filas centradas. */
 .opciones-avatar {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(5, 90px);
   justify-content: center;
-  align-items: center;
+  justify-items: center;
   gap: 16px;
   width: 100%;
   margin: 25px auto;
   padding: 0;
 }
 
+/* Permite seleccionar cada imagen. */
 .opciones-avatar label {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 6px;
+  justify-content: center;
   cursor: pointer;
 }
 
+/* Oculta visualmente los botones de selección. */
 .opciones-avatar input {
   position: absolute;
   opacity: 0;
@@ -882,28 +884,25 @@ body {
   height: 1px;
 }
 
-.opciones-avatar span {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 42px;
-  height: 42px;
-  border: 1px solid var(--borde);
+/* Define el tamaño y la apariencia de cada avatar. */
+.opciones-avatar label img {
+  display: block;
+  width: 90px;
+  height: 90px;
+  object-fit: contain;
+  border: 2px solid transparent;
   border-radius: 50%;
-  background-color: var(--fondo);
-  color: var(--texto-secundario);
-  font-size: 10px;
+  cursor: pointer;
 }
 
-.opciones-avatar input:checked + span {
+/* Resalta la imagen seleccionada. */
+.opciones-avatar input:checked + img {
   border-color: var(--azul);
-  background-color: var(--azul-claro);
-  color: var(--azul-oscuro);
-  outline: 2px solid var(--azul-oscuro);
-  outline-offset: 2px;
+  box-shadow: 0 0 0 2px var(--azul-claro);
 }
 
-.opciones-avatar input:focus-visible + span {
+/* Permite identificar la selección con el teclado. */
+.opciones-avatar input:focus-visible + img {
   outline: 2px solid var(--azul);
   outline-offset: 3px;
 }
