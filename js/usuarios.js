@@ -365,6 +365,34 @@ if (formularioUsuario !== null) {
 }
 
 
+// Activa o desactiva un usuario. Un usuario inactivo no puede iniciar sesión.
+function cambiarEstadoUsuario(identificacion) {
+  let sesion = obtenerSesion();
+  let usuarios = obtenerUsuarios();
+
+  for (let i = 0; i < usuarios.length; i++) {
+    if (usuarios[i].identificacion === identificacion) {
+
+      if (usuarios[i].correoInstitucional.toLowerCase() === sesion.correo.toLowerCase()) {
+        mostrarMensaje("mensajeListaUsuarios", "No puedes cambiar el estado de tu propio usuario.", "error");
+        return;
+      }
+
+      if (usuarios[i].estado === "Inactivo") {
+        usuarios[i].estado = "Activo";
+      } else {
+        usuarios[i].estado = "Inactivo";
+      }
+
+      guardarUsuarios(usuarios);
+      dibujarUsuarios();
+      mostrarMensaje("mensajeListaUsuarios",
+        "El usuario " + usuarios[i].nombre + " ahora está " + usuarios[i].estado.toLowerCase() + ".", "valido");
+      return;
+    }
+  }
+}
+
 function limpiarEdicionUsuario() {
   identificacionUsuarioEditando = "";
   limpiarEstadosUsuario();

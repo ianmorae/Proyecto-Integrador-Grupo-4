@@ -27,6 +27,11 @@ function ingresar(evento) {
   let usuario = buscarPorCorreo(correo);
 
   if (usuario !== null && cumplePolitica(contrasena) && usuario.contrasena === btoa(contrasena)) {
+    // Un usuario inactivo no puede ingresar.
+    if (usuario.estado === "Inactivo") {
+      mostrarMensaje("mensajeLogin", "Tu usuario está inactivo. Contacta al administrador.", "error");
+      return;
+    }
     iniciarSesion(usuario);
   } else {
     mostrarMensaje("mensajeLogin", "Correo o contraseña incorrectos.", "error");
