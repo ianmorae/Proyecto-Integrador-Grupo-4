@@ -259,3 +259,16 @@ function obtenerCertificaciones() {
 function guardarCertificaciones(certificaciones) {
   localStorage.setItem("certificaciones", JSON.stringify(certificaciones));
 }
+
+function obtenerCarreras() {
+  let carreras = JSON.parse(localStorage.getItem("carreras"));
+
+  if (carreras === null) {
+    return [];
+  }
+  return carreras;
+}
+
+function guardarCarreras(carreras) {
+  localStorage.setItem("carreras", JSON.stringify(carreras));
+}

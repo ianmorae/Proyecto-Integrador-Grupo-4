@@ -36,6 +36,7 @@
 
       <div class="pestanas">
         <button type="button" class="pestana-activa" data-panel="panelEscuelas">Escuelas</button>
+        <button type="button" id="pestanaCarreras" data-panel="panelCarreras">Carreras</button>
         <button type="button" data-panel="panelCasas">Casas certificadoras</button>
         <button type="button" data-panel="panelMonedas">Monedas</button>
         <button type="button" data-panel="panelSfia">Área SFIA</button>
@@ -128,6 +129,61 @@
         <p id="sinResultadosEscuelas" class="texto-ayuda oculto">No se encontraron resultados.</p>
 
 
+      </section>
+
+      <section id="panelCarreras" class="panel-catalogo oculto">
+        <form id="formCarrera" class="tarjeta" novalidate autocomplete="off">
+          <h2>Nueva carrera</h2>
+
+          <div class="fila">
+            <div class="campo">
+              <label for="codigoCarrera">Código *</label>
+              <input type="text" id="codigoCarrera" placeholder="CAR-01" required>
+              <small class="mensaje-error"></small>
+            </div>
+
+            <div class="campo">
+              <label for="nombreCarrera">Nombre *</label>
+              <input type="text" id="nombreCarrera" required>
+              <small class="mensaje-error"></small>
+            </div>
+          </div>
+
+          <div class="campo">
+            <label for="escuelaCarrera">Escuela *</label>
+            <select id="escuelaCarrera" required>
+              <option value="">Seleccione...</option>
+            </select>
+            <small id="sinEscuelasCarrera" class="texto-ayuda oculto">Primero registrá una escuela en la pestaña Escuelas.</small>
+            <small class="mensaje-error"></small>
+          </div>
+
+          <div class="acciones">
+            <button type="submit" class="btn btn-primario">Guardar</button>
+          </div>
+
+          <p id="mensajeCarrera" class="mensaje-general oculto"></p>
+        </form>
+
+        <h2>Carreras registradas</h2>
+        <div class="campo">
+          <label for="buscarCarrera">Buscar por código, nombre o escuela</label>
+          <input type="search" id="buscarCarrera">
+        </div>
+        <div class="tabla-contenedor">
+          <table class="tabla">
+            <thead>
+              <tr>
+                <th scope="col">Código</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Escuela</th>
+              </tr>
+            </thead>
+            <tbody id="tablaCarreras"></tbody>
+          </table>
+        </div>
+        <p id="sinCarreras" class="texto-ayuda">Todavía no hay carreras registradas.</p>
+        <p id="sinResultadosCarreras" class="texto-ayuda oculto">No se encontraron resultados.</p>
       </section>
 
       <!-- Panel para gestionar las casas certificadoras -->

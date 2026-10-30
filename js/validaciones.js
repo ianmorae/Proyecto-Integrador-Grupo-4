@@ -95,6 +95,15 @@ function obtenerMensaje(id, valor) {
   if (id === "directorEscuela" && valor === "") {
     return "Seleccioná un director.";
   }
+  if (id === "codigoCarrera" && valor === "") {
+    return "El código es obligatorio.";
+  }
+  if (id === "nombreCarrera" && valor === "") {
+    return "El nombre es obligatorio.";
+  }
+  if (id === "escuelaCarrera" && valor === "") {
+    return "Seleccioná una escuela.";
+  }
 
   if (id === "nombreSfia" && valor === "") {
     return "El nombre es obligatorio.";

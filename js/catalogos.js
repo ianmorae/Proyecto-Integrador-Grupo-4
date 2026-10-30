@@ -972,3 +972,141 @@ cargarDirectores();
 
 // Actualiza la tabla de escuelas registradas.
 dibujarTablaEscuelas();
+
+let camposCarrera = ["codigoCarrera", "nombreCarrera", "escuelaCarrera"];
+
+function cargarEscuelasCarrera() {
+  let lista = document.getElementById("escuelaCarrera");
+  let escuelas = obtenerEscuelas();
+  let primera = document.createElement("option");
+
+  lista.innerHTML = "";
+  primera.value = "";
+  primera.textContent = "Seleccione...";
+  lista.appendChild(primera);
+
+  for (let i = 0; i < escuelas.length; i++) {
+    let opcion = document.createElement("option");
+    opcion.value = escuelas[i].codigo;
+    opcion.textContent = escuelas[i].nombre;
+    lista.appendChild(opcion);
+  }
+
+  if (escuelas.length > 0) {
+    document.getElementById("sinEscuelasCarrera").classList.add("oculto");
+  } else {
+    document.getElementById("sinEscuelasCarrera").classList.remove("oculto");
+  }
+}
+
+function buscarCarreraPorCodigo(codigo, carreras) {
+  for (let i = 0; i < carreras.length; i++) {
+    if (carreras[i].codigo.toLowerCase() === codigo.toLowerCase()) {
+      return carreras[i];
+    }
+  }
+  return null;
+}
+
+function obtenerNombreEscuela(codigo) {
+  let escuela = buscarEscuelaPorCodigo(codigo, obtenerEscuelas());
+
+  if (escuela === null) {
+    return codigo;
+  }
+  return escuela.nombre;
+}
+
+function coincideCarrera(carrera, texto) {
+  let codigo = carrera.codigo.toLowerCase();
+  let nombre = carrera.nombre.toLowerCase();
+  let escuela = obtenerNombreEscuela(carrera.escuela).toLowerCase();
+
+  return codigo.includes(texto) || nombre.includes(texto) || escuela.includes(texto);
+}
+
+function dibujarTablaCarreras() {
+  let carreras = obtenerCarreras();
+  let cuerpo = document.getElementById("tablaCarreras");
+  let texto = document.getElementById("buscarCarrera").value.trim().toLowerCase();
+  let encontradas = 0;
+
+  cuerpo.innerHTML = "";
+
+  for (let i = 0; i < carreras.length; i++) {
+    if (!coincideCarrera(carreras[i], texto)) {
+      continue;
+    }
+    encontradas++;
+
+    let fila = document.createElement("tr");
+    let celdaCodigo = document.createElement("td");
+    let celdaNombre = document.createElement("td");
+    let celdaEscuela = document.createElement("td");
+
+    celdaCodigo.textContent = carreras[i].codigo;
+    celdaNombre.textContent = carreras[i].nombre;
+    celdaEscuela.textContent = obtenerNombreEscuela(carreras[i].escuela);
+
+    fila.appendChild(celdaCodigo);
+    fila.appendChild(celdaNombre);
+    fila.appendChild(celdaEscuela);
+    cuerpo.appendChild(fila);
+  }
+
+  if (carreras.length > 0) {
+    document.getElementById("sinCarreras").classList.add("oculto");
+  } else {
+    document.getElementById("sinCarreras").classList.remove("oculto");
+  }
+
+  if (carreras.length > 0 && encontradas === 0) {
+    document.getElementById("sinResultadosCarreras").classList.remove("oculto");
+  } else {
+    document.getElementById("sinResultadosCarreras").classList.add("oculto");
+  }
+}
+
+function limpiarFormularioCarrera() {
+  document.getElementById("formCarrera").reset();
+
+  for (let i = 0; i < camposCarrera.length; i++) {
+    quitarEstadoCampo(document.getElementById(camposCarrera[i]));
+  }
+}
+
+function guardarCarrera(evento) {
+  evento.preventDefault();
+  ocultarMensaje("mensajeCarrera");
+
+  if (!validarFormulario(camposCarrera)) {
+    return;
+  }
+
+  let campoCodigo = document.getElementById("codigoCarrera");
+  let carreras = obtenerCarreras();
+
+  if (buscarCarreraPorCodigo(campoCodigo.value.trim(), carreras) !== null) {
+    mostrarError(campoCodigo, "Ya existe una carrera con ese código.");
+    campoCodigo.focus();
+    return;
+  }
+
+  carreras.push({
+    codigo: campoCodigo.value.trim(),
+    nombre: document.getElementById("nombreCarrera").value.trim(),
+    escuela: document.getElementById("escuelaCarrera").value
+  });
+
+  guardarCarreras(carreras);
+  limpiarFormularioCarrera();
+  dibujarTablaCarreras();
+  mostrarMensaje("mensajeCarrera", "Carrera guardada.", "valido");
+}
+
+agregarEventosBlur(camposCarrera);
+document.getElementById("formCarrera").addEventListener("submit", guardarCarrera);
+document.getElementById("buscarCarrera").addEventListener("input", dibujarTablaCarreras);
+document.getElementById("pestanaCarreras").addEventListener("click", cargarEscuelasCarrera);
+cargarEscuelasCarrera();
+dibujarTablaCarreras();
