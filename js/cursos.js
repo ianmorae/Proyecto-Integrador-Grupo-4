@@ -21,6 +21,35 @@ function nombreEscuela(codigo) {
   return codigo;
 }
 
+// El Director de Escuela solo ve los cursos de sus escuelas (RF-19).
+function obtenerCursosVisibles() {
+  let sesion = obtenerSesion();
+  let cursos = obtenerCursos();
+  let escuelas = obtenerEscuelas();
+  let visibles = [];
+
+  // Si el usuario no es Director de Escuela, devuelve todos los cursos.
+  if (sesion.rol !== "Director de Escuela") {
+    return cursos;
+  }
+
+  // Recorre los cursos registrados.
+  for (let i = 0; i < cursos.length; i++) {
+
+    // Busca la escuela a la que pertenece cada curso.
+    for (let j = 0; j < escuelas.length; j++) {
+
+      // Verifica que el curso pertenezca a una escuela dirigida por el usuario.
+      if (escuelas[j].codigo === cursos[i].escuela && escuelas[j].director === sesion.correo) {
+        visibles.push(cursos[i]);
+      }
+    }
+  }
+
+  // Devuelve únicamente los cursos de las escuelas del director.
+  return visibles;
+}
+
 // Devuelve el texto que se mostrará en la columna del código.
 function textoCodigo(curso) {
   if (curso.codigoDc) {
