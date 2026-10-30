@@ -80,6 +80,22 @@ function obtenerMensaje(id, valor) {
   if (id === "nombreCasa" && valor === "") {
     return "El nombre es obligatorio.";
   }
+
+// Verifica que el código de la escuela no esté vacío.
+  if (id === "codigoEscuela" && valor === "") {
+    return "El código es obligatorio.";
+  }
+
+  // Verifica que el nombre de la escuela no esté vacío.
+  if (id === "nombreEscuela" && valor === "") {
+    return "El nombre es obligatorio.";
+  }
+
+  // Verifica que se haya seleccionado un director.
+  if (id === "directorEscuela" && valor === "") {
+    return "Seleccioná un director.";
+  }
+
   if (id === "nombreSfia" && valor === "") {
     return "El nombre es obligatorio.";
   }
