@@ -96,7 +96,7 @@ function guardarCasa(evento) {
   }
 
   let campoCodigo = document.getElementById("codigoCasa");
-  let codigo = campoCodigo.value.trim();
+  let codigo = String(Number(campoCodigo.value.trim()));
   let nombre = document.getElementById("nombreCasa").value.trim();
   let casas = obtenerCasas();
 

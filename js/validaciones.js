@@ -35,6 +35,19 @@ function cumplePolitica(valor) {
   return mayuscula && minuscula && numero;
 }
 
+function esNumeroEntero(valor) {
+  if (valor === "") {
+    return false;
+  }
+
+  for (let i = 0; i < valor.length; i++) {
+    if (valor[i] < "0" || valor[i] > "9") {
+      return false;
+    }
+  }
+  return Number(valor) >= 1;
+}
+
 function esCelular(valor) {
   if (valor.length !== 8) {
     return false;
@@ -60,6 +73,9 @@ function obtenerMensaje(id, valor) {
   }
   if (id === "codigoCasa" && valor === "") {
     return "El código es obligatorio.";
+  }
+  if (id === "codigoCasa" && !esNumeroEntero(valor)) {
+    return "El código debe ser un número entero mayor o igual a 1.";
   }
   if (id === "nombreCasa" && valor === "") {
     return "El nombre es obligatorio.";

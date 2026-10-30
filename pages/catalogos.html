@@ -51,7 +51,7 @@
           <div class="fila">
             <div class="campo">
               <label for="codigoCasa">Código *</label>
-              <input type="text" id="codigoCasa" placeholder="CAS-01" required>
+              <input type="number" id="codigoCasa" min="1" step="1" placeholder="1" required>
               <small class="mensaje-error"></small>
             </div>
 
@@ -84,25 +84,6 @@
           </table>
         </div>
         <p id="sinCasas" class="texto-ayuda">Todavía no hay casas certificadoras registradas.</p>
-
-        <form id="formImportar" class="tarjeta" novalidate>
-          <h2>Importar desde CSV</h2>
-          <p class="texto-ayuda">Cada fila debe tener código y nombre separados por coma, en un archivo UTF-8.</p>
-
-          <div class="campo">
-            <label for="archivoCsv">Archivo CSV *</label>
-            <input type="file" id="archivoCsv" accept=".csv" required>
-            <small class="mensaje-error"></small>
-          </div>
-
-          <button type="button" class="btn btn-secundario">Importar CSV</button>
-        </form>
-
-        <section id="resultadoImportacion" class="tarjeta oculto">
-          <h3>Resultado de la importación</h3>
-          <p id="importacionCargados"></p>
-          <ul id="importacionRechazados"></ul>
-        </section>
       </section>
 
       <section id="panelMonedas" class="panel-catalogo oculto">
