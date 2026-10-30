@@ -70,49 +70,73 @@
       </section>
 
       <!-- RF-06: Registro de información del usuario -->
-      <form id="formUsuario" class="tarjeta" novalidate>
+
+      <!-- novalidate:Desactiva la validación automática del navegador. -->
+      <!-- autocomplete="off": Solicita que el navegador no complete automáticamente los campos. -->
+      <form id="formUsuario" class="tarjeta" novalidate autocomplete="off">
         <h2>Registrar / editar usuario</h2>
 
         <div class="rejilla-usuarios">
           <div class="campo">
             <label for="nombreUsuario">Nombre *</label>
-            <input type="text" id="nombreUsuario" required>
+
+            <!-- novalidate:Desactiva la validación automática del navegador. -->
+            <!-- autocomplete="off": Solicita que el navegador no complete automáticamente los campos. -->
+            <input type="text" id="nombreUsuario" autocomplete="off" required>
             <small class="mensaje-error"></small>
           </div>
 
           <div class="campo">
             <label for="apellidosUsuario">Apellidos *</label>
-            <input type="text" id="apellidosUsuario" required>
+
+            <!-- novalidate:Desactiva la validación automática del navegador. -->
+            <!-- autocomplete="off": Solicita que el navegador no complete automáticamente los campos. -->
+            <input type="text" id="apellidosUsuario" autocomplete="off" required>
             <small class="mensaje-error"></small>
           </div>
 
           <div class="campo">
             <label for="identificacionUsuario">Identificación *</label>
-            <input type="text" id="identificacionUsuario" required>
+
+            <!-- novalidate:Desactiva la validación automática del navegador. -->
+            <!-- autocomplete="off": Solicita que el navegador no complete automáticamente los campos. -->
+            <input type="text" id="identificacionUsuario" autocomplete="off" required>
             <small class="mensaje-error"></small>
           </div>
 
           <div class="campo">
             <label for="correoInstitucional">Correo institucional *</label>
-            <input type="email" id="correoInstitucional" required>
+
+            <!-- novalidate:Desactiva la validación automática del navegador. -->
+            <!-- autocomplete="off": Solicita que el navegador no complete automáticamente los campos. -->
+            <input type="email" id="correoInstitucional" autocomplete="off" required>
             <small class="mensaje-error"></small>
           </div>
 
           <div class="campo">
             <label for="celularUsuario">Celular *</label>
-            <input type="tel" id="celularUsuario" required>
+
+            <!-- novalidate:Desactiva la validación automática del navegador. -->
+            <!-- autocomplete="off": Solicita que el navegador no complete automáticamente los campos. -->
+            <input type="tel" id="celularUsuario" autocomplete="off" required>
             <small class="mensaje-error"></small>
           </div>
 
           <div class="campo">
             <label for="correoPersonal">Correo personal *</label>
-            <input type="email" id="correoPersonal" required>
+
+            <!-- novalidate:Desactiva la validación automática del navegador. -->
+            <!-- autocomplete="off": Solicita que el navegador no complete automáticamente los campos. -->
+            <input type="email" id="correoPersonal" autocomplete="off" required>
             <small class="mensaje-error"></small>
           </div>
 
           <div class="campo">
             <label for="fechaNacimiento">Fecha de nacimiento *</label>
-            <input type="date" id="fechaNacimiento" required>
+
+            <!-- novalidate:Desactiva la validación automática del navegador. -->
+            <!-- autocomplete="off": Solicita que el navegador no complete automáticamente los campos. -->
+            <input type="date" id="fechaNacimiento" autocomplete="off" required>
             <small class="mensaje-error"></small>
           </div>
 
@@ -152,7 +176,8 @@
 
           <div class="campo">
             <label for="confirmarContrasena">Confirmar contraseña *</label>
-            <input type="password" id="confirmarContrasena" required>
+            
+            <input type="password" id="confirmarContrasena" autocomplete="new-password" required>
             <small class="mensaje-error"></small>
           </div>
 
