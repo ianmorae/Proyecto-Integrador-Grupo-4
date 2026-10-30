@@ -346,6 +346,10 @@
 
         <!-- Tabla con las temáticas registradas -->
         <h2>Temáticas registradas</h2>
+        <div class="campo">
+          <label for="buscarTematica">Buscar por código o nombre</label>
+          <input type="search" id="buscarTematica">
+        </div>
         <div class="tabla-contenedor">
           <table class="tabla">
             <thead>
@@ -364,6 +368,7 @@
 
         <!-- Mensaje que aparece cuando no hay temáticas registradas -->
         <p id="sinTematicas" class="texto-ayuda"> Todavía no hay temáticas registradas. </p>
+        <p id="sinResultadosTematicas" class="texto-ayuda oculto">No se encontraron resultados.</p>
       </section>
       <section id="panelCertificaciones" class="panel-catalogo oculto">
         <form id="formCertificacion" class="tarjeta" novalidate autocomplete="off">

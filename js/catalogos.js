@@ -637,6 +637,8 @@ function configurarCatalogo({
   let mensaje = document.getElementById("mensaje" + prefijo);
   let sinRegistros = document.getElementById("sin" + (prefijo === "Tematica" ? "Tematicas" : "Metodologias"));
   let botonCancelar = document.getElementById("btnCancelar" + prefijo);
+  let campoBuscar = document.getElementById("buscar" + prefijo);
+  let sinResultados = document.getElementById("sinResultados" + (prefijo === "Tematica" ? "Tematicas" : "Metodologias"));
   let codigoEditando = "";
 
   // El código es el número más alto registrado más uno.
@@ -669,9 +671,23 @@ function configurarCatalogo({
   // Muestra los registros en la tabla.
   function dibujar() {
     let registros = obtener();
+    let texto = "";
+    let encontrados = 0;
     tabla.innerHTML = "";
 
+    if (campoBuscar !== null) {
+      texto = campoBuscar.value.trim().toLowerCase();
+    }
+
     for (let i = 0; i < registros.length; i++) {
+      let codigo = String(registros[i].codigo).toLowerCase();
+      let nombre = registros[i].nombre.toLowerCase();
+
+      if (!codigo.includes(texto) && !nombre.includes(texto)) {
+        continue;
+      }
+      encontrados++;
+
       let fila = document.createElement("tr");
 
       // Agrega los datos de cada registro.
@@ -705,6 +721,14 @@ function configurarCatalogo({
 
     // Oculta el aviso si existen registros.
     sinRegistros.classList.toggle("oculto", registros.length > 0);
+
+    if (sinResultados !== null) {
+      if (registros.length > 0 && encontrados === 0) {
+        sinResultados.classList.remove("oculto");
+      } else {
+        sinResultados.classList.add("oculto");
+      }
+    }
   }
 
   // Procesa el envío del formulario.
@@ -783,6 +807,11 @@ function configurarCatalogo({
 
   // Permite cancelar la edición.
   botonCancelar.addEventListener("click", limpiar);
+
+  if (campoBuscar !== null) {
+    campoBuscar.addEventListener("input", dibujar);
+  }
+
   mostrarCodigo();
   dibujar();
 }
