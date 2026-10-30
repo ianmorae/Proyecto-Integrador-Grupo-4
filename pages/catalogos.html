@@ -522,6 +522,10 @@
 
         <!-- Tabla para mostrar las metodologías registradas -->
         <h2>Metodologías registradas</h2>
+        <div class="campo">
+          <label for="buscarMetodologia">Buscar por código o nombre</label>
+          <input type="search" id="buscarMetodologia">
+        </div>
         <div class="tabla-contenedor">
           <table class="tabla">
             <thead>
@@ -540,6 +544,7 @@
 
         <!-- Mensaje que se muestra cuando no existen registros -->
         <p id="sinMetodologias" class="texto-ayuda"> Todavía no hay metodologías registradas. </p>
+        <p id="sinResultadosMetodologias" class="texto-ayuda oculto">No se encontraron resultados.</p>
 
       </section>
     </main>
