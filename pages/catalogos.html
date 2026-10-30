@@ -65,7 +65,7 @@
             </div>
 
             <div class="campo">
-              <!-- Campo para ingresar el nombre de la escuela. -->
+              <!-- Campo para ingresar el nombre de la escuela -->
               <label for="nombreEscuela">Nombre *</label>
               <input type="text" id="nombreEscuela" required>
               <small class="mensaje-error"></small>
@@ -79,23 +79,29 @@
               <option value="">Seleccione...</option>
             </select>
 
-            <!-- Indica dónde debe registrarse previamente el director. -->
+            <!-- Indica dónde debe registrarse previamente el director -->
             <small class="texto-ayuda">Se registra primero en Usuarios con el rol Director de Escuela.</small>
             <small class="mensaje-error"></small>
           </div>
 
           <div class="acciones">
-            <!-- Botón para guardar la información de la escuela. -->
+            <!-- Botón para guardar la información de la escuela -->
             <button type="submit" class="btn btn-primario">Guardar</button>
           </div>
 
-          <!-- Mensaje para mostrar el resultado del registro. -->
+          <!-- Mensaje para mostrar el resultado del registro -->
           <p id="mensajeEscuela" class="mensaje-general oculto" role="status" aria-live="polite"></p>
 
         </form>
 
-        <!-- Título de la lista de escuelas registradas. -->
+        <!-- Título de la lista de escuelas registradas -->
         <h2>Escuelas registradas</h2>
+
+        <!-- Campo para buscar escuelas por código o nombre -->
+        <div class="campo">
+          <label for="buscarEscuela">Buscar por código o nombre</label>
+          <input type="search" id="buscarEscuela">
+        </div>
 
         <!-- Contenedor de la tabla de escuelas. -->
         <div class="tabla-contenedor">
