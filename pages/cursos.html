@@ -33,17 +33,49 @@
     <main class="contenido">
       <h1>Cursos</h1>
 
-      <section class="tarjeta en-construccion">
-        <p class="en-construccion-icono" aria-hidden="true">🚧</p>
-        <h2>Apartado en construcción</h2>
-        <p>Aquí se podrán consultar los cursos registrados, con su escuela, código, nombre y estado.</p>
-        <p class="texto-ayuda">Estamos trabajando en esta sección.</p>
-        <a href="inicio.html" class="btn btn-primario">Volver al inicio</a>
-      </section>
+      <!-- Muestra una descripción del catálogo de cursos. -->
+      <p class="texto-ayuda">Catálogo general de cursos registrados</p>
+
+      <!-- Muestra la cantidad de cursos registrados y anuncia los cambios a lectores de pantalla. -->
+      <p id="totalCursos" class="texto-ayuda" role="status" aria-live="polite"></p>
+
+      <!-- Contenedor que organiza la tabla de cursos. -->
+      <div id="contenedorTabla" class="tabla-contenedor">
+
+        <!-- Tabla donde se muestran los cursos registrados. -->
+        <table class="tabla">
+          <thead>
+            <tr>
+              <!-- Encabezado de la columna del código del curso. -->
+              <th scope="col">Código</th>
+
+              <!-- Encabezado de la columna del nombre del curso. -->
+              <th scope="col">Nombre</th>
+
+              <!-- Encabezado de la columna de la escuela correspondiente. -->
+              <th scope="col">Escuela</th>
+
+              <!-- Encabezado de la columna de la modalidad del curso. -->
+              <th scope="col">Modalidad</th>
+
+              <!-- Encabezado de la columna del estado del curso. -->
+              <th scope="col">Estado</th>
+            </tr>
+          </thead>
+
+          <!-- Aquí JavaScript agrega las filas con la información de los cursos. -->
+          <tbody id="tablaCursos"></tbody>
+        </table>
+      </div>
+
+      <!-- Mensaje que se muestra cuando todavía no hay cursos registrados. -->
+      <p id="sinCursos" class="texto-ayuda oculto">Todavía no hay cursos registrados.</p>
+
     </main>
   </div>
 
   <script src="../js/almacenamiento.js"></script>
   <script src="../js/menu.js"></script>
+  <script src="../js/cursos.js"></script>
 </body>
 </html>
