@@ -68,6 +68,27 @@ function guardarCasas(casas) {
   localStorage.setItem("casasCertificadoras", JSON.stringify(casas));
 }
 
+// ===== RF-23: Escuelas =====
+
+// Obtiene las escuelas guardadas en localStorage.
+function obtenerEscuelas() {
+  // Recupera las escuelas almacenadas.
+  let escuelas = JSON.parse(localStorage.getItem("escuelas"));
+
+  // Si no hay escuelas guardadas, devuelve una lista vacía.
+  if (escuelas === null) {
+    return [];
+  }
+
+  return escuelas;
+}
+
+// Guarda las escuelas en localStorage.
+function guardarEscuelas(escuelas) {
+  // Convierte las escuelas a formato JSON para almacenarlas.
+  localStorage.setItem("escuelas", JSON.stringify(escuelas));
+}
+
 // ===== Áreas SFIA =====
 function obtenerAreasSfia() {
   let areas = JSON.parse(localStorage.getItem("areasSfia"));
