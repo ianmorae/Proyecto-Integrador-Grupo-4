@@ -1,4 +1,10 @@
-// Lista de cursos (RF-72).
+// Lista de cursos (RF-72)
+
+// Lista de estados disponibles para filtrar los cursos.
+let estadosFiltro = ["Borrador", "En desarrollo", "Aprobado", "En producción", "Inactivo"];
+
+// Lista de modalidades disponibles para filtrar los cursos.
+let modalidadesFiltro = ["Virtual", "En vivo", "Presencial", "Híbrida"];
 
 // Devuelve el nombre de la escuela a partir de su código.
 function nombreEscuela(codigo) {
