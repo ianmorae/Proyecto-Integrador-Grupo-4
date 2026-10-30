@@ -32,18 +32,304 @@
 
     <main class="contenido">
       <h1>Nuevo curso</h1>
+      <p class="texto-ayuda">Los campos con * son obligatorios para enviar a revisión. El borrador solo necesita escuela, nombre oficial y código (o la casilla marcada).</p>
 
-      <section class="tarjeta en-construccion">
-        <p class="en-construccion-icono" aria-hidden="true">🚧</p>
-        <h2>Apartado en construcción</h2>
-        <p>Aquí se podrá registrar un curso con toda su información y sus documentos adjuntos.</p>
-        <p class="texto-ayuda">Estamos trabajando en esta sección.</p>
-        <a href="inicio.html" class="btn btn-primario">Volver al inicio</a>
-      </section>
+      <form id="formCurso" novalidate autocomplete="off">
+        <fieldset class="seccion-curso">
+          <legend>1. Datos básicos</legend>
+
+          <div class="fila">
+            <div class="campo">
+              <label for="escuela">Escuela *</label>
+              <select id="escuela" required>
+                <option value="">Seleccione...</option>
+              </select>
+              <small class="mensaje-error"></small>
+            </div>
+
+            <div class="campo">
+              <label for="codigo">Código del curso *</label>
+              <input type="text" id="codigo" required>
+              <label class="opcion-casilla">
+                <input type="checkbox" id="codigoDc">
+                El código lo genera Desarrollo Curricular
+              </label>
+              <small class="mensaje-error"></small>
+            </div>
+          </div>
+
+          <div class="fila">
+            <div class="campo">
+              <label for="nombreOficial">Nombre oficial *</label>
+              <input type="text" id="nombreOficial" required>
+              <small class="mensaje-error"></small>
+            </div>
+
+            <div class="campo">
+              <label for="nombrePowerCampus">Nombre en Power Campus *</label>
+              <input type="text" id="nombrePowerCampus" maxlength="40" required>
+              <small id="contadorPowerCampus" class="contador">0 / 40</small>
+              <small class="mensaje-error"></small>
+            </div>
+          </div>
+
+          <div class="fila">
+            <div class="fila">
+              <div class="campo">
+                <label for="periodo">Periodo *</label>
+                <select id="periodo" required>
+                  <option value="">Seleccione...</option>
+                </select>
+                <small class="mensaje-error"></small>
+              </div>
+
+              <div class="campo">
+                <label for="estado">Estado *</label>
+                <select id="estado" required>
+                  <option value="">Seleccione...</option>
+                </select>
+                <small class="mensaje-error"></small>
+              </div>
+            </div>
+
+            <div class="campo">
+              <span class="etiqueta-grupo">Apertura en e-commerce *</span>
+              <div class="opciones-radio">
+                <label><input type="radio" name="ecommerce" value="Sí"> Sí</label>
+                <label><input type="radio" name="ecommerce" value="No" checked> No</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="fila">
+            <div class="campo">
+              <label for="areaSfia">Área SFIA <span class="texto-ayuda">(opcional)</span></label>
+              <select id="areaSfia">
+                <option value="">Seleccione...</option>
+              </select>
+            </div>
+
+            <div class="campo">
+              <label for="tematica">Temática *</label>
+              <select id="tematica" required>
+                <option value="">Seleccione...</option>
+              </select>
+              <small class="mensaje-error"></small>
+            </div>
+          </div>
+
+          <div class="fila">
+            <div class="campo">
+              <label for="fechaModificacion">Fecha de última modificación <span class="texto-ayuda">(automática)</span></label>
+              <input type="text" id="fechaModificacion" readonly>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="seccion-curso">
+          <legend>2. Carga académica y modalidad</legend>
+
+          <div class="fila-cuatro">
+            <div class="campo">
+              <label for="creditos">Créditos *</label>
+              <input type="number" id="creditos" min="1" step="1" required>
+              <small class="mensaje-error"></small>
+            </div>
+
+            <div class="campo">
+              <label for="horasClase">Horas de clase *</label>
+              <input type="number" id="horasClase" min="1" step="1" required>
+              <small class="mensaje-error"></small>
+            </div>
+
+            <div class="campo">
+              <label for="horasExtraclase">Horas extraclase *</label>
+              <input type="number" id="horasExtraclase" min="0" step="1" required>
+              <small class="mensaje-error"></small>
+            </div>
+
+            <div class="campo">
+              <label for="totalHoras">Total de horas <span class="texto-ayuda">(calculado)</span></label>
+              <input type="number" id="totalHoras" readonly>
+            </div>
+          </div>
+
+          <div class="fila">
+            <div class="fila">
+              <div class="campo">
+                <label for="modalidad">Modalidad *</label>
+                <select id="modalidad" required>
+                  <option value="">Seleccione...</option>
+                </select>
+                <small class="mensaje-error"></small>
+              </div>
+
+              <div class="campo">
+                <label for="nivel">Nivel de complejidad *</label>
+                <select id="nivel" required>
+                  <option value="">Seleccione...</option>
+                </select>
+                <small class="mensaje-error"></small>
+              </div>
+            </div>
+
+            <div class="campo">
+              <label for="metodologia">Metodología de aprendizaje *</label>
+              <select id="metodologia" required>
+                <option value="">Seleccione...</option>
+              </select>
+              <small class="mensaje-error"></small>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="seccion-curso">
+          <legend>3. Matrícula y datos comerciales</legend>
+
+          <div class="fila">
+            <div class="campo">
+              <label for="requisitosIndispensables">Requisitos indispensables *</label>
+              <textarea id="requisitosIndispensables" required></textarea>
+              <small class="mensaje-error"></small>
+            </div>
+
+            <div class="campo">
+              <label for="requisitosDeseables">Requisitos deseables <span class="texto-ayuda">(opcional)</span></label>
+              <textarea id="requisitosDeseables"></textarea>
+            </div>
+          </div>
+
+          <div class="fila">
+            <div class="campo">
+              <label for="programa">Programa *</label>
+              <input type="text" id="programa" required>
+              <small class="mensaje-error"></small>
+            </div>
+
+            <div class="campo">
+              <label for="moneda">Moneda *</label>
+              <select id="moneda" required>
+                <option value="">Seleccione...</option>
+              </select>
+              <small class="mensaje-error"></small>
+            </div>
+          </div>
+
+          <div class="fila">
+            <div class="campo">
+              <label for="certificacion">Certificación *</label>
+              <select id="certificacion" required>
+                <option value="">Seleccione...</option>
+              </select>
+              <small class="mensaje-error"></small>
+            </div>
+
+            <div class="campo">
+              <label for="casaCertificadora">Casa certificadora <span class="texto-ayuda">(opcional)</span></label>
+              <select id="casaCertificadora">
+                <option value="">Seleccione...</option>
+              </select>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="seccion-curso">
+          <legend>4. Información descriptiva</legend>
+
+          <div class="fila">
+            <div class="campo">
+              <label for="competencia">Competencia *</label>
+              <textarea id="competencia" required></textarea>
+              <small class="mensaje-error"></small>
+            </div>
+
+            <div class="campo">
+              <label for="capacidades">Capacidades específicas *</label>
+              <textarea id="capacidades" required></textarea>
+              <small class="mensaje-error"></small>
+            </div>
+          </div>
+
+          <div class="campo">
+            <label for="descripcionCorta">Descripción corta *</label>
+            <textarea id="descripcionCorta" required></textarea>
+            <small id="contadorDescripcionCorta" class="contador">0 / 250</small>
+            <small class="mensaje-error"></small>
+          </div>
+
+          <div class="campo">
+            <label for="metaDescripcion">Meta-descripción *</label>
+            <textarea id="metaDescripcion" required></textarea>
+            <small id="contadorMetaDescripcion" class="contador">0 / 155</small>
+            <small class="mensaje-error"></small>
+          </div>
+
+          <div class="campo">
+            <label for="descripcionLarga">Descripción larga *</label>
+            <textarea id="descripcionLarga" required></textarea>
+            <small class="mensaje-error"></small>
+          </div>
+
+          <div class="fila">
+            <div class="campo">
+              <label for="perfilIngreso">Perfil de ingreso *</label>
+              <textarea id="perfilIngreso" required></textarea>
+              <small class="mensaje-error"></small>
+            </div>
+
+            <div class="campo">
+              <label for="perfilSalida">Perfil de salida *</label>
+              <textarea id="perfilSalida" required></textarea>
+              <small class="mensaje-error"></small>
+            </div>
+          </div>
+
+          <div class="fila">
+            <div class="campo">
+              <label for="palabrasClave">Palabras clave *</label>
+              <input type="text" id="palabrasClave" placeholder="arquitectura, diseño, patrones" required>
+              <small class="mensaje-error"></small>
+            </div>
+
+            <div class="campo">
+              <label for="metadata">Metadata *</label>
+              <input type="text" id="metadata" required>
+              <small class="mensaje-error"></small>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="seccion-curso">
+          <legend>5. Documentos del programa</legend>
+
+          <div class="fila">
+            <div class="campo">
+              <label for="documentoWord">Programa en Word * <span class="texto-ayuda">(.doc / .docx)</span></label>
+              <input type="file" id="documentoWord" accept=".doc,.docx" required>
+              <small class="mensaje-error"></small>
+            </div>
+
+            <div class="campo">
+              <label for="documentoPdf">Programa en PDF * <span class="texto-ayuda">(.pdf)</span></label>
+              <input type="file" id="documentoPdf" accept=".pdf" required>
+              <small class="mensaje-error"></small>
+            </div>
+          </div>
+        </fieldset>
+
+        <div class="acciones">
+          <button type="button" id="btnBorrador" class="btn btn-secundario">Guardar borrador</button>
+          <button type="submit" class="btn btn-primario">Enviar a revisión</button>
+        </div>
+
+        <p id="mensajeCurso" class="mensaje-general oculto"></p>
+      </form>
     </main>
   </div>
 
   <script src="../js/almacenamiento.js"></script>
   <script src="../js/menu.js"></script>
+  <script src="../js/validaciones.js"></script>
+  <script src="../js/curso-formulario.js"></script>
 </body>
 </html>

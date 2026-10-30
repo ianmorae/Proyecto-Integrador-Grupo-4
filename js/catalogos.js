@@ -3,7 +3,6 @@
 let camposCasa = ["codigoCasa", "nombreCasa"];
 let codigoEditando = "";
 
-let monedas = ["Colones", "Dólares"];
 
 function buscarCasaPorCodigo(codigo, casas) {
   for (let i = 0; i < casas.length; i++) {

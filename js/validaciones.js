@@ -48,6 +48,30 @@ function esNumeroEntero(valor) {
   return Number(valor) >= 1;
 }
 
+function esEnteroNoNegativo(valor) {
+  if (valor === "") {
+    return false;
+  }
+
+  for (let i = 0; i < valor.length; i++) {
+    if (valor[i] < "0" || valor[i] > "9") {
+      return false;
+    }
+  }
+  return true;
+}
+
+function tieneExtension(valor, extensiones) {
+  let nombre = valor.toLowerCase();
+
+  for (let i = 0; i < extensiones.length; i++) {
+    if (nombre.endsWith(extensiones[i])) {
+      return true;
+    }
+  }
+  return false;
+}
+
 function esCelular(valor) {
   if (valor.length !== 8) {
     return false;
@@ -94,6 +118,57 @@ function obtenerMensaje(id, valor) {
   // Verifica que se haya seleccionado un director.
   if (id === "directorEscuela" && valor === "") {
     return "Seleccioná un director.";
+  }
+  if (id === "escuela" && valor === "") {
+    return "Seleccioná una escuela.";
+  }
+  if (id === "codigo" && valor === "" && !document.getElementById("codigoDc").checked) {
+    return "El código es obligatorio.";
+  }
+  if (id === "nombreOficial" && valor === "") {
+    return "El nombre oficial es obligatorio.";
+  }
+  if (id === "nombrePowerCampus" && valor === "") {
+    return "El nombre en Power Campus es obligatorio.";
+  }
+  if (id === "nombrePowerCampus" && valor.length > 40) {
+    return "El nombre no puede superar 40 caracteres.";
+  }
+  if ((id === "periodo" || id === "estado" || id === "tematica" || id === "modalidad" || id === "nivel" || id === "metodologia" || id === "moneda" || id === "certificacion") && valor === "") {
+    return "Seleccioná una opción.";
+  }
+  if ((id === "creditos" || id === "horasClase") && !esNumeroEntero(valor)) {
+    return "Debe ser un número entero mayor o igual a 1.";
+  }
+  if (id === "horasExtraclase" && !esEnteroNoNegativo(valor)) {
+    return "Debe ser un número entero mayor o igual a 0.";
+  }
+  if ((id === "requisitosIndispensables" || id === "programa" || id === "competencia" || id === "capacidades" || id === "descripcionLarga" || id === "perfilIngreso" || id === "perfilSalida" || id === "palabrasClave" || id === "metadata") && valor === "") {
+    return "Este campo es obligatorio.";
+  }
+  if (id === "descripcionCorta" && valor === "") {
+    return "La descripción corta es obligatoria.";
+  }
+  if (id === "descripcionCorta" && valor.length > 250) {
+    return "El texto supera el límite de 250 caracteres.";
+  }
+  if (id === "metaDescripcion" && valor === "") {
+    return "La meta-descripción es obligatoria.";
+  }
+  if (id === "metaDescripcion" && valor.length > 155) {
+    return "El texto supera el límite de 155 caracteres.";
+  }
+  if (id === "documentoWord" && valor === "") {
+    return "Adjuntá el programa en Word.";
+  }
+  if (id === "documentoWord" && !tieneExtension(valor, [".doc", ".docx"])) {
+    return "El archivo debe ser .doc o .docx.";
+  }
+  if (id === "documentoPdf" && valor === "") {
+    return "Adjuntá el programa en PDF.";
+  }
+  if (id === "documentoPdf" && !tieneExtension(valor, [".pdf"])) {
+    return "El archivo debe ser .pdf.";
   }
   if (id === "codigoCarrera" && valor === "") {
     return "El código es obligatorio.";

@@ -979,3 +979,82 @@ body {
   display: inline-block;
   margin-top: 16px;
 }
+
+.seccion-curso {
+  margin: 0 0 24px;
+  padding: 16px 24px 8px;
+  border: 1px solid var(--borde);
+  border-radius: 8px;
+  background-color: var(--blanco);
+}
+
+.seccion-curso legend {
+  padding: 0 8px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.fila-cuatro {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.fila-cuatro .mensaje-error {
+  min-height: 42px;
+}
+
+.contador {
+  display: block;
+  text-align: right;
+  font-size: 14px;
+  color: var(--texto-secundario);
+}
+
+.contador.excedido {
+  color: var(--error);
+  font-weight: bold;
+}
+
+.etiqueta-grupo {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.opciones-radio {
+  display: flex;
+  gap: 24px;
+  min-height: 40px;
+  align-items: center;
+}
+
+.opciones-radio label,
+.campo .opcion-casilla {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 8px 0 0;
+  font-weight: normal;
+}
+
+.opciones-radio label {
+  margin: 0;
+}
+
+.campo input[type="radio"],
+.campo input[type="checkbox"] {
+  width: auto;
+  height: auto;
+}
+
+.campo input[type="file"] {
+  height: auto;
+}
+
+@media (max-width: 767px) {
+  .fila-cuatro {
+    grid-template-columns: 1fr;
+  }
+}

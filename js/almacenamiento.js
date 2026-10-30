@@ -272,3 +272,18 @@ function obtenerCarreras() {
 function guardarCarreras(carreras) {
   localStorage.setItem("carreras", JSON.stringify(carreras));
 }
+
+let monedas = ["Colones", "Dólares"];
+
+function obtenerCursos() {
+  let cursos = JSON.parse(localStorage.getItem("cursos"));
+
+  if (cursos === null) {
+    return [];
+  }
+  return cursos;
+}
+
+function guardarCursos(cursos) {
+  localStorage.setItem("cursos", JSON.stringify(cursos));
+}
