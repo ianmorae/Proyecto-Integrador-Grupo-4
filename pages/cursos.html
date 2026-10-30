@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cursos | Sistema de Gestión Curricular</title>
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+  <header class="encabezado">
+    <img src="../img/logo.png" alt="Logo Universidad CENFOTEC">
+    <p class="nombre-sistema">Sistema de Gestión Curricular</p>
+    <div class="idioma">
+      <button type="button" class="idioma-activo">ES</button>
+      <button type="button">EN</button>
+    </div>
+  </header>
+
+  <div class="contenedor">
+    <nav class="menu-lateral">
+      <ul>
+        <li><a href="inicio.html">Inicio</a></li>
+        <li><a href="cursos.html" class="menu-activo">Cursos</a></li>
+        <li><a href="curso-formulario.html">Nuevo curso</a></li>
+        <li><a href="revision.html">Revisión</a></li>
+        <li><a href="catalogos.html">Catálogos</a></li>
+        <li><a href="usuarios.html">Usuarios</a></li>
+        <li><span class="menu-deshabilitado">Reportes <small>(En construcción)</small></span></li>
+        <li><a href="perfil.html">Mi perfil</a></li>
+      </ul>
+    </nav>
+
+    <main class="contenido">
+      <h1>Cursos</h1>
+
+      <section class="tarjeta en-construccion">
+        <p class="en-construccion-icono" aria-hidden="true">🚧</p>
+        <h2>Apartado en construcción</h2>
+        <p>Aquí se podrán consultar los cursos registrados, con su escuela, código, nombre y estado.</p>
+        <p class="texto-ayuda">Estamos trabajando en esta sección.</p>
+        <a href="inicio.html" class="btn btn-primario">Volver al inicio</a>
+      </section>
+    </main>
+  </div>
+
+  <script src="../js/almacenamiento.js"></script>
+  <script src="../js/menu.js"></script>
+</body>
+</html>
