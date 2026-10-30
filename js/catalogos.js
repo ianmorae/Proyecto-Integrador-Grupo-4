@@ -964,6 +964,9 @@ agregarEventosBlur(camposEscuela);
 // Ejecuta la función al enviar el formulario.
 document.getElementById("formEscuela").addEventListener("submit", guardarEscuela);
 
+// Actualiza la tabla cada vez que se ingresa o modifica el texto de búsqueda.
+document.getElementById("buscarEscuela").addEventListener("input", dibujarTablaEscuelas);
+
 // Carga los directores disponibles al iniciar.
 cargarDirectores();
 
