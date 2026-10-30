@@ -825,6 +825,59 @@ function buscarEscuelaPorCodigo(codigo, escuelas) {
   return null;
 }
 
+// Devuelve el nombre del director a partir de su correo.
+function nombreDirector(correo) {
+  // Busca al usuario por su correo institucional.
+  let usuario = buscarPorCorreo(correo);
+
+  // Si no encuentra al usuario, devuelve el correo.
+  if (usuario === null) {
+    return correo;
+  }
+
+  // Devuelve el nombre completo del director.
+  return usuario.nombre + " " + usuario.apellidos;
+}
+
+// Muestra las escuelas registradas en la tabla.
+function dibujarTablaEscuelas() {
+  // Obtiene las escuelas guardadas y el cuerpo de la tabla.
+  let escuelas = obtenerEscuelas();
+  let cuerpo = document.getElementById("tablaEscuelas");
+
+  // Limpia la tabla antes de agregar los datos.
+  cuerpo.innerHTML = "";
+
+  // Recorre las escuelas registradas.
+  for (let i = 0; i < escuelas.length; i++) {
+    // Crea una fila y sus tres celdas.
+    let fila = document.createElement("tr");
+    let celdaCodigo = document.createElement("td");
+    let celdaNombre = document.createElement("td");
+    let celdaDirector = document.createElement("td");
+
+    // Asigna los datos de cada escuela a las celdas.
+    celdaCodigo.textContent = escuelas[i].codigo;
+    celdaNombre.textContent = escuelas[i].nombre;
+    celdaDirector.textContent = nombreDirector(escuelas[i].director);
+
+    // Agrega las celdas a la fila.
+    fila.appendChild(celdaCodigo);
+    fila.appendChild(celdaNombre);
+    fila.appendChild(celdaDirector);
+
+    // Agrega la fila a la tabla.
+    cuerpo.appendChild(fila);
+  }
+
+  // Oculta o muestra el mensaje según existan escuelas registradas.
+  if (escuelas.length > 0) {
+    document.getElementById("sinEscuelas").classList.add("oculto");
+  } else {
+    document.getElementById("sinEscuelas").classList.remove("oculto");
+  }
+}
+
 // Limpia el formulario y los estados de validación.
 function limpiarFormularioEscuela() {
   document.getElementById("formEscuela").reset();
