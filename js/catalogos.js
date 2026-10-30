@@ -839,24 +839,45 @@ function nombreDirector(correo) {
   return usuario.nombre + " " + usuario.apellidos;
 }
 
-// Muestra las escuelas registradas en la tabla.
+// Revisa si el código o el nombre contienen el texto buscado.
+function coincideEscuela(escuela, texto) {
+  // Convierte el código y el nombre a minúsculas.
+  let codigo = escuela.codigo.toLowerCase();
+  let nombre = escuela.nombre.toLowerCase();
+
+  // Comprueba si alguno contiene el texto ingresado.
+  return codigo.includes(texto) || nombre.includes(texto);
+}
+
+// Muestra las escuelas que coinciden con la búsqueda.
 function dibujarTablaEscuelas() {
-  // Obtiene las escuelas guardadas y el cuerpo de la tabla.
+  // Obtiene las escuelas, la tabla y el texto de búsqueda.
   let escuelas = obtenerEscuelas();
   let cuerpo = document.getElementById("tablaEscuelas");
+  let texto = document.getElementById("buscarEscuela").value.trim().toLowerCase();
+  let encontradas = 0;
 
-  // Limpia la tabla antes de agregar los datos.
+  // Limpia la tabla antes de mostrar los resultados.
   cuerpo.innerHTML = "";
 
   // Recorre las escuelas registradas.
   for (let i = 0; i < escuelas.length; i++) {
-    // Crea una fila y sus tres celdas.
+
+    // Omite las escuelas que no coinciden con la búsqueda.
+    if (!coincideEscuela(escuelas[i], texto)) {
+      continue;
+    }
+
+    // Cuenta las escuelas que coinciden.
+    encontradas++;
+
+    // Crea una fila y sus celdas.
     let fila = document.createElement("tr");
     let celdaCodigo = document.createElement("td");
     let celdaNombre = document.createElement("td");
     let celdaDirector = document.createElement("td");
 
-    // Asigna los datos de cada escuela a las celdas.
+    // Asigna la información de la escuela a cada celda.
     celdaCodigo.textContent = escuelas[i].codigo;
     celdaNombre.textContent = escuelas[i].nombre;
     celdaDirector.textContent = nombreDirector(escuelas[i].director);
@@ -870,11 +891,18 @@ function dibujarTablaEscuelas() {
     cuerpo.appendChild(fila);
   }
 
-  // Oculta o muestra el mensaje según existan escuelas registradas.
+  // Muestra u oculta el mensaje según existan escuelas registradas.
   if (escuelas.length > 0) {
     document.getElementById("sinEscuelas").classList.add("oculto");
   } else {
     document.getElementById("sinEscuelas").classList.remove("oculto");
+  }
+
+  // Si hay escuelas pero ninguna coincide con la búsqueda, se avisa.
+  if (escuelas.length > 0 && encontradas === 0) {
+    document.getElementById("sinResultadosEscuelas").classList.remove("oculto");
+  } else {
+    document.getElementById("sinResultadosEscuelas").classList.add("oculto");
   }
 }
 
