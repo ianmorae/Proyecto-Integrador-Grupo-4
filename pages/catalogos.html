@@ -45,6 +45,56 @@
         <button type="button" data-panel="panelNiveles">Nivel de complejidad</button>
       </div>
 
+
+      <!-- Catálogo de escuelas -->
+      <!-- Panel para registrar nuevas escuelas. -->
+      <section id="panelEscuelas" class="panel-catalogo">
+
+        <!-- Formulario para registrar una escuela. -->
+        <form id="formEscuela" class="tarjeta" novalidate>
+
+          <!-- Título del formulario. -->
+          <h2>Nueva escuela</h2>
+
+          <div class="fila">
+            <div class="campo">
+              <!-- Campo para ingresar el código de la escuela. -->
+              <label for="codigoEscuela">Código *</label>
+              <input type="text" id="codigoEscuela" placeholder="ESC-01" required>
+              <small class="mensaje-error"></small>
+            </div>
+
+            <div class="campo">
+              <!-- Campo para ingresar el nombre de la escuela. -->
+              <label for="nombreEscuela">Nombre *</label>
+              <input type="text" id="nombreEscuela" required>
+              <small class="mensaje-error"></small>
+            </div>
+          </div>
+
+          <div class="campo">
+            <!-- Lista para seleccionar al director de la escuela. -->
+            <label for="directorEscuela">Director de Escuela *</label>
+            <select id="directorEscuela" required>
+              <option value="">Seleccione...</option>
+            </select>
+
+            <!-- Indica dónde debe registrarse previamente el director. -->
+            <small class="texto-ayuda">Se registra primero en Usuarios con el rol Director de Escuela.</small>
+            <small class="mensaje-error"></small>
+          </div>
+
+          <div class="acciones">
+            <!-- Botón para guardar la información de la escuela. -->
+            <button type="submit" class="btn btn-primario">Guardar</button>
+          </div>
+
+          <!-- Mensaje para mostrar el resultado del registro. -->
+          <p id="mensajeEscuela" class="mensaje-general oculto" role="status" aria-live="polite"></p>
+
+        </form>
+      </section>
+
       <!-- Panel para gestionar las casas certificadoras -->
       <section id="panelCasas" class="panel-catalogo oculto">
         <form id="formCasa" class="tarjeta" novalidate>
