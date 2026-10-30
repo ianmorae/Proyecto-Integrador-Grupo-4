@@ -924,6 +924,9 @@ function guardarEscuela(evento) {
 
   // Limpia el formulario y muestra un mensaje de éxito.
   limpiarFormularioEscuela();
+
+  // Muestra las escuelas registradas en la tabla.
+  dibujarTablaEscuelas();
   mostrarMensaje("mensajeEscuela", "Escuela guardada.", "valido");
 }
 
