@@ -50,13 +50,27 @@ function editarCasa(codigo) {
   campoNombre.focus();
 }
 
+function coincideCasa(casa, texto) {
+  let codigo = String(casa.codigo).toLowerCase();
+  let nombre = casa.nombre.toLowerCase();
+
+  return codigo.includes(texto) || nombre.includes(texto);
+}
+
 function dibujarTablaCasas() {
   let casas = obtenerCasas();
   let cuerpo = document.getElementById("tablaCasas");
+  let texto = document.getElementById("buscarCasa").value.trim().toLowerCase();
+  let encontradas = 0;
 
   cuerpo.innerHTML = "";
 
   for (let i = 0; i < casas.length; i++) {
+    if (!coincideCasa(casas[i], texto)) {
+      continue;
+    }
+    encontradas++;
+
     let fila = document.createElement("tr");
     let celdaCodigo = document.createElement("td");
     let celdaNombre = document.createElement("td");
@@ -84,6 +98,12 @@ function dibujarTablaCasas() {
     document.getElementById("sinCasas").classList.add("oculto");
   } else {
     document.getElementById("sinCasas").classList.remove("oculto");
+  }
+
+  if (casas.length > 0 && encontradas === 0) {
+    document.getElementById("sinResultadosCasas").classList.remove("oculto");
+  } else {
+    document.getElementById("sinResultadosCasas").classList.add("oculto");
   }
 }
 
@@ -172,6 +192,7 @@ function iniciarCatalogos() {
 
   document.getElementById("formCasa").addEventListener("submit", guardarCasa);
   document.getElementById("btnCancelarCasa").addEventListener("click", limpiarFormularioCasa);
+  document.getElementById("buscarCasa").addEventListener("input", dibujarTablaCasas);
 
   dibujarTablaCasas();
   dibujarMonedas();

@@ -71,6 +71,10 @@
         </form>
 
         <h2>Casas certificadoras registradas</h2>
+        <div class="campo">
+          <label for="buscarCasa">Buscar por código o nombre</label>
+          <input type="search" id="buscarCasa">
+        </div>
         <div class="tabla-contenedor">
           <table class="tabla">
             <thead>
@@ -84,6 +88,7 @@
           </table>
         </div>
         <p id="sinCasas" class="texto-ayuda">Todavía no hay casas certificadoras registradas.</p>
+        <p id="sinResultadosCasas" class="texto-ayuda oculto">No se encontraron resultados.</p>
       </section>
 
       <section id="panelMonedas" class="panel-catalogo oculto">
