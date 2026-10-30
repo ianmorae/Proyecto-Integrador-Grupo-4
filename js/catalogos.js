@@ -640,13 +640,31 @@ function configurarCatalogo({
   let botonCancelar = document.getElementById("btnCancelar" + prefijo);
   let codigoEditando = "";
 
+  // El código es el número más alto registrado más uno.
+  function siguienteCodigo(registros) {
+    let mayor = 0;
+
+    for (let i = 0; i < registros.length; i++) {
+      let numero = Number(registros[i].codigo);
+      if (numero > mayor) {
+        mayor = numero;
+      }
+    }
+    return mayor + 1;
+  }
+
+  // Muestra en el formulario el código que se va a asignar.
+  function mostrarCodigo() {
+    campoCodigo.value = siguienteCodigo(obtener());
+  }
+
   // Limpia el formulario y restablece sus valores.
   function limpiar() {
     formulario.reset();
     codigoEditando = "";
-    campoCodigo.readOnly = false;
     botonCancelar.classList.add("oculto");
     ocultarMensaje(mensaje.id);
+    mostrarCodigo();
   }
 
   // Muestra los registros en la tabla.
@@ -675,7 +693,6 @@ function configurarCatalogo({
         // Carga los datos del registro seleccionado.
         codigoEditando = registros[i].codigo;
         campoCodigo.value = registros[i].codigo;
-        campoCodigo.readOnly = true;
         campoNombre.value = registros[i].nombre;
         campoDescripcion.value = registros[i].descripcion || "";
         botonCancelar.classList.remove("oculto");
@@ -696,13 +713,11 @@ function configurarCatalogo({
     evento.preventDefault();
     ocultarMensaje(mensaje.id);
 
-    let codigo = campoCodigo.value.trim();
     let nombre = campoNombre.value.trim();
     let descripcion = campoDescripcion.value.trim();
 
     // Comprueba que los campos obligatorios estén completos.
     if (
-      codigo === "" ||
       nombre === "" ||
       (!descripcionOpcional && descripcion === "")
     ) {
@@ -716,20 +731,26 @@ function configurarCatalogo({
 
     let registros = obtener();
 
-    // Comprueba que el código no esté repetido.
+    // Comprueba que el nombre no esté repetido.
     let duplicado = registros.some(function (registro) {
-      return registro.codigo.toLowerCase() === codigo.toLowerCase() &&
+      return registro.nombre.toLowerCase() === nombre.toLowerCase() &&
         registro.codigo !== codigoEditando;
     });
 
     if (duplicado) {
       mostrarMensaje(
         mensaje.id,
-        "Ya existe un registro con ese código.",
+        "Ya existe un registro con ese nombre.",
         "error"
       );
-      campoCodigo.focus();
+      campoNombre.focus();
       return;
+    }
+
+    // Al editar se conserva el código; si es nuevo, se asigna el siguiente.
+    let codigo = codigoEditando;
+    if (codigoEditando === "") {
+      codigo = siguienteCodigo(registros);
     }
 
     // Crea el objeto con los datos ingresados.
@@ -763,6 +784,7 @@ function configurarCatalogo({
 
   // Permite cancelar la edición.
   botonCancelar.addEventListener("click", limpiar);
+  mostrarCodigo();
   dibujar();
 }
 
