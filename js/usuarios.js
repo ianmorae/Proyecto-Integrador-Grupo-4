@@ -156,8 +156,8 @@ let formularioUsuario = document.getElementById("formUsuario");
 
 if (formularioUsuario !== null) {
   if (!verificarPermisoRegistro()) {
-    alert("No tienes permisos para registrar usuarios.");
-    window.location.href = "../index.html";
+    // Sin permiso se regresa al inicio, donde se muestra el aviso.
+    window.location.href = "inicio.html?sinPermiso=1";
   } else {
     
     // Dibujar la lista cuando se abre la página.

@@ -55,9 +55,9 @@ let paginaMenu = paginaActual();
 
 if (sesionMenu === null) {
   window.location.href = "../index.html";
-} else if (paginaMenu !== "usuarios.html" && !tieneOpcion(sesionMenu.rol, paginaMenu)) {
-  // usuarios.html ya valida su permiso en usuarios.js (RF-05).
-  window.location.href = "inicio.html";
+} else if (!tieneOpcion(sesionMenu.rol, paginaMenu)) {
+  // Si el rol no tiene esa página, vuelve al inicio con un aviso.
+  window.location.href = "inicio.html?sinPermiso=1";
 } else {
   armarMenu(sesionMenu.rol);
 }
