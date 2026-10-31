@@ -50,6 +50,16 @@ function obtenerCursosVisibles() {
   return visibles;
 }
 
+// Devuelve el nombre de un registro de catálogo a partir de su código.
+function nombreDeCatalogo(registros, codigo) {
+  for (let i = 0; i < registros.length; i++) {
+    if (String(registros[i].codigo) === String(codigo)) {
+      return registros[i].nombre;
+    }
+  }
+  return "";
+}
+
 // Devuelve el texto que se mostrará en la columna del código.
 function textoCodigo(curso) {
   if (curso.codigoDc) {
@@ -102,6 +112,13 @@ function cargarFiltros() {
     agregarOpcionFiltro("filtroEstado", estadosFiltro[i], estadosFiltro[i]);
   }
 
+  // Agrega las temáticas registradas al filtro.
+  let tematicas = obtenerTematicas();
+
+  for (let i = 0; i < tematicas.length; i++) {
+    agregarOpcionFiltro("filtroTematica", tematicas[i].codigo, tematicas[i].nombre);
+  }
+
   // Agrega las modalidades disponibles al filtro.
   for (let i = 0; i < modalidadesFiltro.length; i++) {
     agregarOpcionFiltro("filtroModalidad", modalidadesFiltro[i], modalidadesFiltro[i]);
@@ -114,13 +131,22 @@ function cumpleFiltros(curso) {
   let escuela = document.getElementById("filtroEscuela").value;
   let estado = document.getElementById("filtroEstado").value;
   let modalidad = document.getElementById("filtroModalidad").value;
+  let tematica = document.getElementById("filtroTematica").value;
 
-  // Convierte el código y el nombre a minúsculas para facilitar la búsqueda.
+  // Convierte los textos a minúsculas para facilitar la búsqueda.
   let codigo = curso.codigo.toLowerCase();
   let nombre = curso.nombreOficial.toLowerCase();
+  let escuelaTexto = nombreEscuela(curso.escuela).toLowerCase();
+  let tematicaTexto = nombreDeCatalogo(obtenerTematicas(), curso.tematica).toLowerCase();
 
-  // Verifica si el código o el nombre contienen el texto buscado.
-  if (texto !== "" && !codigo.includes(texto) && !nombre.includes(texto)) {
+  // Verifica si el código, el nombre, la escuela o la temática contienen el texto buscado.
+  if (texto !== "" && !codigo.includes(texto) && !nombre.includes(texto) &&
+    !escuelaTexto.includes(texto) && !tematicaTexto.includes(texto)) {
+    return false;
+  }
+
+  // Verifica si el curso tiene la temática seleccionada.
+  if (tematica !== "" && String(curso.tematica) !== tematica) {
     return false;
   }
 
@@ -150,7 +176,8 @@ function restablecerFiltros() {
 
 // Construye la tabla mostrando únicamente los cursos que cumplen los filtros.
 function dibujarTablaCursos() {
-  let cursos = obtenerCursos();
+  // El Director de Escuela solo ve los cursos de sus escuelas (RF-19).
+  let cursos = obtenerCursosVisibles();
   let cuerpo = document.getElementById("tablaCursos");
   let encontrados = 0;
 
@@ -173,7 +200,11 @@ function dibujarTablaCursos() {
     fila.appendChild(crearCelda(textoCodigo(cursos[i])));
     fila.appendChild(crearCelda(cursos[i].nombreOficial));
     fila.appendChild(crearCelda(nombreEscuela(cursos[i].escuela)));
+    fila.appendChild(crearCelda(nombreDeCatalogo(obtenerTematicas(), cursos[i].tematica)));
+    fila.appendChild(crearCelda(nombreDeCatalogo(obtenerNiveles(), cursos[i].nivel)));
+    fila.appendChild(crearCelda(String(cursos[i].creditos || "")));
     fila.appendChild(crearCelda(cursos[i].modalidad));
+    fila.appendChild(crearCelda(cursos[i].moneda || ""));
     fila.appendChild(crearCelda(cursos[i].estado));
     cuerpo.appendChild(fila);
   }
@@ -218,6 +249,9 @@ document.getElementById("filtroEstado").addEventListener("change", dibujarTablaC
 
 // Actualiza la tabla cuando cambia la modalidad seleccionada.
 document.getElementById("filtroModalidad").addEventListener("change", dibujarTablaCursos);
+
+// Actualiza la tabla cuando cambia la temática seleccionada.
+document.getElementById("filtroTematica").addEventListener("change", dibujarTablaCursos);
 
 // Restablece los filtros cuando se hace clic en el botón.
 document.getElementById("btnRestablecer").addEventListener("click", restablecerFiltros);
