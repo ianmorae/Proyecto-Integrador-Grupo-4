@@ -159,13 +159,13 @@ function obtenerMensaje(id, valor) {
     return "El texto supera el límite de 155 caracteres.";
   }
   if (id === "documentoWord" && valor === "") {
-    return "Adjuntá el programa en Word.";
+    return "Adjunta el programa en Word.";
   }
   if (id === "documentoWord" && !tieneExtension(valor, [".doc", ".docx"])) {
     return "El archivo debe ser .doc o .docx.";
   }
   if (id === "documentoPdf" && valor === "") {
-    return "Adjuntá el programa en PDF.";
+    return "Adjunta el programa en PDF.";
   }
   if (id === "documentoPdf" && !tieneExtension(valor, [".pdf"])) {
     return "El archivo debe ser .pdf.";
