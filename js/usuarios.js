@@ -16,6 +16,30 @@ function verificarPermisoRegistro() {
 let identificacionUsuarioEditando = "";
 
 
+// Calcula la edad a partir de la fecha de nacimiento (aaaa-mm-dd).
+function calcularEdad(fechaTexto) {
+  if (!fechaTexto) {
+    return "";
+  }
+
+  let fecha = new Date(fechaTexto + "T00:00:00");
+  let hoy = new Date();
+  let edad = hoy.getFullYear() - fecha.getFullYear();
+
+  if (hoy.getMonth() < fecha.getMonth() ||
+    (hoy.getMonth() === fecha.getMonth() && hoy.getDate() < fecha.getDate())) {
+    edad--;
+  }
+  return edad;
+}
+
+// Agrega una celda con texto a la fila.
+function agregarCelda(fila, texto) {
+  let celda = document.createElement("td");
+  celda.textContent = texto;
+  fila.appendChild(celda);
+}
+
 function dibujarUsuarios() {
   let tabla = document.getElementById("tablaUsuarios");
 
@@ -38,26 +62,28 @@ function dibujarUsuarios() {
     encontrados++;
 
     let fila = document.createElement("tr");
-    let nombre = document.createElement("td");
-    let correo = document.createElement("td");
-    let rol = document.createElement("td");
-    let estado = document.createElement("td");
+    let celdaAvatar = document.createElement("td");
+    let avatar = document.createElement("img");
     let acciones = document.createElement("td");
-
-    nombre.textContent =
-      (usuario.nombre || "") + " " +
-      (usuario.apellidos || "");
-
-    correo.textContent =
-      usuario.correoInstitucional || "";
-
-    rol.textContent = usuario.rol || "";
 
     if (!usuario.estado) {
       usuario.estado = "Activo";
     }
 
-    estado.textContent = usuario.estado;
+    avatar.src = "../img/" + (usuario.imagen || "A1") + ".png";
+    avatar.alt = "Avatar de " + usuario.nombre;
+    avatar.className = "avatar-tabla";
+    celdaAvatar.appendChild(avatar);
+    fila.appendChild(celdaAvatar);
+
+    agregarCelda(fila, (usuario.nombre || "") + " " + (usuario.apellidos || ""));
+    agregarCelda(fila, usuario.identificacion || "");
+    agregarCelda(fila, usuario.correoInstitucional || "");
+    agregarCelda(fila, usuario.celular || "");
+    agregarCelda(fila, calcularEdad(usuario.fechaNacimiento));
+    agregarCelda(fila, usuario.sexo || "");
+    agregarCelda(fila, usuario.rol || "");
+    agregarCelda(fila, usuario.estado);
     acciones.className = "acciones-usuario";
 
     let editar = document.createElement("button");
@@ -80,11 +106,6 @@ function dibujarUsuarios() {
 
     acciones.appendChild(editar);
     acciones.appendChild(cambiarEstado);
-
-    fila.appendChild(nombre);
-    fila.appendChild(correo);
-    fila.appendChild(rol);
-    fila.appendChild(estado);
     fila.appendChild(acciones);
 
     tabla.appendChild(fila);

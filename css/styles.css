@@ -643,41 +643,23 @@ a.btn {
   overflow-x: auto;
 }
 
+/* La tabla de usuarios tiene muchas columnas: se desplaza dentro de su contenedor. */
 #listaUsuarios .tabla {
   width: 100%;
-  table-layout: fixed;
+  min-width: 900px;
+  font-size: 14px;
 }
 
 #listaUsuarios .tabla th,
 #listaUsuarios .tabla td {
-  overflow-wrap: anywhere;
-  word-wrap: break-word;
+  padding: 10px 8px;
+  vertical-align: middle;
 }
 
-#listaUsuarios .tabla th:nth-child(1) {
-  width: 17%;
-}
-
-#listaUsuarios .tabla th:nth-child(2) {
-  width: 27%;
-}
-
-#listaUsuarios .tabla th:nth-child(3) {
-  width: 14%;
-}
-
-#listaUsuarios .tabla th:nth-child(4) {
-  width: 12%;
-}
-
-#listaUsuarios .tabla th:nth-child(5) {
-  width: 30%;
-}
-
-#tablaUsuarios .acciones-usuario {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+#tablaUsuarios .acciones-usuario .btn-accion {
+  display: block;
+  width: 100%;
+  margin-bottom: 6px;
 }
 
 
@@ -690,8 +672,7 @@ a.btn {
   font-size: 13px;
   font-weight: bold;
   cursor: pointer;
-  white-space: normal;
-  max-width: 100%;
+  white-space: nowrap;
 }
 
 #tablaUsuarios .btn-accion:hover {
@@ -1058,4 +1039,12 @@ body {
   .fila-cuatro {
     grid-template-columns: 1fr;
   }
+}
+
+/* Avatar pequeño en la tabla de usuarios. */
+.avatar-tabla {
+  display: block;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
 }
