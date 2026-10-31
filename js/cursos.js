@@ -150,10 +150,10 @@ function restablecerFiltros() {
 
 // Construye la tabla mostrando únicamente los cursos que cumplen los filtros.
 function dibujarTablaCursos() {
-  let cursos = obtenerCursos();
+  let cursos = obtenerCursosVisibles();
   let cuerpo = document.getElementById("tablaCursos");
   let encontrados = 0;
-
+  
   // Limpia la tabla antes de mostrar los resultados.
   cuerpo.innerHTML = "";
 
