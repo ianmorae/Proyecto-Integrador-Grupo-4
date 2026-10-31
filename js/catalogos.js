@@ -641,6 +641,12 @@ function configurarCatalogo({
   let sinResultados = document.getElementById("sinResultados" + (prefijo === "Tematica" ? "Tematicas" : "Metodologias"));
   let codigoEditando = "";
 
+  // Campos que se validan; la descripción solo si es obligatoria.
+  let campos = ["nombre" + prefijo];
+  if (!descripcionOpcional) {
+    campos.push("descripcion" + prefijo);
+  }
+
   // El código es el número más alto registrado más uno.
   function siguienteCodigo(registros) {
     let mayor = 0;
@@ -665,6 +671,10 @@ function configurarCatalogo({
     codigoEditando = "";
     botonCancelar.classList.add("oculto");
     ocultarMensaje(mensaje.id);
+
+    for (let i = 0; i < campos.length; i++) {
+      quitarEstadoCampo(document.getElementById(campos[i]));
+    }
     mostrarCodigo();
   }
 
@@ -739,16 +749,8 @@ function configurarCatalogo({
     let nombre = campoNombre.value.trim();
     let descripcion = campoDescripcion.value.trim();
 
-    // Comprueba que los campos obligatorios estén completos.
-    if (
-      nombre === "" ||
-      (!descripcionOpcional && descripcion === "")
-    ) {
-      mostrarMensaje(
-        mensaje.id,
-        "Completa los campos obligatorios.",
-        "error"
-      );
+    // Comprueba los campos obligatorios y muestra el error junto a cada uno.
+    if (!validarFormulario(campos)) {
       return;
     }
 
@@ -761,11 +763,7 @@ function configurarCatalogo({
     });
 
     if (duplicado) {
-      mostrarMensaje(
-        mensaje.id,
-        "Ya existe un registro con ese nombre.",
-        "error"
-      );
+      mostrarError(campoNombre, "Ya existe un registro con ese nombre.");
       campoNombre.focus();
       return;
     }
@@ -807,6 +805,9 @@ function configurarCatalogo({
 
   // Permite cancelar la edición.
   botonCancelar.addEventListener("click", limpiar);
+
+  // Valida cada campo al salir de él.
+  agregarEventosBlur(campos);
 
   if (campoBuscar !== null) {
     campoBuscar.addEventListener("input", dibujar);

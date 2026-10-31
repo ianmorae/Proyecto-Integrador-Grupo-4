@@ -180,6 +180,15 @@ function obtenerMensaje(id, valor) {
     return "Seleccioná una escuela.";
   }
 
+  if (id === "nombreTematica" && valor === "") {
+    return "El nombre es obligatorio.";
+  }
+  if (id === "nombreMetodologia" && valor === "") {
+    return "El nombre es obligatorio.";
+  }
+  if (id === "descripcionMetodologia" && valor === "") {
+    return "La descripción es obligatoria.";
+  }
   if (id === "nombreSfia" && valor === "") {
     return "El nombre es obligatorio.";
   }
