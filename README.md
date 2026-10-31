@@ -179,6 +179,7 @@ registros, los filtros avanzados y la importación por CSV.
 - [Especificación de Requerimientos de Software (ERS)](<documentos/Especificación de requerimientos de software (ERS) - Grupo 4.pdf>)
 - [Documento de diseño — Primera iteración](documentos/Documento_Diseno_Iteracion_1_Grupo_4.docx)
 - [Wireframes](documentos/Wireframes)
+- [Casos de prueba — Primera iteración](documentos/Casos_de_Prueba_Iteracion_1_Grupo_4.pdf) (también en [Word](documentos/Casos_de_Prueba_Iteracion_1_Grupo_4.docx))
 
 ## Convenciones del repositorio
 
