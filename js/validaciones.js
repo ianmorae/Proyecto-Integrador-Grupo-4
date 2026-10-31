@@ -87,10 +87,10 @@ function esCelular(valor) {
 
 function obtenerMensaje(id, valor) {
   if (id === "correoLogin" && !esCorreo(valor)) {
-    return "Ingresá un correo válido.";
+    return "Ingresa un correo válido.";
   }
   if (id === "contrasenaLogin" && valor === "") {
-    return "Ingresá tu contraseña.";
+    return "Ingresa tu contraseña.";
   }
   if (id === "contrasena" && !cumplePolitica(valor)) {
     return "La contraseña debe tener entre 8 y 15 caracteres, con mayúscula, minúscula y número.";
@@ -117,10 +117,10 @@ function obtenerMensaje(id, valor) {
 
   // Verifica que se haya seleccionado un director.
   if (id === "directorEscuela" && valor === "") {
-    return "Seleccioná un director.";
+    return "Selecciona un director.";
   }
   if (id === "escuela" && valor === "") {
-    return "Seleccioná una escuela.";
+    return "Selecciona una escuela.";
   }
   if (id === "codigo" && valor === "" && !document.getElementById("codigoDc").checked) {
     return "El código es obligatorio.";
@@ -135,7 +135,7 @@ function obtenerMensaje(id, valor) {
     return "El nombre no puede superar 40 caracteres.";
   }
   if ((id === "periodo" || id === "estado" || id === "tematica" || id === "modalidad" || id === "nivel" || id === "metodologia" || id === "moneda" || id === "certificacion") && valor === "") {
-    return "Seleccioná una opción.";
+    return "Selecciona una opción.";
   }
   if ((id === "creditos" || id === "horasClase") && !esNumeroEntero(valor)) {
     return "Debe ser un número entero mayor o igual a 1.";
@@ -177,7 +177,7 @@ function obtenerMensaje(id, valor) {
     return "El nombre es obligatorio.";
   }
   if (id === "escuelaCarrera" && valor === "") {
-    return "Seleccioná una escuela.";
+    return "Selecciona una escuela.";
   }
 
   if (id === "nombreTematica" && valor === "") {
@@ -196,7 +196,7 @@ function obtenerMensaje(id, valor) {
     return "El nombre es obligatorio.";
   }
   if (id === "tipoNivel" && valor === "") {
-    return "Seleccioná un nivel.";
+    return "Selecciona un nivel.";
   }
   if (id === "descripcionNivel" && valor === "") {
     return "La descripción es obligatoria.";
@@ -220,28 +220,28 @@ function obtenerMensaje(id, valor) {
     return "La identificación es obligatoria.";
   }
   if (id === "correoInstitucional" && !esCorreo(valor)) {
-    return "Ingresá un correo institucional válido.";
+    return "Ingresa un correo institucional válido.";
   }
   if (id === "celularUsuario" && !esCelular(valor)) {
     return "El celular debe tener 8 dígitos.";
   }
   if (id === "correoPersonal" && !esCorreo(valor)) {
-    return "Ingresá un correo personal válido.";
+    return "Ingresa un correo personal válido.";
   }
   if (id === "fechaNacimiento" && (valor === "" || new Date(valor + "T00:00:00") > new Date())) {
     return "La fecha de nacimiento no es válida.";
   }
   if (id === "sexoUsuario" && valor === "") {
-    return "Seleccioná una opción.";
+    return "Selecciona una opción.";
   }
   if (id === "rolUsuario" && valor === "") {
-    return "Seleccioná un rol.";
+    return "Selecciona un rol.";
   }
   if (id === "contrasenaUsuario" && !cumplePolitica(valor)) {
     return "La contraseña debe tener entre 8 y 15 caracteres, con mayúscula, minúscula y número.";
   }
   if (id === "confirmarContrasena" && valor === "") {
-    return "Confirmá la contraseña.";
+    return "Confirma la contraseña.";
   }
   if (id === "confirmarContrasena" && valor !== document.getElementById("contrasenaUsuario").value) {
     return "Las contraseñas no coinciden.";

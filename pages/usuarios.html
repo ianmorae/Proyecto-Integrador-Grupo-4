@@ -83,18 +83,15 @@
 
       <!-- RF-06: Registro de información del usuario -->
 
-      <!-- novalidate:Desactiva la validación automática del navegador. -->
-      <!-- autocomplete="nope": Solicita que el navegador no complete automáticamente los campos. -->
-      <form id="formUsuario" class="tarjeta" novalidate autocomplete="nope">
+      <!-- novalidate: desactiva la validación automática del navegador. -->
+      <!-- autocomplete="off": pide al navegador que no complete los campos automáticamente. -->
+      <form id="formUsuario" class="tarjeta" novalidate autocomplete="off">
         <h2>Registrar / editar usuario</h2>
 
         <div class="rejilla-usuarios">
           <div class="campo">
             <label for="nombreUsuario">Nombre *</label>
-
-            <!-- novalidate:Desactiva la validación automática del navegador. -->
-            <!-- autocomplete="nope": Solicita que el navegador no complete automáticamente los campos. -->
-            <input type="text" id="nombreUsuario" autocomplete="nope" required>
+            <input type="text" id="nombreUsuario" autocomplete="off" required>
             <small class="mensaje-error"></small>
           </div>
 
@@ -112,46 +109,31 @@
 
           <div class="campo">
             <label for="identificacionUsuario">Identificación *</label>
-
-            <!-- novalidate:Desactiva la validación automática del navegador. -->
-            <!-- autocomplete="nope": Solicita que el navegador no complete automáticamente los campos. -->
-            <input type="text" id="identificacionUsuario" autocomplete="nope" required>
+            <input type="text" id="identificacionUsuario" autocomplete="off" required>
             <small class="mensaje-error"></small>
           </div>
 
           <div class="campo">
             <label for="correoInstitucional">Correo institucional *</label>
-
-            <!-- novalidate:Desactiva la validación automática del navegador. -->
-            <!-- autocomplete="nope": Solicita que el navegador no complete automáticamente los campos. -->
-            <input type="email" id="correoInstitucional" autocomplete="nope" required>
+            <input type="email" id="correoInstitucional" autocomplete="off" required>
             <small class="mensaje-error"></small>
           </div>
 
           <div class="campo">
             <label for="celularUsuario">Celular *</label>
-
-            <!-- novalidate:Desactiva la validación automática del navegador. -->
-            <!-- autocomplete="nope": Solicita que el navegador no complete automáticamente los campos. -->
-            <input type="tel" id="celularUsuario" autocomplete="nope" required>
+            <input type="tel" id="celularUsuario" autocomplete="off" required>
             <small class="mensaje-error"></small>
           </div>
 
           <div class="campo">
             <label for="correoPersonal">Correo personal *</label>
-
-            <!-- novalidate:Desactiva la validación automática del navegador. -->
-            <!-- autocomplete="nope": Solicita que el navegador no complete automáticamente los campos. -->
-            <input type="email" id="correoPersonal" autocomplete="nope" required>
+            <input type="email" id="correoPersonal" autocomplete="off" required>
             <small class="mensaje-error"></small>
           </div>
 
           <div class="campo">
             <label for="fechaNacimiento">Fecha de nacimiento *</label>
-
-            <!-- novalidate:Desactiva la validación automática del navegador. -->
-            <!-- autocomplete="nope": Solicita que el navegador no complete automáticamente los campos. -->
-            <input type="date" id="fechaNacimiento" autocomplete="nope" required>
+            <input type="date" id="fechaNacimiento" autocomplete="off" required>
             <small class="mensaje-error"></small>
           </div>
 
