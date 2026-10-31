@@ -64,26 +64,32 @@ o **Inactivo**.
 
 ```
 /
-├── index.html              Inicio de sesión
+├── index.html                Inicio de sesión
 ├── pages/
-│   ├── inicio.html         Página de inicio después del login
-│   ├── usuarios.html       Registro y lista de usuarios
-│   ├── catalogos.html      Catálogos (casas certificadoras, monedas, área SFIA,
-│   │                       temáticas, metodologías, certificaciones y niveles)
-│   └── perfil.html         Perfil del usuario y cambio de avatar
+│   ├── inicio.html           Página de inicio después del login
+│   ├── usuarios.html         Registro, lista y búsqueda de usuarios
+│   ├── catalogos.html        Catálogos (escuelas, carreras, casas certificadoras,
+│   │                         monedas, área SFIA, temáticas, metodologías,
+│   │                         certificaciones y niveles de complejidad)
+│   ├── curso-formulario.html Registro de cursos
+│   ├── cursos.html           Lista, búsqueda y filtros de cursos
+│   ├── revision.html         Revisión de cursos (en construcción)
+│   └── perfil.html           Perfil del usuario y cambio de avatar
 ├── css/
-│   └── styles.css          Hoja de estilos única
+│   └── styles.css            Hoja de estilos única
 ├── js/
-│   ├── almacenamiento.js   Lectura y escritura en Local Storage
-│   ├── validaciones.js     Validaciones y mensajes compartidos
-│   ├── menu.js             Menú lateral y acceso según el rol
-│   ├── login.js            Inicio de sesión
-│   ├── inicio.js           Página de inicio
-│   ├── usuarios.js         Gestión de usuarios
-│   ├── catalogos.js        Gestión de catálogos
-│   └── perfil.js           Perfil del usuario
-├── img/                    Logo e imágenes
-├── documentos/             ERS, documento de diseño y wireframes
+│   ├── almacenamiento.js     Lectura y escritura en Local Storage
+│   ├── validaciones.js       Validaciones y mensajes compartidos
+│   ├── menu.js               Menú lateral y acceso según el rol
+│   ├── login.js              Inicio de sesión
+│   ├── inicio.js             Página de inicio
+│   ├── usuarios.js           Gestión de usuarios
+│   ├── catalogos.js          Gestión de catálogos
+│   ├── curso-formulario.js   Registro de cursos
+│   ├── cursos.js             Lista y búsqueda de cursos
+│   └── perfil.js             Perfil del usuario
+├── img/                      Logo y avatares (A1 a A10)
+├── documentos/               ERS, documento de diseño y wireframes
 └── README.md
 ```
 
@@ -137,6 +143,24 @@ Se desarrolla en tres sprints de una semana:
 | Semana 2 | 19 al 25 de octubre |
 | Semana 3 | 26 de octubre al 1 de noviembre |
 
+### Estado del producto
+
+Funcionalidades terminadas en la primera iteración, con datos guardados en Local Storage:
+
+- Inicio y cierre de sesión con control de sesión en todas las páginas; los usuarios inactivos no pueden ingresar.
+- Menú y acceso a las páginas según el rol del usuario.
+- Usuarios: registro con validaciones, lista y búsqueda por identificación, nombre, apellidos o correo; cambio de estado.
+- Escuelas y carreras: registro, lista y búsqueda.
+- Catálogos de casas certificadoras, área SFIA, temáticas, metodologías, certificaciones y niveles de complejidad: registro, lista y búsqueda.
+- Cursos: formulario de registro completo (con borrador) y lista con búsqueda y filtros por escuela, estado, modalidad y temática.
+- Perfil del usuario con cambio de avatar.
+
+En construcción: revisión de cursos y reportes.
+
+**Área SFIA:** la ERS del equipo define este catálogo como «Área SFIA» (código numérico
+autogenerado, nombre y descripción opcional), por eso se conserva ese nombre. En el
+formulario del curso el área SFIA es opcional.
+
 Quedan para la segunda iteración: la integración con Google y con Gemini, las
 notificaciones, la lógica del flujo de aprobación, los reportes, la eliminación de
 registros, los filtros avanzados y la importación por CSV.
@@ -147,7 +171,7 @@ registros, los filtros avanzados y la importación por CSV.
 |---|---|---|---|
 | 1 | Especificación de Requerimientos (ERS) | 27 de setiembre | Entregado |
 | 2 | Documento de diseño de la primera iteración | 11 de octubre | Entregado |
-| 3 | Programación con Local Storage | 12 de octubre al 1 de noviembre | En curso |
+| 3 | Programación con Local Storage | 12 de octubre al 1 de noviembre | Finalizado |
 | 4 | Diseño final y desarrollo conectado a MongoDB | — | Pendiente |
 
 ## Documentación
