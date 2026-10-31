@@ -262,7 +262,8 @@ if (formularioUsuario !== null) {
       mensaje.classList.remove("error", "valido");
 
       let nombre = document.getElementById("nombreUsuario").value.trim();
-      let apellidos = document.getElementById("apellidosUsuario").value.trim();
+      let primerApellido = document.getElementById("primerApellidoUsuario").value.trim();
+      let segundoApellido = document.getElementById("segundoApellidoUsuario").value.trim();
       let identificacion = document.getElementById("identificacionUsuario").value.trim();
       let fechaNacimiento = document.getElementById("fechaNacimiento").value;
       let sexo = document.getElementById("sexoUsuario").value;
@@ -333,9 +334,13 @@ if (formularioUsuario !== null) {
       // Crear el objeto del nuevo usuario.
       let nuevoUsuario = {
         nombre: nombre,
-        apellidos: apellidos,
+        primerApellido: primerApellido,
+        segundoApellido: segundoApellido,
+        // Se guardan también juntos porque el perfil y las escuelas muestran "apellidos".
+        apellidos: primerApellido + " " + segundoApellido,
         identificacion: identificacion,
         fechaNacimiento: fechaNacimiento,
+        edad: calcularEdad(fechaNacimiento),
         sexo: sexo,
         imagen: imagen,
         correoInstitucional: correoInstitucional,
@@ -451,7 +456,10 @@ function editarUsuario(identificacion) {
   identificacionUsuarioEditando = usuario.identificacion;
 
   document.getElementById("nombreUsuario").value = usuario.nombre || "";
-  document.getElementById("apellidosUsuario").value = usuario.apellidos || "";
+  // Los usuarios antiguos solo tienen "apellidos"; se separan por el primer espacio.
+  let apellidos = (usuario.apellidos || "").split(" ");
+  document.getElementById("primerApellidoUsuario").value = usuario.primerApellido || apellidos[0];
+  document.getElementById("segundoApellidoUsuario").value = usuario.segundoApellido || apellidos.slice(1).join(" ");
   document.getElementById("identificacionUsuario").value = usuario.identificacion;
   document.getElementById("identificacionUsuario").readOnly = true;
   document.getElementById("fechaNacimiento").value = usuario.fechaNacimiento || "";
@@ -527,7 +535,8 @@ function rolOcupado(rol) {
 
 let camposUsuario = [
   "nombreUsuario",
-  "apellidosUsuario",
+  "primerApellidoUsuario",
+  "segundoApellidoUsuario",
   "identificacionUsuario",
   "correoInstitucional",
   "celularUsuario",

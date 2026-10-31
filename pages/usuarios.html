@@ -99,11 +99,14 @@
           </div>
 
           <div class="campo">
-            <label for="apellidosUsuario">Apellidos *</label>
+            <label for="primerApellidoUsuario">Primer apellido *</label>
+            <input type="text" id="primerApellidoUsuario" autocomplete="off" required>
+            <small class="mensaje-error"></small>
+          </div>
 
-            <!-- novalidate:Desactiva la validación automática del navegador. -->
-            <!-- autocomplete="nope": Solicita que el navegador no complete automáticamente los campos. -->
-            <input type="text" id="apellidosUsuario" autocomplete="nope" required>
+          <div class="campo">
+            <label for="segundoApellidoUsuario">Segundo apellido *</label>
+            <input type="text" id="segundoApellidoUsuario" autocomplete="off" required>
             <small class="mensaje-error"></small>
           </div>
 

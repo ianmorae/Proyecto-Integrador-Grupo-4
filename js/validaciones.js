@@ -210,8 +210,11 @@ function obtenerMensaje(id, valor) {
   if (id === "nombreUsuario" && valor === "") {
     return "El nombre es obligatorio.";
   }
-  if (id === "apellidosUsuario" && valor === "") {
-    return "Los apellidos son obligatorios.";
+  if (id === "primerApellidoUsuario" && valor === "") {
+    return "El primer apellido es obligatorio.";
+  }
+  if (id === "segundoApellidoUsuario" && valor === "") {
+    return "El segundo apellido es obligatorio.";
   }
   if (id === "identificacionUsuario" && valor === "") {
     return "La identificación es obligatoria.";
