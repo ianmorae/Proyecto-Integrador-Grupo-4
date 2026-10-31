@@ -16,6 +16,30 @@ function verificarPermisoRegistro() {
 let identificacionUsuarioEditando = "";
 
 
+// Calcula la edad a partir de la fecha de nacimiento (aaaa-mm-dd).
+function calcularEdad(fechaTexto) {
+  if (!fechaTexto) {
+    return "";
+  }
+
+  let fecha = new Date(fechaTexto + "T00:00:00");
+  let hoy = new Date();
+  let edad = hoy.getFullYear() - fecha.getFullYear();
+
+  if (hoy.getMonth() < fecha.getMonth() ||
+    (hoy.getMonth() === fecha.getMonth() && hoy.getDate() < fecha.getDate())) {
+    edad--;
+  }
+  return edad;
+}
+
+// Agrega una celda con texto a la fila.
+function agregarCelda(fila, texto) {
+  let celda = document.createElement("td");
+  celda.textContent = texto;
+  fila.appendChild(celda);
+}
+
 function dibujarUsuarios() {
   let tabla = document.getElementById("tablaUsuarios");
 
@@ -38,26 +62,28 @@ function dibujarUsuarios() {
     encontrados++;
 
     let fila = document.createElement("tr");
-    let nombre = document.createElement("td");
-    let correo = document.createElement("td");
-    let rol = document.createElement("td");
-    let estado = document.createElement("td");
+    let celdaAvatar = document.createElement("td");
+    let avatar = document.createElement("img");
     let acciones = document.createElement("td");
-
-    nombre.textContent =
-      (usuario.nombre || "") + " " +
-      (usuario.apellidos || "");
-
-    correo.textContent =
-      usuario.correoInstitucional || "";
-
-    rol.textContent = usuario.rol || "";
 
     if (!usuario.estado) {
       usuario.estado = "Activo";
     }
 
-    estado.textContent = usuario.estado;
+    avatar.src = "../img/" + (usuario.imagen || "A1") + ".png";
+    avatar.alt = "Avatar de " + usuario.nombre;
+    avatar.className = "avatar-tabla";
+    celdaAvatar.appendChild(avatar);
+    fila.appendChild(celdaAvatar);
+
+    agregarCelda(fila, (usuario.nombre || "") + " " + (usuario.apellidos || ""));
+    agregarCelda(fila, usuario.identificacion || "");
+    agregarCelda(fila, usuario.correoInstitucional || "");
+    agregarCelda(fila, usuario.celular || "");
+    agregarCelda(fila, calcularEdad(usuario.fechaNacimiento));
+    agregarCelda(fila, usuario.sexo || "");
+    agregarCelda(fila, usuario.rol || "");
+    agregarCelda(fila, usuario.estado);
     acciones.className = "acciones-usuario";
 
     let editar = document.createElement("button");
@@ -80,11 +106,6 @@ function dibujarUsuarios() {
 
     acciones.appendChild(editar);
     acciones.appendChild(cambiarEstado);
-
-    fila.appendChild(nombre);
-    fila.appendChild(correo);
-    fila.appendChild(rol);
-    fila.appendChild(estado);
     fila.appendChild(acciones);
 
     tabla.appendChild(fila);
@@ -135,8 +156,8 @@ let formularioUsuario = document.getElementById("formUsuario");
 
 if (formularioUsuario !== null) {
   if (!verificarPermisoRegistro()) {
-    alert("No tienes permisos para registrar usuarios.");
-    window.location.href = "../index.html";
+    // Sin permiso se regresa al inicio, donde se muestra el aviso.
+    window.location.href = "inicio.html?sinPermiso=1";
   } else {
     
     // Dibujar la lista cuando se abre la página.
@@ -241,7 +262,8 @@ if (formularioUsuario !== null) {
       mensaje.classList.remove("error", "valido");
 
       let nombre = document.getElementById("nombreUsuario").value.trim();
-      let apellidos = document.getElementById("apellidosUsuario").value.trim();
+      let primerApellido = document.getElementById("primerApellidoUsuario").value.trim();
+      let segundoApellido = document.getElementById("segundoApellidoUsuario").value.trim();
       let identificacion = document.getElementById("identificacionUsuario").value.trim();
       let fechaNacimiento = document.getElementById("fechaNacimiento").value;
       let sexo = document.getElementById("sexoUsuario").value;
@@ -312,9 +334,13 @@ if (formularioUsuario !== null) {
       // Crear el objeto del nuevo usuario.
       let nuevoUsuario = {
         nombre: nombre,
-        apellidos: apellidos,
+        primerApellido: primerApellido,
+        segundoApellido: segundoApellido,
+        // Se guardan también juntos porque el perfil y las escuelas muestran "apellidos".
+        apellidos: primerApellido + " " + segundoApellido,
         identificacion: identificacion,
         fechaNacimiento: fechaNacimiento,
+        edad: calcularEdad(fechaNacimiento),
         sexo: sexo,
         imagen: imagen,
         correoInstitucional: correoInstitucional,
@@ -430,7 +456,10 @@ function editarUsuario(identificacion) {
   identificacionUsuarioEditando = usuario.identificacion;
 
   document.getElementById("nombreUsuario").value = usuario.nombre || "";
-  document.getElementById("apellidosUsuario").value = usuario.apellidos || "";
+  // Los usuarios antiguos solo tienen "apellidos"; se separan por el primer espacio.
+  let apellidos = (usuario.apellidos || "").split(" ");
+  document.getElementById("primerApellidoUsuario").value = usuario.primerApellido || apellidos[0];
+  document.getElementById("segundoApellidoUsuario").value = usuario.segundoApellido || apellidos.slice(1).join(" ");
   document.getElementById("identificacionUsuario").value = usuario.identificacion;
   document.getElementById("identificacionUsuario").readOnly = true;
   document.getElementById("fechaNacimiento").value = usuario.fechaNacimiento || "";
@@ -506,7 +535,8 @@ function rolOcupado(rol) {
 
 let camposUsuario = [
   "nombreUsuario",
-  "apellidosUsuario",
+  "primerApellidoUsuario",
+  "segundoApellidoUsuario",
   "identificacionUsuario",
   "correoInstitucional",
   "celularUsuario",
