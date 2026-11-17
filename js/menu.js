@@ -9,7 +9,7 @@ function opcionesDelRol(rol) {
     return ["inicio.html", "cursos.html", "curso-formulario.html", "reportes", "perfil.html"];
   }
   if (rol === "Desarrollo Curricular") {
-    return ["inicio.html", "cursos.html", "revision.html", "usuarios.html", "perfil.html"];
+    return ["inicio.html", "cursos.html", "revision.html", "perfil.html"];
   }
   // Rectoría y Vicerrectoría
   return ["inicio.html", "cursos.html", "reportes", "perfil.html"];
