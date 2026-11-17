@@ -4,10 +4,7 @@
 function verificarPermisoRegistro() {
   let usuarioActivo = obtenerSesion();
 
-  return Boolean(
-    usuarioActivo &&
-    (usuarioActivo.rol === "Administrador" || usuarioActivo.rol === "Desarrollo Curricular")
-  );
+  return Boolean(usuarioActivo && usuarioActivo.rol === "Administrador");
 }
 
 
