@@ -7,28 +7,10 @@
   <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
-  <header class="encabezado">
-    <img src="../img/logo.png" alt="Logo Universidad CENFOTEC">
-    <p class="nombre-sistema">Sistema de Gestión Curricular</p>
-    <div class="idioma">
-      <button type="button" class="idioma-activo">ES</button>
-      <button type="button">EN</button>
-    </div>
-  </header>
+  <header class="encabezado" id="encabezado"></header>
 
   <div class="contenedor">
-    <nav class="menu-lateral">
-      <ul>
-        <li><a href="inicio.html">Inicio</a></li>
-        <li><a href="cursos.html">Cursos</a></li>
-        <li><a href="curso-formulario.html">Nuevo curso</a></li>
-        <li><a href="revision.html">Revisión</a></li>
-        <li><a href="catalogos.html">Catálogos</a></li>
-        <li><a href="usuarios.html" class="menu-activo">Usuarios</a></li>
-        <li><span class="menu-deshabilitado">Reportes <small>(En construcción)</small></span></li>
-        <li><a href="perfil.html">Mi perfil</a></li>
-      </ul>
-    </nav>
+    <nav class="menu-lateral" id="menu"></nav>
 
     <main class="contenido">
       <h1>Usuarios</h1>
@@ -265,7 +247,10 @@
       </form>
     </main>
   </div>
+
+  <footer class="pie-pagina" id="piePagina"></footer>
   <script src="../js/almacenamiento.js"></script>
+  <script src="../js/componentes.js"></script>
   <script src="../js/menu.js"></script>
   <script src="../js/validaciones.js"></script>
   <script src="../js/usuarios.js"></script>
