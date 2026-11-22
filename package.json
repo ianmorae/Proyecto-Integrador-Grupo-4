@@ -1,0 +1,24 @@
+{
+  "name": "proyecto-integrador-grupo-4",
+  "version": "1.0.0",
+  "description": "Aplicación web para el Departamento de Desarrollo Curricular y Docente de la Universidad CENFOTEC.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ianmorae/Proyecto-Integrador-Grupo-4.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ianmorae/Proyecto-Integrador-Grupo-4/issues"
+  },
+  "homepage": "https://github.com/ianmorae/Proyecto-Integrador-Grupo-4#readme",
+  "dependencies": {
+    "express": "^5.3.0"
+  }
+}

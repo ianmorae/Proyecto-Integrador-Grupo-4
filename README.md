@@ -64,36 +64,42 @@ o **Inactivo**.
 
 ```
 /
-├── index.html                Inicio de sesión
-├── pages/
-│   ├── inicio.html           Página de inicio después del login
-│   ├── usuarios.html         Registro, lista y búsqueda de usuarios
-│   ├── catalogos.html        Catálogos (escuelas, carreras, casas certificadoras,
-│   │                         monedas, área SFIA, temáticas, metodologías,
-│   │                         certificaciones y niveles de complejidad)
-│   ├── curso-formulario.html Registro de cursos
-│   ├── cursos.html           Lista, búsqueda y filtros de cursos
-│   ├── revision.html         Revisión de cursos (en construcción)
-│   └── perfil.html           Perfil del usuario y cambio de avatar
-├── css/
-│   └── styles.css            Hoja de estilos única
-├── js/
-│   ├── almacenamiento.js     Lectura y escritura en Local Storage
-│   ├── validaciones.js       Validaciones y mensajes compartidos
-│   ├── menu.js               Menú lateral y acceso según el rol
-│   ├── login.js              Inicio de sesión
-│   ├── inicio.js             Página de inicio
-│   ├── usuarios.js           Gestión de usuarios
-│   ├── catalogos.js          Gestión de catálogos
-│   ├── curso-formulario.js   Registro de cursos
-│   ├── cursos.js             Lista y búsqueda de cursos
-│   └── perfil.js             Perfil del usuario
-├── img/                      Logo y avatares (A1 a A10)
-├── documentos/               ERS, documento de diseño y wireframes
+├── public/                       Lo que el servidor entrega al navegador
+│   ├── index.html                Inicio de sesión
+│   ├── pages/
+│   │   ├── inicio.html           Página de inicio después del login
+│   │   ├── usuarios.html         Registro, lista y búsqueda de usuarios
+│   │   ├── catalogos.html        Catálogos (escuelas, carreras, casas certificadoras,
+│   │   │                         monedas, área SFIA, temáticas, metodologías,
+│   │   │                         certificaciones y niveles de complejidad)
+│   │   ├── curso-formulario.html Registro de cursos
+│   │   ├── cursos.html           Lista, búsqueda y filtros de cursos
+│   │   ├── revision.html         Revisión de cursos (en construcción)
+│   │   └── perfil.html           Perfil del usuario y cambio de avatar
+│   ├── css/
+│   │   └── styles.css            Hoja de estilos única
+│   ├── js/
+│   │   ├── almacenamiento.js     Lectura y escritura en Local Storage
+│   │   ├── componentes.js        Encabezado, menú y pie de página
+│   │   ├── validaciones.js       Validaciones y mensajes compartidos
+│   │   ├── menu.js               Menú lateral y acceso según el rol
+│   │   ├── login.js              Inicio de sesión
+│   │   ├── inicio.js             Página de inicio
+│   │   ├── usuarios.js           Gestión de usuarios
+│   │   ├── catalogos.js          Gestión de catálogos
+│   │   ├── curso-formulario.js   Registro de cursos
+│   │   ├── cursos.js             Lista y búsqueda de cursos
+│   │   └── perfil.js             Perfil del usuario
+│   └── img/                      Logo y avatares (A1 a A10)
+├── database/                     Script de creación de las colecciones en MongoDB
+├── documentos/                   ERS, documento de diseño y wireframes
+├── server.js                     Servidor Express que entrega la carpeta public
+├── package.json                  Dependencias y scripts (start y dev)
+├── .gitignore                    Excluye node_modules
 └── README.md
 ```
 
-Cada página interna carga primero `almacenamiento.js`, después `menu.js`,
+Cada página interna carga primero `almacenamiento.js`, después `componentes.js`, `menu.js`,
 `validaciones.js` (si tiene formularios) y por último el script propio de la página.
 
 ## Guía de estilos
@@ -101,7 +107,7 @@ Cada página interna carga primero `almacenamiento.js`, después `menu.js`,
 La interfaz aplica la identidad institucional de la Universidad CENFOTEC (RF-75).
 Como el libro de marca todavía no se ha recibido, la paleta se tomó del logo
 oficial. Todos los colores están definidos como variables al inicio de
-`css/styles.css`, por lo que se actualizan en un solo lugar cuando llegue el libro.
+`public/css/styles.css`, por lo que se actualizan en un solo lugar cuando llegue el libro.
 
 | Variable | Color | Uso |
 |---|---|---|
@@ -123,9 +129,13 @@ oficial. Todos los colores están definidos como variables al inicio de
 
 ## Cómo ejecutar
 
+Requiere Node.js.
+
 1. Clonar el repositorio.
-2. Abrir `index.html` en el navegador (o con la extensión Live Server de VS Code).
-3. Ingresar con el administrador inicial:
+2. Instalar las dependencias: `npm install`
+3. Iniciar el servidor: `npm run dev` (o `npm start`).
+4. Abrir `http://localhost:3000` en el navegador.
+5. Ingresar con el administrador inicial:
    - Correo: `admin@ucenfotec.ac.cr`
    - Contraseña: `Admin2026`
 
