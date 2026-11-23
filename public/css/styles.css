@@ -22,7 +22,7 @@
   /* La misma paleta aplicada a Bootstrap */
   --bs-body-font-family: Arial, Helvetica, sans-serif;
   --bs-body-color: var(--texto);
-  --bs-body-bg: var(--fondo);
+  --bs-body-bg: var(--blanco);
   --bs-border-color: var(--borde);
   --bs-primary: var(--azul);
   --bs-primary-rgb: 1, 105, 233;
@@ -34,6 +34,11 @@
 }
 
 /* ===== 2. Base, tipografía, botones y foco · Ian Mora ===== */
+/* Fondo gris en la página; tarjetas, campos y menús de Bootstrap quedan en blanco. */
+body {
+  background-color: var(--fondo);
+}
+
 h1 {
   font-size: 28px;
   font-weight: bold;
@@ -101,6 +106,32 @@ img {
 .form-check-input:checked {
   background-color: var(--azul);
   border-color: var(--azul);
+}
+
+.form-label {
+  font-weight: bold;
+}
+
+/* RF-77: estados de validación de los campos. Los pone validaciones.js. */
+.form-control.error,
+.form-select.error,
+.form-control.error:focus,
+.form-select.error:focus {
+  border: 2px solid var(--error);
+}
+
+.form-control.valido,
+.form-select.valido,
+.form-control.valido:focus,
+.form-select.valido:focus {
+  border: 2px solid var(--valido);
+}
+
+.mensaje-error {
+  display: block;
+  min-height: 21px;
+  color: var(--error);
+  font-size: 14px;
 }
 
 /* ===== 3. Encabezado, menú y pie de página · Ian Mora ===== */
@@ -271,70 +302,6 @@ img {
   background-color: var(--blanco);
 }
 
-.idioma button {
-  padding: 4px 12px;
-  border: 1px solid var(--borde);
-  border-radius: 12px;
-  background-color: var(--blanco);
-  color: var(--texto);
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.idioma .idioma-activo {
-  background-color: var(--azul-oscuro);
-  border-color: var(--azul-oscuro);
-  color: var(--blanco);
-}
-
-/* ===== Inicio de sesión ===== */
-.pagina-login {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 24px 16px;
-}
-
-.pagina-login .idioma {
-  align-self: flex-end;
-}
-
-.tarjeta-login {
-  width: 100%;
-  max-width: 440px;
-  margin-top: 16px;
-  padding: 32px;
-  background-color: var(--blanco);
-  border: 1px solid var(--borde);
-  border-radius: 8px;
-}
-
-.tarjeta-login img {
-  display: block;
-  width: 200px;
-  margin: 0 auto 16px;
-}
-
-.tarjeta-login h1,
-.tarjeta-login .texto-ayuda {
-  text-align: center;
-}
-
-.btn-google {
-  width: 100%;
-  margin-top: 16px;
-}
-
-.separador {
-  margin: 16px 0;
-  text-align: center;
-  color: var(--texto-secundario);
-}
-
-.tarjeta-login .btn-primario {
-  width: 100%;
-}
-
 /* ===== Estados de validación ===== */
 .campo input:focus,
 .campo select:focus,
@@ -348,13 +315,6 @@ img {
 
 .campo .valido {
   border: 2px solid var(--valido);
-}
-
-.mensaje-error {
-  display: block;
-  min-height: 21px;
-  color: var(--error);
-  font-size: 14px;
 }
 
 .mensaje-general {
@@ -380,10 +340,6 @@ img {
   .btn-primario,
   .btn-secundario {
     width: 100%;
-  }
-
-  .tarjeta-login {
-    padding: 24px 16px;
   }
 }
 
