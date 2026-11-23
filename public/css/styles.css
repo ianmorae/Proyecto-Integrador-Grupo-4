@@ -291,11 +291,45 @@ img {
   outline-offset: 3px;
 }
 
+.avatar-perfil {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: 1px solid var(--borde);
+  border-radius: 50%;
+  background-color: var(--fondo);
+  color: var(--texto-secundario);
+  font-weight: bold;
+  overflow: hidden;
+}
+
+.avatar-grande {
+  width: 94px;
+  height: 94px;
+  margin-bottom: 14px;
+  font-size: 18px;
+}
+
+.avatar-pequeno {
+  width: 38px;
+  height: 38px;
+  font-size: 11px;
+}
+
+/* Ajusta la imagen al tamaño del contenedor y mantiene su forma circular. */
+.avatar-perfil img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 50%;
+  display: block;
+}
+
 /* ===== 4. Formularios y estados del curso · Mariana Paniagua (BS-12) ===== */
 
-
 /* ===== 5. Tablas, filtros y mensajes · Paulo Solano (BS-08) ===== */
-
 
 /* ===== 6. Estilos de la primera iteración (temporal) =====
    Las páginas que todavía no usan Bootstrap dependen de estas reglas.
@@ -514,8 +548,7 @@ img {
   }
 }
 
-
-/* ===== Inicio ===== */
+/* ===== Enlaces con aspecto de botón (revision.html) ===== */
 a.btn-primario,
 a.btn-secundario {
   text-decoration: none;
@@ -525,177 +558,6 @@ a.btn-secundario {
 .campo textarea {
   height: 80px;
   resize: vertical;
-}
-
-
-/* ===== RF-09: Perfil del usuario ===== */
-
-.perfil-distribucion {
-  display: grid;
-  grid-template-columns: minmax(200px, 0.7fr) minmax(0, 1.5fr);
-  gap: 20px;
-  align-items: stretch;
-}
-
-.perfil-resumen {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-
-.perfil-resumen h2 {
-  margin-bottom: 6px;
-}
-
-.avatar-perfil {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  border: 1px solid var(--borde);
-  border-radius: 50%;
-  background-color: var(--fondo);
-  color: var(--texto-secundario);
-  font-weight: bold;
-}
-
-.avatar-grande {
-  width: 94px;
-  height: 94px;
-  margin: 8px auto 14px;
-  font-size: 18px;
-}
-
-.avatar-pequeno {
-  width: 38px;
-  height: 38px;
-  font-size: 11px;
-}
-
-/* Recorta el contenido del contenedor para mantener la imagen circular. */
-.avatar-perfil {
-  overflow: hidden;
-  border-radius: 50%;
-}
-
-/* Ajusta la imagen al tamaño del contenedor y mantiene su forma circular. */
-.avatar-perfil img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-  border-radius: 50%;
-  display: block;
-}
-
-.datos-perfil {
-  display: grid;
-  grid-template-columns: minmax(130px, 0.8fr) minmax(0, 1.4fr);
-  gap: 16px 12px;
-}
-
-.datos-perfil dt {
-  font-weight: bold;
-}
-
-.datos-perfil dd {
-  margin: 0;
-  overflow-wrap: anywhere;
-}
-
-.seleccion-avatar {
-  min-width: 0;
-  margin: 20px 0 0;
-}
-
-.seleccion-avatar legend {
-  padding: 0 8px;
-  font-weight: bold;
-}
-
-
-/* Organiza las imágenes de perfil en filas centradas. */
-.opciones-avatar {
-  display: grid;
-  grid-template-columns: repeat(5, 90px);
-  justify-content: center;
-  justify-items: center;
-  gap: 16px;
-  width: 100%;
-  margin: 25px auto;
-  padding: 0;
-}
-
-/* Permite seleccionar cada imagen. */
-.opciones-avatar label {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-}
-
-/* Oculta visualmente los botones de selección. */
-.opciones-avatar input {
-  position: absolute;
-  opacity: 0;
-  width: 1px;
-  height: 1px;
-}
-
-/* Define el tamaño y la apariencia de cada avatar. */
-.opciones-avatar label img {
-  display: block;
-  width: 90px;
-  height: 90px;
-  object-fit: contain;
-  border: 2px solid transparent;
-  border-radius: 50%;
-  cursor: pointer;
-}
-
-/* Resalta la imagen seleccionada. */
-.opciones-avatar input:checked + img {
-  border-color: var(--azul);
-  box-shadow: 0 0 0 2px var(--azul-claro);
-}
-
-/* Permite identificar la selección con el teclado. */
-.opciones-avatar input:focus-visible + img {
-  outline: 2px solid var(--azul);
-  outline-offset: 3px;
-}
-
-/* Ajusta el diseño del perfil para pantallas de hasta 767px. */
-@media (max-width: 767px) {
-  /* Organiza las secciones del perfil en una sola columna. */
-  .perfil-distribucion {
-    grid-template-columns: 1fr;
-  }
-
-  /* Organiza los datos del perfil en una sola columna. */
-  .datos-perfil {
-    grid-template-columns: 1fr;
-    gap: 5px;
-  }
-
-  /* Agrega espacio debajo de cada dato del perfil. */
-  .datos-perfil dd {
-    margin-bottom: 10px;
-  }
-
-  /* Centra las opciones de los avatares. Ajusta distribución de avatares en dos columnas (para celulares) */
-  .opciones-avatar {
-  grid-template-columns: repeat(2, 90px);
-  justify-content: center;
-  }
-}
-
-/* Separa los botones Guardar y Cancelar de la fila de avatares. */
-
-#formImagenPerfil .acciones {
-  margin-top: 20px;
 }
 
 /* ===== Páginas en construcción ===== */
