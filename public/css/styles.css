@@ -135,7 +135,7 @@ img {
   font-size: 14px;
 }
 
-/* ===== 3. Encabezado, menú y pie de página · Ian Mora ===== */
+/* ===== 3. Encabezado, menú, pie de página y avatares · Ian Mora ===== */
 /* Los genera componentes.js. */
 .encabezado {
   background-color: var(--azul-oscuro);
@@ -224,6 +224,71 @@ img {
   border-top: 1px solid var(--borde);
   color: var(--texto-secundario);
   font-size: 14px;
+}
+
+/* Avatares de usuarios.html y perfil.html (RF-09 y RF-10) */
+.avatar-tabla {
+  display: block;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+}
+
+.avatar-opciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.avatar-opcion {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.avatar-opcion input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+
+/* Define el diseño de las imágenes de los avatares. */
+.avatar-opcion img {
+  display: block;
+  width: 90px;
+  height: 90px;
+  object-fit: contain;
+  border: 2px solid transparent;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+/* Resalta el avatar seleccionado. */
+.avatar-opcion input:checked + img {
+  border-color: var(--azul);
+  box-shadow: 0 0 0 2px var(--azul-claro);
+}
+
+/* Resalta el avatar cuando recibe el foco del teclado. */
+.avatar-opcion input:focus-visible + img {
+  outline: 2px solid var(--azul);
+  outline-offset: 3px;
+}
+
+.avatar-opcion input:checked + span {
+  border: 2px solid var(--azul);
+  background-color: var(--azul-claro);
+  color: var(--azul-oscuro);
+}
+
+.avatar-opcion input:focus-visible + span {
+  outline: 2px solid var(--azul);
+  outline-offset: 3px;
 }
 
 /* ===== 4. Formularios y estados del curso · Mariana Paniagua (BS-12) ===== */
@@ -450,44 +515,6 @@ img {
 }
 
 
-/* ===== RF-06: Formulario de usuarios ===== */
-#formUsuario {
-  width: 100%;
-  max-width: none;
-  margin: 16px 0;
-}
-
-#formUsuario h2 {
-  margin-top: 28px;
-  padding-bottom: 8px;
-  color: var(--azul-oscuro);
-  border-bottom: 1px solid var(--borde);
-}
-
-#formUsuario input:focus,
-#formUsuario select:focus {
-  outline: 2px solid var(--azul);
-  outline-offset: 1px;
-}
-
-#formUsuario .acciones {
-  margin-top: 24px;
-}
-
-#mensajeUsuario {
-  margin-top: 16px;
-}
-
-#mensajeUsuario.error {
-  border: 1px solid var(--error);
-  color: var(--error);
-}
-
-#mensajeUsuario.valido {
-  border: 1px solid var(--valido);
-  color: var(--valido);
-}
-
 /* ===== Inicio ===== */
 a.btn-primario,
 a.btn-secundario {
@@ -500,224 +527,6 @@ a.btn-secundario {
   resize: vertical;
 }
 
-
-/* ===== RF-05 y RF-06: Gestión de usuarios según el wireframe ===== */
-
-#listaUsuarios {
-  margin-bottom: 24px;
-}
-
-.acciones-lista {
-  justify-content: flex-end;
-  margin-bottom: 16px;
-}
-
-#formUsuario {
-  width: 100%;
-  margin: 16px 0;
-  padding: 20px;
-}
-
-#formUsuario h2 {
-  margin-top: 0;
-  padding-bottom: 8px;
-  color: var(--texto);
-  border-bottom: none;
-}
-
-.rejilla-usuarios {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  column-gap: 20px;
-  row-gap: 0;
-}
-
-.rejilla-usuarios .campo {
-  min-width: 0;
-}
-
-.rejilla-usuarios .campo input,
-.rejilla-usuarios .campo select {
-  width: 100%;
-}
-
-.campo-avatares {
-  grid-column: 1 / -1;
-  margin-top: 8px;
-}
-
-.avatar-opciones {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 10px;
-}
-
-.avatar-opcion {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-}
-
-.avatar-opcion input {
-  position: absolute;
-  opacity: 0;
-  width: 1px;
-  height: 1px;
-}
-
-/* Define el diseño de las imágenes de los avatares. */
-.avatar-opcion img {
-  display: block;
-  width: 90px;
-  height: 90px;
-  object-fit: contain;
-  border: 2px solid transparent;
-  border-radius: 50%;
-  cursor: pointer;
-}
-
-/* Resalta el avatar seleccionado. */
-.avatar-opcion input:checked + img {
-  border-color: var(--azul);
-  box-shadow: 0 0 0 2px var(--azul-claro);
-}
-
-/* Resalta el avatar cuando recibe el foco del teclado. */
-.avatar-opcion input:focus-visible + img {
-  outline: 2px solid var(--azul);
-  outline-offset: 3px;
-}
-
-.avatar-opcion input:checked + span {
-  border: 2px solid var(--azul);
-  background-color: var(--azul-claro);
-  color: var(--azul-oscuro);
-}
-
-.avatar-opcion input:focus-visible + span {
-  outline: 2px solid var(--azul);
-  outline-offset: 3px;
-}
-
-.acciones-formulario {
-  margin-top: 20px;
-}
-
-/* Evitar que la tabla de usuarios desborde el contenido */
-#listaUsuarios {
-  width: 100%;
-  min-width: 0;
-}
-
-#listaUsuarios .tabla-contenedor {
-  width: 100%;
-  max-width: 100%;
-  overflow-x: auto;
-}
-
-/* La tabla de usuarios tiene muchas columnas: se desplaza dentro de su contenedor. */
-#listaUsuarios .tabla {
-  width: 100%;
-  min-width: 900px;
-  font-size: 14px;
-}
-
-#listaUsuarios .tabla th,
-#listaUsuarios .tabla td {
-  padding: 10px 8px;
-  vertical-align: middle;
-}
-
-#tablaUsuarios .acciones-usuario .btn-accion {
-  display: block;
-  width: 100%;
-  margin-bottom: 6px;
-}
-
-
-#tablaUsuarios .btn-accion {
-  padding: 6px 8px;
-  border: 1px solid var(--azul);
-  border-radius: 4px;
-  background-color: var(--blanco);
-  color: var(--azul);
-  font-size: 13px;
-  font-weight: bold;
-  cursor: pointer;
-  white-space: nowrap;
-}
-
-#tablaUsuarios .btn-accion:hover {
-  background-color: var(--azul);
-  color: var(--blanco);
-}
-
-#tablaUsuarios .btn-accion:focus {
-  outline: 2px solid var(--azul);
-  outline-offset: 2px;
-}
-
-#tablaUsuarios .btn-accion:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-/* Adaptar el formulario a pantallas más pequeñas*/
-/* En pantallas medianas, como tablets, el formulario se muestra en 2 columnas */
-@media (max-width: 1023px) {
-  .rejilla-usuarios {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-/* En pantallas pequeñas, como celulares, el formulario se muestra en 1 columna*/
-@media (max-width: 767px) {
-  .rejilla-usuarios {
-    grid-template-columns: 1fr;
-  }
-
-  /* El campo de avatares ocupa el espacio de una sola columna */
-  .campo-avatares {
-    grid-column: auto;
-  }
-
-  /* Los botones de acciones de la lista se ajustan al espacio disponible */
-  .acciones-lista {
-    justify-content: stretch;
-  }
-}
-
-
-/* Corregir el desbordamiento horizontal de la página de usuarios */
-html,
-body {
-  max-width: 100%;
-  overflow-x: clip;
-}
-
-#formUsuario,
-#listaUsuarios {
-  min-width: 0;
-  max-width: 100%;
-}
-
-#formUsuario .rejilla-usuarios {
-  width: 100%;
-  min-width: 0;
-}
-
-#formUsuario .campo {
-  min-width: 0;
-}
-
-#formUsuario input,
-#formUsuario select {
-  max-width: 100%;
-}
 
 /* ===== RF-09: Perfil del usuario ===== */
 
@@ -996,12 +805,4 @@ body {
   .fila-cuatro {
     grid-template-columns: 1fr;
   }
-}
-
-/* Avatar pequeño en la tabla de usuarios. */
-.avatar-tabla {
-  display: block;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
 }
