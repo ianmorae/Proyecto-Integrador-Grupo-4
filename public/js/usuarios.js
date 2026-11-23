@@ -85,7 +85,7 @@ function dibujarUsuarios() {
 
     let editar = document.createElement("button");
     editar.type = "button";
-    editar.className = "btn-accion";
+    editar.className = "btn btn-sm btn-outline-primary d-block w-100 mb-1 btn-accion";
     editar.textContent = "Editar";
 
     editar.addEventListener("click", function () {
@@ -94,7 +94,7 @@ function dibujarUsuarios() {
 
     let cambiarEstado = document.createElement("button");
     cambiarEstado.type = "button";
-    cambiarEstado.className = "btn-accion";
+    cambiarEstado.className = "btn btn-sm btn-outline-primary d-block w-100 text-nowrap btn-accion";
     cambiarEstado.textContent = "Cambiar estado";
 
     cambiarEstado.addEventListener("click", function () {
