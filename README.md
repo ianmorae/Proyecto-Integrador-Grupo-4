@@ -57,6 +57,8 @@ o **Inactivo**.
 
 **Segunda iteración**
 
+- Bootstrap 5.3, cargado desde su CDN, con `public/css/styles.css` después para los colores y ajustes propios
+- Node.js y Express para el servidor del frontend
 - MongoDB como base de datos
 - Integración con la API de Gemini y servicio de correo
 
@@ -77,7 +79,7 @@ o **Inactivo**.
 │   │   ├── revision.html         Revisión de cursos (en construcción)
 │   │   └── perfil.html           Perfil del usuario y cambio de avatar
 │   ├── css/
-│   │   └── styles.css            Hoja de estilos única
+│   │   └── styles.css            Ajustes propios sobre Bootstrap, por secciones
 │   ├── js/
 │   │   ├── almacenamiento.js     Lectura y escritura en Local Storage
 │   │   ├── componentes.js        Encabezado, menú y pie de página
@@ -99,7 +101,7 @@ o **Inactivo**.
 └── README.md
 ```
 
-Cada página interna carga primero `almacenamiento.js`, después `componentes.js`, `menu.js`,
+Cada página interna carga primero el JavaScript de Bootstrap y `almacenamiento.js`, después `componentes.js`, `menu.js`,
 `validaciones.js` (si tiene formularios) y por último el script propio de la página.
 
 ## Guía de estilos
@@ -112,8 +114,8 @@ oficial. Todos los colores están definidos como variables al inicio de
 | Variable | Color | Uso |
 |---|---|---|
 | `--azul` | #0169E9 | Botones principales, enlaces, pestaña activa y foco |
-| `--azul-oscuro` | #01469A | Encabezado, opción activa del menú y hover |
-| `--azul-claro` | #EAF2FF | Opción seleccionada (avatares) |
+| `--azul-oscuro` | #01469A | Encabezado, títulos (h1) y hover |
+| `--azul-claro` | #EAF2FF | Opción activa del menú y avatar seleccionado |
 | `--blanco` | #FFFFFF | Contenido, tarjetas y campos |
 | `--fondo` | #F4F6F9 | Fondo general, menú lateral y campos de solo lectura |
 | `--borde` | #CCCCCC | Bordes de campos, tablas y separadores |
@@ -124,7 +126,7 @@ oficial. Todos los colores están definidos como variables al inicio de
 | `--gris-deshabilitado` / `--texto-deshabilitado` | #E0E0E0 / #757575 | Botones deshabilitados |
 
 - **Tipografía:** Arial, Helvetica, sans-serif; 16 px de base, h1 de 28 px, h2 de 22 px y h3 de 18 px.
-- **Botones:** principal con fondo azul y texto blanco; secundario blanco con borde azul.
+- **Botones:** principal (`btn-primary`) con fondo azul y texto blanco; secundario (`btn-outline-primary`) blanco con borde azul.
 - **Campos:** 40 px de alto, etiqueta siempre encima y mensaje de error debajo del campo.
 
 ## Cómo ejecutar

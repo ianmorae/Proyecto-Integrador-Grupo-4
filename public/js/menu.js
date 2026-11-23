@@ -27,15 +27,14 @@ function tieneOpcion(rol, opcion) {
 }
 
 function armarMenu(rol) {
-  let elementos = document.querySelectorAll(".menu-lateral li");
+  let elementos = document.querySelectorAll(".menu-lateral .list-group-item");
 
   for (let i = 0; i < elementos.length; i++) {
-    let enlace = elementos[i].querySelector("a");
     let opcion = "";
 
-    if (enlace !== null) {
-      opcion = enlace.getAttribute("href");
-    } else if (elementos[i].querySelector(".menu-deshabilitado") !== null) {
+    if (elementos[i].tagName === "A") {
+      opcion = elementos[i].getAttribute("href");
+    } else if (elementos[i].classList.contains("menu-deshabilitado")) {
       opcion = "reportes";
     }
 
