@@ -64,9 +64,10 @@ img {
   font-weight: normal;
 }
 
-/* La usa el JavaScript para mostrar u ocultar elementos. */
+/* La usa el JavaScript para mostrar u ocultar elementos.
+   Lleva !important (como d-none de Bootstrap) para ganarle a cualquier regla que cambie el display. */
 .oculto {
-  display: none;
+  display: none !important;
 }
 
 .btn-primary {
@@ -491,15 +492,6 @@ img {
 a.btn-primario,
 a.btn-secundario {
   text-decoration: none;
-}
-
-.aviso {
-  background-color: var(--fondo);
-  color: var(--texto-secundario);
-}
-
-.aviso p {
-  margin: 0;
 }
 
 /* ===== Catálogo Área SFIA ===== */
