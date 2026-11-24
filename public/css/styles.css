@@ -330,6 +330,62 @@ img {
 /* ===== 4. Formularios y estados del curso · Mariana Paniagua (BS-12) ===== */
 
 /* ===== 5. Tablas, filtros y mensajes · Paulo Solano (BS-08) ===== */
+.table {
+  --bs-table-hover-bg: var(--fondo);
+  --bs-table-border-color: var(--borde);
+}
+
+.table > thead th {
+  background-color: var(--fondo);
+  color: var(--texto);
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.btn-enlace {
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--azul);
+  font-size: 16px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.btn-enlace:hover {
+  color: var(--azul-oscuro);
+}
+
+.btn-enlace:focus-visible {
+  outline: 2px solid var(--azul);
+  outline-offset: 2px;
+}
+
+input[type="search"].form-control {
+  max-width: 480px;
+}
+
+.mensaje-general {
+  margin-top: 16px;
+  margin-bottom: 0;
+  padding: 12px 16px;
+  border: 1px solid transparent;
+  border-radius: var(--bs-border-radius);
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.mensaje-general.error {
+  border-color: var(--error);
+  background-color: #FDECEA;
+  color: var(--error);
+}
+
+.mensaje-general.valido {
+  border-color: var(--valido);
+  background-color: #EDF7ED;
+  color: var(--valido);
+}
 
 /* ===== 6. Estilos de la primera iteración (temporal) =====
    Las páginas que todavía no usan Bootstrap dependen de estas reglas.
@@ -417,24 +473,6 @@ img {
   border: 2px solid var(--valido);
 }
 
-.mensaje-general {
-  margin-top: 16px;
-  padding: 10px 12px;
-  border-radius: 4px;
-  font-size: 14px;
-  font-weight: bold;
-}
-
-.mensaje-general.error {
-  border: 1px solid var(--error);
-  color: var(--error);
-}
-
-.mensaje-general.valido {
-  border: 1px solid var(--valido);
-  color: var(--valido);
-}
-
 /* ===== Media queries ===== */
 @media (max-width: 767px) {
   .btn-primario,
@@ -484,21 +522,6 @@ img {
 .tabla th {
   background-color: var(--fondo);
   font-size: 14px;
-}
-
-.btn-enlace {
-  padding: 0;
-  border: none;
-  background: none;
-  color: var(--azul);
-  font-size: 16px;
-  text-decoration: underline;
-  cursor: pointer;
-}
-
-.btn-enlace:focus {
-  outline: 2px solid var(--azul);
-  outline-offset: 2px;
 }
 
 @media (max-width: 767px) {
