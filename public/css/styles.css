@@ -451,12 +451,6 @@ img {
   border-radius: 8px;
 }
 
-.fila {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-}
-
 .acciones {
   display: flex;
   flex-wrap: wrap;
@@ -508,10 +502,6 @@ img {
 }
 
 @media (max-width: 767px) {
-  .fila {
-    grid-template-columns: 1fr;
-  }
-
   .acciones {
     flex-direction: column;
   }
@@ -521,12 +511,6 @@ img {
 a.btn-primario,
 a.btn-secundario {
   text-decoration: none;
-}
-
-/* ===== Catálogo Área SFIA ===== */
-.campo textarea {
-  height: 80px;
-  resize: vertical;
 }
 
 /* ===== Páginas en construcción ===== */

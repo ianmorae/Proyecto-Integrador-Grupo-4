@@ -53,31 +53,31 @@
       <section id="panelEscuelas" class="panel-catalogo">
 
         <!-- Formulario para registrar una escuela. -->
-        <form id="formEscuela" class="tarjeta" novalidate autocomplete="off">
+        <form id="formEscuela" class="card card-body mb-4" novalidate autocomplete="off">
 
           <!-- Título del formulario. -->
           <h2>Nueva escuela</h2>
 
-          <div class="fila">
-            <div class="campo">
+          <div class="row">
+            <div class="col-md-6 mb-3">
               <!-- Campo para ingresar el código de la escuela. -->
-              <label for="codigoEscuela">Código *</label>
-              <input type="text" id="codigoEscuela" placeholder="ESC-01" required>
+              <label for="codigoEscuela" class="form-label">Código *</label>
+              <input type="text" id="codigoEscuela" class="form-control" placeholder="ESC-01" required>
               <small class="mensaje-error"></small>
             </div>
 
-            <div class="campo">
+            <div class="col-md-6 mb-3">
               <!-- Campo para ingresar el nombre de la escuela -->
-              <label for="nombreEscuela">Nombre *</label>
-              <input type="text" id="nombreEscuela" required>
+              <label for="nombreEscuela" class="form-label">Nombre *</label>
+              <input type="text" id="nombreEscuela" class="form-control" required>
               <small class="mensaje-error"></small>
             </div>
           </div>
 
-          <div class="campo">
+          <div class="mb-3">
             <!-- Lista para seleccionar al director de la escuela. -->
-            <label for="directorEscuela">Director de Escuela *</label>
-            <select id="directorEscuela" required>
+            <label for="directorEscuela" class="form-label">Director de Escuela *</label>
+            <select id="directorEscuela" class="form-select" required>
               <option value="">Seleccione...</option>
             </select>
 
@@ -86,9 +86,9 @@
             <small class="mensaje-error"></small>
           </div>
 
-          <div class="acciones">
+          <div class="d-flex flex-wrap gap-2">
             <!-- Botón para guardar la información de la escuela -->
-            <button type="submit" class="btn btn-primario">Guardar</button>
+            <button type="submit" class="btn btn-primary">Guardar</button>
           </div>
 
           <!-- Mensaje para mostrar el resultado del registro -->
@@ -100,9 +100,9 @@
         <h2>Escuelas registradas</h2>
 
         <!-- Campo para buscar escuelas por código o nombre -->
-        <div class="campo">
-          <label for="buscarEscuela">Buscar por código o nombre</label>
-          <input type="search" id="buscarEscuela">
+        <div class="mb-3">
+          <label for="buscarEscuela" class="form-label">Buscar por código o nombre</label>
+          <input type="search" id="buscarEscuela" class="form-control">
         </div>
 
         <!-- Contenedor de la tabla de escuelas. -->
@@ -133,43 +133,43 @@
       </section>
 
       <section id="panelCarreras" class="panel-catalogo oculto">
-        <form id="formCarrera" class="tarjeta" novalidate autocomplete="off">
+        <form id="formCarrera" class="card card-body mb-4" novalidate autocomplete="off">
           <h2>Nueva carrera</h2>
 
-          <div class="fila">
-            <div class="campo">
-              <label for="codigoCarrera">Código *</label>
-              <input type="text" id="codigoCarrera" placeholder="CAR-01" required>
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="codigoCarrera" class="form-label">Código *</label>
+              <input type="text" id="codigoCarrera" class="form-control" placeholder="CAR-01" required>
               <small class="mensaje-error"></small>
             </div>
 
-            <div class="campo">
-              <label for="nombreCarrera">Nombre *</label>
-              <input type="text" id="nombreCarrera" required>
+            <div class="col-md-6 mb-3">
+              <label for="nombreCarrera" class="form-label">Nombre *</label>
+              <input type="text" id="nombreCarrera" class="form-control" required>
               <small class="mensaje-error"></small>
             </div>
           </div>
 
-          <div class="campo">
-            <label for="escuelaCarrera">Escuela *</label>
-            <select id="escuelaCarrera" required>
+          <div class="mb-3">
+            <label for="escuelaCarrera" class="form-label">Escuela *</label>
+            <select id="escuelaCarrera" class="form-select" required>
               <option value="">Seleccione...</option>
             </select>
             <small id="sinEscuelasCarrera" class="texto-ayuda oculto">Primero registra una escuela en la pestaña Escuelas.</small>
             <small class="mensaje-error"></small>
           </div>
 
-          <div class="acciones">
-            <button type="submit" class="btn btn-primario">Guardar</button>
+          <div class="d-flex flex-wrap gap-2">
+            <button type="submit" class="btn btn-primary">Guardar</button>
           </div>
 
           <p id="mensajeCarrera" class="mensaje-general oculto"></p>
         </form>
 
         <h2>Carreras registradas</h2>
-        <div class="campo">
-          <label for="buscarCarrera">Buscar por código, nombre o escuela</label>
-          <input type="search" id="buscarCarrera">
+        <div class="mb-3">
+          <label for="buscarCarrera" class="form-label">Buscar por código, nombre o escuela</label>
+          <input type="search" id="buscarCarrera" class="form-control">
         </div>
         <div class="tabla-contenedor">
           <table class="tabla">
@@ -189,35 +189,35 @@
 
       <!-- Panel para gestionar las casas certificadoras -->
       <section id="panelCasas" class="panel-catalogo oculto">
-        <form id="formCasa" class="tarjeta" novalidate autocomplete="off">
+        <form id="formCasa" class="card card-body mb-4" novalidate autocomplete="off">
           <h2 id="tituloFormCasa">Nueva casa certificadora</h2>
 
-          <div class="fila">
-            <div class="campo">
-              <label for="codigoCasa">Código *</label>
-              <input type="number" id="codigoCasa" min="1" step="1" placeholder="1" required>
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="codigoCasa" class="form-label">Código *</label>
+              <input type="number" id="codigoCasa" class="form-control" min="1" step="1" placeholder="1" required>
               <small class="mensaje-error"></small>
             </div>
 
-            <div class="campo">
-              <label for="nombreCasa">Nombre *</label>
-              <input type="text" id="nombreCasa" required>
+            <div class="col-md-6 mb-3">
+              <label for="nombreCasa" class="form-label">Nombre *</label>
+              <input type="text" id="nombreCasa" class="form-control" required>
               <small class="mensaje-error"></small>
             </div>
           </div>
 
-          <div class="acciones">
-            <button type="submit" class="btn btn-primario">Guardar</button>
-            <button type="button" id="btnCancelarCasa" class="btn btn-secundario oculto">Cancelar</button>
+          <div class="d-flex flex-wrap gap-2">
+            <button type="submit" class="btn btn-primary">Guardar</button>
+            <button type="button" id="btnCancelarCasa" class="btn btn-outline-primary oculto">Cancelar</button>
           </div>
 
           <p id="mensajeCasa" class="mensaje-general valido oculto"></p>
         </form>
 
         <h2>Casas certificadoras registradas</h2>
-        <div class="campo">
-          <label for="buscarCasa">Buscar por código o nombre</label>
-          <input type="search" id="buscarCasa">
+        <div class="mb-3">
+          <label for="buscarCasa" class="form-label">Buscar por código o nombre</label>
+          <input type="search" id="buscarCasa" class="form-control">
         </div>
         <div class="tabla-contenedor">
           <table class="tabla">
@@ -251,40 +251,40 @@
       </section>
 
       <section id="panelSfia" class="panel-catalogo oculto">
-        <form id="formSfia" class="tarjeta" novalidate autocomplete="off">
+        <form id="formSfia" class="card card-body mb-4" novalidate autocomplete="off">
           <h2>Nueva área SFIA</h2>
 
-          <div class="fila">
-            <div class="campo">
-              <label for="codigoSfia">Código</label>
-              <input type="text" id="codigoSfia" readonly>
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="codigoSfia" class="form-label">Código</label>
+              <input type="text" id="codigoSfia" class="form-control" readonly>
               <small class="texto-ayuda">Se asigna automáticamente.</small>
             </div>
 
-            <div class="campo">
-              <label for="nombreSfia">Nombre *</label>
-              <input type="text" id="nombreSfia" required>
+            <div class="col-md-6 mb-3">
+              <label for="nombreSfia" class="form-label">Nombre *</label>
+              <input type="text" id="nombreSfia" class="form-control" required>
               <small class="mensaje-error"></small>
             </div>
           </div>
 
-          <div class="campo">
-            <label for="descripcionSfia">Descripción <span class="texto-ayuda">(opcional)</span></label>
-            <textarea id="descripcionSfia"></textarea>
+          <div class="mb-3">
+            <label for="descripcionSfia" class="form-label">Descripción <span class="texto-ayuda">(opcional)</span></label>
+            <textarea id="descripcionSfia" class="form-control" rows="3"></textarea>
             <small class="mensaje-error"></small>
           </div>
 
-          <div class="acciones">
-            <button type="submit" class="btn btn-primario">Guardar</button>
+          <div class="d-flex flex-wrap gap-2">
+            <button type="submit" class="btn btn-primary">Guardar</button>
           </div>
 
           <p id="mensajeSfia" class="mensaje-general oculto"></p>
         </form>
 
         <h2>Áreas SFIA registradas</h2>
-        <div class="campo">
-          <label for="buscarSfia">Buscar por código o nombre</label>
-          <input type="search" id="buscarSfia">
+        <div class="mb-3">
+          <label for="buscarSfia" class="form-label">Buscar por código o nombre</label>
+          <input type="search" id="buscarSfia" class="form-control">
         </div>
         <div class="tabla-contenedor">
           <table class="tabla">
@@ -305,40 +305,40 @@
       <!-- RF-28: Catálogo de temáticas -->
       <section id="panelTematicas" class="panel-catalogo oculto">
         <!-- Formulario para registrar o editar una temática -->
-        <form id="formTematica" class="tarjeta" novalidate autocomplete="off">
+        <form id="formTematica" class="card card-body mb-4" novalidate autocomplete="off">
           <h2 id="tituloFormTematica">Nueva temática</h2>
 
-          <div class="fila">
-            <div class="campo">
+          <div class="row">
+            <div class="col-md-6 mb-3">
               <!-- Código de la temática, se asigna automáticamente -->
-              <label for="codigoTematica">Código</label>
-              <input type="text" id="codigoTematica" readonly>
+              <label for="codigoTematica" class="form-label">Código</label>
+              <input type="text" id="codigoTematica" class="form-control" readonly>
               <small class="texto-ayuda">Se asigna automáticamente.</small>
             </div>
 
-            <div class="campo">
+            <div class="col-md-6 mb-3">
               <!-- Nombre obligatorio de la temática -->
-              <label for="nombreTematica">Nombre *</label>
-              <input type="text" id="nombreTematica" required>
+              <label for="nombreTematica" class="form-label">Nombre *</label>
+              <input type="text" id="nombreTematica" class="form-control" required>
               <small class="mensaje-error"></small>
             </div>
           </div>
 
-          <div class="campo">
+          <div class="mb-3">
             <!-- Descripción opcional de la temática -->
-            <label for="descripcionTematica">
+            <label for="descripcionTematica" class="form-label">
               Descripción <span class="texto-ayuda">(opcional)</span>
             </label>
-            <textarea id="descripcionTematica"></textarea>
+            <textarea id="descripcionTematica" class="form-control" rows="3"></textarea>
             <small class="mensaje-error"></small>
           </div>
 
-          <div class="acciones">
+          <div class="d-flex flex-wrap gap-2">
             <!-- Botón para guardar la temática -->
-            <button type="submit" class="btn btn-primario">Guardar</button>
+            <button type="submit" class="btn btn-primary">Guardar</button>
 
             <!-- Botón para cancelar la edición -->
-            <button type="button" id="btnCancelarTematica" class="btn btn-secundario oculto">Cancelar</button>
+            <button type="button" id="btnCancelarTematica" class="btn btn-outline-primary oculto">Cancelar</button>
           </div>
 
           <!-- Área para mostrar mensajes de éxito o error -->
@@ -347,9 +347,9 @@
 
         <!-- Tabla con las temáticas registradas -->
         <h2>Temáticas registradas</h2>
-        <div class="campo">
-          <label for="buscarTematica">Buscar por código o nombre</label>
-          <input type="search" id="buscarTematica">
+        <div class="mb-3">
+          <label for="buscarTematica" class="form-label">Buscar por código o nombre</label>
+          <input type="search" id="buscarTematica" class="form-control">
         </div>
         <div class="tabla-contenedor">
           <table class="tabla">
@@ -372,26 +372,26 @@
         <p id="sinResultadosTematicas" class="texto-ayuda oculto">No se encontraron resultados.</p>
       </section>
       <section id="panelCertificaciones" class="panel-catalogo oculto">
-        <form id="formCertificacion" class="tarjeta" novalidate autocomplete="off">
+        <form id="formCertificacion" class="card card-body mb-4" novalidate autocomplete="off">
           <h2 id="tituloFormCertificacion">Nueva certificación</h2>
 
-          <div class="fila">
-            <div class="campo">
-              <label for="codigoCertificacion">Código *</label>
-              <input type="text" id="codigoCertificacion" placeholder="CER-01" required>
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="codigoCertificacion" class="form-label">Código *</label>
+              <input type="text" id="codigoCertificacion" class="form-control" placeholder="CER-01" required>
               <small class="mensaje-error"></small>
             </div>
 
-            <div class="campo">
-              <label for="nombreCertificacion">Nombre *</label>
-              <input type="text" id="nombreCertificacion" required>
+            <div class="col-md-6 mb-3">
+              <label for="nombreCertificacion" class="form-label">Nombre *</label>
+              <input type="text" id="nombreCertificacion" class="form-control" required>
               <small class="mensaje-error"></small>
             </div>
           </div>
 
-          <div class="acciones">
-            <button type="submit" class="btn btn-primario">Guardar</button>
-            <button type="button" id="btnCancelarCertificacion" class="btn btn-secundario oculto">Cancelar</button>
+          <div class="d-flex flex-wrap gap-2">
+            <button type="submit" class="btn btn-primary">Guardar</button>
+            <button type="button" id="btnCancelarCertificacion" class="btn btn-outline-primary oculto">Cancelar</button>
           </div>
 
           <p id="mensajeCertificacion" class="mensaje-general oculto"></p>
@@ -414,48 +414,48 @@
       </section>
 
       <section id="panelNiveles" class="panel-catalogo oculto">
-        <form id="formNivel" class="tarjeta" novalidate autocomplete="off">
+        <form id="formNivel" class="card card-body mb-4" novalidate autocomplete="off">
           <h2>Nuevo nivel de complejidad</h2>
 
-          <div class="fila">
-            <div class="campo">
-              <label for="codigoNivel">Código</label>
-              <input type="text" id="codigoNivel" readonly>
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="codigoNivel" class="form-label">Código</label>
+              <input type="text" id="codigoNivel" class="form-control" readonly>
               <small class="texto-ayuda">Se asigna automáticamente.</small>
             </div>
 
-            <div class="campo">
-              <label for="nombreNivel">Nombre *</label>
-              <input type="text" id="nombreNivel" required>
+            <div class="col-md-6 mb-3">
+              <label for="nombreNivel" class="form-label">Nombre *</label>
+              <input type="text" id="nombreNivel" class="form-control" required>
               <small class="mensaje-error"></small>
             </div>
           </div>
 
-          <div class="campo">
-            <label for="tipoNivel">Nivel *</label>
-            <select id="tipoNivel" required>
+          <div class="mb-3">
+            <label for="tipoNivel" class="form-label">Nivel *</label>
+            <select id="tipoNivel" class="form-select" required>
               <option value="">Seleccione...</option>
             </select>
             <small class="mensaje-error"></small>
           </div>
 
-          <div class="campo">
-            <label for="descripcionNivel">Descripción *</label>
-            <textarea id="descripcionNivel" required></textarea>
+          <div class="mb-3">
+            <label for="descripcionNivel" class="form-label">Descripción *</label>
+            <textarea id="descripcionNivel" class="form-control" rows="3" required></textarea>
             <small class="mensaje-error"></small>
           </div>
 
-          <div class="acciones">
-            <button type="submit" class="btn btn-primario">Guardar</button>
+          <div class="d-flex flex-wrap gap-2">
+            <button type="submit" class="btn btn-primary">Guardar</button>
           </div>
 
           <p id="mensajeNivel" class="mensaje-general oculto"></p>
         </form>
 
         <h2>Niveles de complejidad registrados</h2>
-        <div class="campo">
-          <label for="buscarNivel">Buscar por código o nombre</label>
-          <input type="search" id="buscarNivel">
+        <div class="mb-3">
+          <label for="buscarNivel" class="form-label">Buscar por código o nombre</label>
+          <input type="search" id="buscarNivel" class="form-control">
         </div>
         <div class="tabla-contenedor">
           <table class="tabla">
@@ -478,41 +478,41 @@
       <section id="panelMetodologias" class="panel-catalogo oculto">
 
         <!-- Formulario para registrar o editar una metodología -->
-        <form id="formMetodologia" class="tarjeta" novalidate autocomplete="off">
+        <form id="formMetodologia" class="card card-body mb-4" novalidate autocomplete="off">
 
           <!-- Título que puede cambiar según la acción -->
           <h2 id="tituloFormMetodologia">
             Nueva metodología de aprendizaje
           </h2>
 
-          <div class="fila">
-            <div class="campo">
+          <div class="row">
+            <div class="col-md-6 mb-3">
               <!-- Código de la metodología, se asigna automáticamente -->
-              <label for="codigoMetodologia">Código</label>
-              <input type="text" id="codigoMetodologia" readonly>
+              <label for="codigoMetodologia" class="form-label">Código</label>
+              <input type="text" id="codigoMetodologia" class="form-control" readonly>
               <small class="texto-ayuda">Se asigna automáticamente.</small>
             </div>
 
-            <div class="campo">
+            <div class="col-md-6 mb-3">
               <!-- Nombre de la metodología -->
-              <label for="nombreMetodologia">Nombre *</label>
-              <input type="text" id="nombreMetodologia" required>
+              <label for="nombreMetodologia" class="form-label">Nombre *</label>
+              <input type="text" id="nombreMetodologia" class="form-control" required>
               <small class="mensaje-error"></small>
             </div>
           </div>
 
           <!-- Descripción de la metodología -->
-          <div class="campo">
-            <label for="descripcionMetodologia">Descripción *</label>
-            <textarea id="descripcionMetodologia" required></textarea>
+          <div class="mb-3">
+            <label for="descripcionMetodologia" class="form-label">Descripción *</label>
+            <textarea id="descripcionMetodologia" class="form-control" rows="3" required></textarea>
             <small class="mensaje-error"></small>
           </div>
 
           <!-- Botones para guardar o cancelar la edición -->
-          <div class="acciones">
-            <button type="submit" class="btn btn-primario">Guardar</button>
+          <div class="d-flex flex-wrap gap-2">
+            <button type="submit" class="btn btn-primary">Guardar</button>
             <button type="button" id="btnCancelarMetodologia"
-                    class="btn btn-secundario oculto">Cancelar</button>
+                    class="btn btn-outline-primary oculto">Cancelar</button>
           </div>
 
           <!-- Mensaje para informar el resultado de las acciones -->
@@ -523,9 +523,9 @@
 
         <!-- Tabla para mostrar las metodologías registradas -->
         <h2>Metodologías registradas</h2>
-        <div class="campo">
-          <label for="buscarMetodologia">Buscar por código o nombre</label>
-          <input type="search" id="buscarMetodologia">
+        <div class="mb-3">
+          <label for="buscarMetodologia" class="form-label">Buscar por código o nombre</label>
+          <input type="search" id="buscarMetodologia" class="form-control">
         </div>
         <div class="tabla-contenedor">
           <table class="tabla">
