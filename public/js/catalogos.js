@@ -106,7 +106,7 @@ function dibujarTablaCasas() {
   }
 }
 
-function guardarCasa(evento) {
+async function guardarCasa(evento) {
   evento.preventDefault();
   ocultarMensaje("mensajeCasa");
 
@@ -135,11 +135,13 @@ function guardarCasa(evento) {
     return;
   }
 
-  casas.push({ codigo: codigo, nombre: nombre });
-  guardarCasas(casas);
-  limpiarFormularioCasa();
-  dibujarTablaCasas();
-  mostrarMensaje("mensajeCasa", "Casa certificadora guardada.", "valido");
+  try {
+    let resultado = await pedirApi("POST", "/casasCertificadoras", { codigo: Number(codigo), nombre: nombre });
+    limpiarFormularioCasa();
+    mostrarMensaje("mensajeCasa", resultado.mensaje, "valido");
+  } catch (error) {
+    mostrarMensaje("mensajeCasa", error.message, "error");
+  }
 }
 
 function dibujarMonedas() {
@@ -288,7 +290,7 @@ function dibujarTablaSfia() {
   }
 }
 
-function guardarAreaSfia(evento) {
+async function guardarAreaSfia(evento) {
   evento.preventDefault();
   ocultarMensaje("mensajeSfia");
 
@@ -311,12 +313,13 @@ function guardarAreaSfia(evento) {
     descripcion: document.getElementById("descripcionSfia").value.trim()
   };
 
-  areas.push(area);
-  guardarAreasSfia(areas);
-
-  limpiarFormularioSfia();
-  dibujarTablaSfia();
-  mostrarMensaje("mensajeSfia", "Área SFIA guardada con el código " + area.codigo + ".", "valido");
+  try {
+    let resultado = await pedirApi("POST", "/areasSfia", area);
+    limpiarFormularioSfia();
+    mostrarMensaje("mensajeSfia", resultado.mensaje, "valido");
+  } catch (error) {
+    mostrarMensaje("mensajeSfia", error.message, "error");
+  }
 }
 
 agregarEventosBlur(camposSfia);
@@ -428,7 +431,7 @@ function dibujarTablaCertificaciones() {
   }
 }
 
-function guardarCertificacion(evento) {
+async function guardarCertificacion(evento) {
   evento.preventDefault();
   ocultarMensaje("mensajeCertificacion");
 
@@ -464,11 +467,13 @@ function guardarCertificacion(evento) {
     return;
   }
 
-  certificaciones.push({ codigo: codigo, nombre: nombre });
-  guardarCertificaciones(certificaciones);
-  limpiarFormularioCertificacion();
-  dibujarTablaCertificaciones();
-  mostrarMensaje("mensajeCertificacion", "Certificación guardada.", "valido");
+  try {
+    let resultado = await pedirApi("POST", "/certificaciones", { codigo: codigo, nombre: nombre });
+    limpiarFormularioCertificacion();
+    mostrarMensaje("mensajeCertificacion", resultado.mensaje, "valido");
+  } catch (error) {
+    mostrarMensaje("mensajeCertificacion", error.message, "error");
+  }
 }
 
 agregarEventosBlur(camposCertificacion);
@@ -580,7 +585,7 @@ function dibujarNiveles() {
   }
 }
 
-function guardarNivel(evento) {
+async function guardarNivel(evento) {
   evento.preventDefault();
   ocultarMensaje("mensajeNivel");
 
@@ -604,12 +609,13 @@ function guardarNivel(evento) {
     descripcion: document.getElementById("descripcionNivel").value.trim()
   };
 
-  niveles.push(nivel);
-  guardarNiveles(niveles);
-
-  limpiarFormularioNivel();
-  dibujarNiveles();
-  mostrarMensaje("mensajeNivel", "Nivel de complejidad guardado con el código " + nivel.codigo + ".", "valido");
+  try {
+    let resultado = await pedirApi("POST", "/nivelesComplejidad", nivel);
+    limpiarFormularioNivel();
+    mostrarMensaje("mensajeNivel", resultado.mensaje, "valido");
+  } catch (error) {
+    mostrarMensaje("mensajeNivel", error.message, "error");
+  }
 }
 
 cargarOpcionesNivel();
@@ -624,6 +630,7 @@ dibujarNiveles();
 // Configura el formulario y la tabla de cada catálogo.
 function configurarCatalogo({
   prefijo,
+  ruta,
   obtener,
   guardar,
   descripcionOpcional
@@ -742,7 +749,7 @@ function configurarCatalogo({
   }
 
   // Procesa el envío del formulario.
-  formulario.addEventListener("submit", function (evento) {
+  formulario.addEventListener("submit", async function (evento) {
     evento.preventDefault();
     ocultarMensaje(mensaje.id);
 
@@ -786,21 +793,28 @@ function configurarCatalogo({
       registros = registros.map(function (actual) {
         return actual.codigo === codigoEditando ? registro : actual;
       });
-    } else {
-      registros.push(registro);
+
+      // Guarda los datos y actualiza la tabla.
+      guardar(registros);
+      limpiar();
+      dibujar();
+
+      // Informa que el registro se guardó correctamente.
+      mostrarMensaje(
+        mensaje.id,
+        "Registro guardado correctamente.",
+        "valido"
+      );
+      return;
     }
 
-    // Guarda los datos y actualiza la tabla.
-    guardar(registros);
-    limpiar();
-    dibujar();
-
-    // Informa que el registro se guardó correctamente.
-    mostrarMensaje(
-      mensaje.id,
-      "Registro guardado correctamente.",
-      "valido"
-    );
+    try {
+      let resultado = await pedirApi("POST", ruta, registro);
+      limpiar();
+      mostrarMensaje(mensaje.id, resultado.mensaje, "valido");
+    } catch (error) {
+      mostrarMensaje(mensaje.id, error.message, "error");
+    }
   });
 
   // Permite cancelar la edición.
@@ -820,6 +834,7 @@ function configurarCatalogo({
 // Configura el catálogo de temáticas.
 configurarCatalogo({
   prefijo: "Tematica",
+  ruta: "/tematicas",
   obtener: obtenerTematicas,
   guardar: guardarTematicas,
   descripcionOpcional: true
@@ -828,6 +843,7 @@ configurarCatalogo({
 // Configura el catálogo de metodologías.
 configurarCatalogo({
   prefijo: "Metodologia",
+  ruta: "/metodologias",
   obtener: obtenerMetodologias,
   guardar: guardarMetodologias,
   descripcionOpcional: false
