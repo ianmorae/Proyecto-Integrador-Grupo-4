@@ -81,6 +81,7 @@ o **Inactivo**.
 │   ├── css/
 │   │   └── styles.css            Ajustes propios sobre Bootstrap, por secciones
 │   ├── js/
+│   │   ├── api.js                Peticiones a la API con fetch (pedirApi)
 │   │   ├── almacenamiento.js     Lectura y escritura en Local Storage
 │   │   ├── componentes.js        Encabezado, menú y pie de página
 │   │   ├── validaciones.js       Validaciones y mensajes compartidos
@@ -101,7 +102,7 @@ o **Inactivo**.
 └── README.md
 ```
 
-Cada página interna carga primero el JavaScript de Bootstrap y `almacenamiento.js`, después `componentes.js`, `menu.js`,
+Cada página interna carga primero el JavaScript de Bootstrap, `api.js` y `almacenamiento.js`, después `componentes.js`, `menu.js`,
 `validaciones.js` (si tiene formularios) y por último el script propio de la página.
 
 ## Guía de estilos
