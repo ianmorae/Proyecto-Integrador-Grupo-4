@@ -3,16 +3,16 @@
 function opcionesDelRol(rol) {
   if (rol === "Administrador") {
     return ["inicio.html", "cursos.html", "curso-formulario.html", "revision.html",
-      "catalogos.html", "usuarios.html", "reportes", "perfil.html"];
+      "catalogos.html", "usuarios.html", "reportes.html", "perfil.html"];
   }
   if (rol === "Director de Escuela") {
-    return ["inicio.html", "cursos.html", "curso-formulario.html", "reportes", "perfil.html"];
+    return ["inicio.html", "cursos.html", "curso-formulario.html", "reportes.html", "perfil.html"];
   }
   if (rol === "Desarrollo Curricular") {
     return ["inicio.html", "cursos.html", "revision.html", "perfil.html"];
   }
   // Rectoría y Vicerrectoría
-  return ["inicio.html", "cursos.html", "reportes", "perfil.html"];
+  return ["inicio.html", "cursos.html", "reportes.html", "perfil.html"];
 }
 
 function tieneOpcion(rol, opcion) {
@@ -34,8 +34,6 @@ function armarMenu(rol) {
 
     if (elementos[i].tagName === "A") {
       opcion = elementos[i].getAttribute("href");
-    } else if (elementos[i].classList.contains("menu-deshabilitado")) {
-      opcion = "reportes";
     }
 
     if (opcion !== "" && !tieneOpcion(rol, opcion)) {

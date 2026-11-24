@@ -91,8 +91,7 @@ function crearMenu() {
     opcionMenu("revision.html", "Revisión") +
     opcionMenu("catalogos.html", "Catálogos") +
     opcionMenu("usuarios.html", "Usuarios") +
-    '<span class="list-group-item disabled menu-deshabilitado" aria-disabled="true">' +
-    'Reportes <small>(En construcción)</small></span>' +
+    opcionMenu("reportes.html", "Reportes") +
     opcionMenu("perfil.html", "Mi perfil");
 
   if (nombrePagina() === "perfil.html") {
