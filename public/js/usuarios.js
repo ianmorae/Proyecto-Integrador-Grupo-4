@@ -251,7 +251,7 @@ if (formularioUsuario !== null) {
     document.getElementById("fechaNacimiento")
       .addEventListener("change", actualizarEdad);
 
-    formularioUsuario.addEventListener("submit", function (evento) {
+    formularioUsuario.addEventListener("submit", async function (evento) {
       evento.preventDefault();
 
       let mensaje = document.getElementById("mensajeUsuario");
@@ -355,7 +355,15 @@ if (formularioUsuario !== null) {
         actualizarUsuario(usuarios, nuevoUsuario);
         textoMensaje = "Usuario actualizado correctamente.";
       } else {
-        usuarios.push(nuevoUsuario);
+        // Prueba de la API: el registro se envía con POST (molde para los demás .js).
+        try {
+          let resultado = await pedirApi("POST", "/usuarios", nuevoUsuario);
+          textoMensaje = resultado.mensaje;
+        } catch (error) {
+          // La API respondió con un error, o no respondió.
+          mostrarErrorUsuario(error.message);
+          return;
+        }
       }
 
       guardarUsuarios(usuarios);
