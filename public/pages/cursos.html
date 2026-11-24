@@ -20,91 +20,74 @@
       <p class="texto-ayuda">Catálogo general de cursos registrados</p>
 
       <!-- Formulario para buscar y filtrar los cursos registrados. -->
-      <form id="formFiltros" class="tarjeta" novalidate autocomplete="off">
+      <form id="formFiltros" class="card p-3 mb-4" novalidate autocomplete="off">
 
-        <!-- Organiza los campos de búsqueda y filtros en cuatro columnas. -->
-        <div class="fila-cuatro">
+          <div class="row g-3">
 
-          <div class="campo">
-            <!-- Permite buscar cursos por nombre o código. -->
-            <label for="buscarCurso">Buscar</label>
-            <input type="search" id="buscarCurso" placeholder="Código, nombre, escuela…">
+              <div class="col-md-6 col-lg-4">
+                  <label class="form-label" for="buscarCurso">Buscar</label>
+                  <input type="search" class="form-control" id="buscarCurso" placeholder="Código, nombre, escuela…">
+              </div>
+
+              <div class="col-md-6 col-lg-4">
+                  <label class="form-label" for="filtroEscuela">Escuela</label>
+                  <select class="form-select" id="filtroEscuela">
+                      <option value="">Todas</option>
+                  </select>
+              </div>
+
+              <div class="col-md-6 col-lg-4">
+                  <label class="form-label" for="filtroEstado">Estado</label>
+                  <select class="form-select" id="filtroEstado">
+                      <option value="">Todos</option>
+                  </select>
+              </div>
+
+              <div class="col-md-6 col-lg-4">
+                  <label class="form-label" for="filtroModalidad">Modalidad</label>
+                  <select class="form-select" id="filtroModalidad">
+                      <option value="">Todas</option>
+                  </select>
+              </div>
+
+              <div class="col-md-6 col-lg-4">
+                  <label class="form-label" for="filtroTematica">Temática</label>
+                  <select class="form-select" id="filtroTematica">
+                      <option value="">Todas</option>
+                  </select>
+              </div>
+
           </div>
 
-          <div class="campo">
-            <!-- Permite filtrar los cursos por escuela. -->
-            <label for="filtroEscuela">Escuela</label>
-            <select id="filtroEscuela">
-              <option value="">Todas</option>
-            </select>
+          <div class="d-flex justify-content-end mt-3">
+              <button type="button" id="btnRestablecer" class="btn btn-outline-primary">
+                  Restablecer filtros
+              </button>
           </div>
 
-          <div class="campo">
-            <!-- Permite filtrar los cursos según su estado. -->
-            <label for="filtroEstado">Estado</label>
-            <select id="filtroEstado">
-              <option value="">Todos</option>
-            </select>
-          </div>
-
-          <div class="campo">
-            <!-- Permite filtrar los cursos según su modalidad. -->
-            <label for="filtroModalidad">Modalidad</label>
-            <select id="filtroModalidad">
-              <option value="">Todas</option>
-            </select>
-          </div>
-
-          <div class="campo">
-            <!-- Permite filtrar los cursos según su temática. -->
-            <label for="filtroTematica">Temática</label>
-            <select id="filtroTematica">
-              <option value="">Todas</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="acciones">
-          <!-- Botón para limpiar los filtros aplicados. -->
-          <button type="button" id="btnRestablecer" class="btn btn-secundario">Restablecer filtros</button>
-        </div>
       </form>
 
       <!-- Muestra la cantidad de cursos registrados y anuncia los cambios a lectores de pantalla. -->
       <p id="totalCursos" class="texto-ayuda" role="status" aria-live="polite"></p>
 
       <!-- Contenedor que organiza la tabla de cursos. -->
-      <div id="contenedorTabla" class="tabla-contenedor">
-
-        <!-- Tabla donde se muestran los cursos registrados. -->
-        <table class="tabla">
-          <thead>
-            <tr>
-              <!-- Encabezado de la columna del código del curso. -->
-              <th scope="col">Código</th>
-
-              <!-- Encabezado de la columna del nombre del curso. -->
-              <th scope="col">Nombre</th>
-
-              <!-- Encabezado de la columna de la escuela correspondiente. -->
-              <th scope="col">Escuela</th>
-
-              <th scope="col">Temática</th>
-              <th scope="col">Nivel</th>
-              <th scope="col">Créditos</th>
-
-              <!-- Encabezado de la columna de la modalidad del curso. -->
-              <th scope="col">Modalidad</th>
-              <th scope="col">Moneda</th>
-
-              <!-- Encabezado de la columna del estado del curso. -->
-              <th scope="col">Estado</th>
-            </tr>
-          </thead>
-
-          <!-- Aquí JavaScript agrega las filas con la información de los cursos. -->
-          <tbody id="tablaCursos"></tbody>
-        </table>
+      <div id="contenedorTabla" class="table-responsive">
+          <table class="table table-hover align-middle">
+              <thead>
+                  <tr>
+                      <th scope="col">Código</th>
+                      <th scope="col">Nombre</th>
+                      <th scope="col">Escuela</th>
+                      <th scope="col">Temática</th>
+                      <th scope="col">Nivel</th>
+                      <th scope="col">Créditos</th>
+                      <th scope="col">Modalidad</th>
+                      <th scope="col">Moneda</th>
+                      <th scope="col">Estado</th>
+                  </tr>
+              </thead>
+              <tbody id="tablaCursos"></tbody>
+          </table>
       </div>
 
       <!-- Mensaje que se muestra cuando todavía no hay cursos registrados. -->
