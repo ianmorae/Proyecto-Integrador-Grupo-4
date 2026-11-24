@@ -330,20 +330,9 @@ img {
 /* ===== 4. Formularios y estados del curso · Mariana Paniagua (BS-12) ===== */
 /* ===== 4. Formularios y estados del curso · Mariana Paniagua (BS-12) ===== */
 
-/* Etiquetas de los campos de los formularios de cursos. */
-.seccion-curso .form-label {
-    font-weight: 600;
-    color: var(--texto);
-}
-
-/* Espacio entre los campos de los formularios. */
-.seccion-curso .form-control,
-.seccion-curso .form-select {
-    width: 100%;
-}
-
-/* Apariencia de las secciones del formulario. */
-.seccion-curso.card {
+/* Estilos de las secciones del formulario de cursos. */
+.seccion-curso {
+    margin-bottom: 24px;
     border: 1px solid var(--borde);
     border-radius: 8px;
     background-color: var(--blanco);
@@ -351,20 +340,40 @@ img {
 
 /* Encabezado de cada sección del formulario. */
 .seccion-curso .card-header {
+    padding: 12px 16px;
     background-color: var(--azul-claro);
     color: var(--azul-oscuro);
     font-size: 18px;
     font-weight: bold;
 }
 
-/* Estilo general de los estados de los cursos. */
+/* Espaciado del contenido de cada sección. */
+.seccion-curso .card-body {
+    padding: 20px;
+}
+
+/* Etiquetas de los campos. */
+.seccion-curso .form-label {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--texto);
+    font-weight: bold;
+}
+
+/* Campos de texto y listas desplegables. */
+.seccion-curso .form-control,
+.seccion-curso .form-select {
+    width: 100%;
+}
+
+/* Estilo general de los badges de estados de cursos. */
 .badge-estado {
     display: inline-block;
     padding: 6px 10px;
     border-radius: 50rem;
-    font-size: 0.875rem;
+    font-size: 14px;
     font-weight: 600;
-    line-height: 1;
+    line-height: 1.2;
     white-space: nowrap;
 }
 
@@ -396,6 +405,17 @@ img {
 .badge-estado.inactivo {
     background-color: #E0E0E0;
     color: #333333;
+}
+
+/* Adaptación de las secciones a pantallas pequeñas. */
+@media (max-width: 767px) {
+    .seccion-curso .card-body {
+        padding: 16px;
+    }
+
+    .badge-estado {
+        white-space: normal;
+    }
 }
 
 /* ===== 5. Tablas, filtros y mensajes · Paulo Solano (BS-08) ===== */
