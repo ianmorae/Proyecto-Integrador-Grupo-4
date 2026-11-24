@@ -17,109 +17,120 @@
     <main class="contenido">
       <h1>Mi perfil</h1>
 
-      <div class="perfil-distribucion">
-        <section class="tarjeta perfil-resumen">
-          <div id="avatarActual" class="avatar-perfil avatar-grande">A1</div>
-          <h2 id="nombrePerfil"></h2>
-          <p id="rolPerfil" class="texto-ayuda"></p>
-          <p id="escuelaPerfil" class="texto-ayuda"></p>
-          <button type="button" id="btnCambiarAvatar" class="btn btn-secundario">
-            Cambiar avatar
-          </button>
-        </section>
+      <div class="row g-4">
+        <div class="col-lg-4">
+          <section class="card h-100 text-center">
+            <div class="card-body d-flex flex-column align-items-center justify-content-center">
+              <div id="avatarActual" class="avatar-perfil avatar-grande">A1</div>
+              <h2 id="nombrePerfil" class="mb-1"></h2>
+              <p id="rolPerfil" class="texto-ayuda mb-1"></p>
+              <p id="escuelaPerfil" class="texto-ayuda"></p>
+              <button type="button" id="btnCambiarAvatar" class="btn btn-outline-primary">
+                Cambiar avatar
+              </button>
+            </div>
+          </section>
+        </div>
 
-        <section class="tarjeta perfil-datos">
-          <h2>Datos personales</h2>
-          <dl class="datos-perfil">
-            <dt>Identificación</dt>
-            <dd id="identificacionPerfil"></dd>
+        <div class="col-lg-8">
+          <section class="card h-100">
+            <div class="card-body">
+              <h2 class="card-title">Datos personales</h2>
+              <dl class="row mb-0">
+                <dt class="col-sm-5">Identificación</dt>
+                <dd id="identificacionPerfil" class="col-sm-7 text-break"></dd>
 
-            <dt>Correo institucional</dt>
-            <dd id="correoPerfil"></dd>
+                <dt class="col-sm-5">Correo institucional</dt>
+                <dd id="correoPerfil" class="col-sm-7 text-break"></dd>
 
-            <dt>Correo personal</dt>
-            <dd id="correoPersonalPerfil"></dd>
+                <dt class="col-sm-5">Correo personal</dt>
+                <dd id="correoPersonalPerfil" class="col-sm-7 text-break"></dd>
 
-            <dt>Celular</dt>
-            <dd id="celularPerfil"></dd>
+                <dt class="col-sm-5">Celular</dt>
+                <dd id="celularPerfil" class="col-sm-7 text-break"></dd>
 
-            <dt>Fecha de nacimiento</dt>
-            <dd id="fechaNacimientoPerfil"></dd>
+                <dt class="col-sm-5">Fecha de nacimiento</dt>
+                <dd id="fechaNacimientoPerfil" class="col-sm-7 text-break"></dd>
 
-            <dt>Edad</dt>
-            <dd id="edadPerfil"></dd>
+                <dt class="col-sm-5">Edad</dt>
+                <dd id="edadPerfil" class="col-sm-7 text-break"></dd>
 
-            <dt>Sexo</dt>
-            <dd id="sexoPerfil"></dd>
-          </dl>
-        </section>
+                <dt class="col-sm-5">Sexo</dt>
+                <dd id="sexoPerfil" class="col-sm-7 text-break"></dd>
+              </dl>
+            </div>
+          </section>
+        </div>
       </div>
 
-      <fieldset id="seleccionAvatar" class="tarjeta seleccion-avatar oculto">
-        <legend>Seleccionar avatar</legend>
-        <form id="formImagenPerfil">
+      <section id="seleccionAvatar" class="card mt-4 oculto">
+        <div class="card-body">
+          <form id="formImagenPerfil">
+            <fieldset>
+              <legend class="fs-5 fw-bold">Seleccionar avatar</legend>
 
-          <!-- Opciones para seleccionar una imagen de perfil entre 10 avatares. -->
-           
-          <div class="avatar-opciones">
-            <label class="avatar-opcion">
-              <input type="radio" name="avatarUsuario" value="A1" checked>
-              <img src="../img/A1.png" alt="Avatar 1">
-            </label>
+              <!-- Opciones para seleccionar una imagen de perfil entre 10 avatares. -->
+              <div class="avatar-opciones">
+                  <label class="avatar-opcion">
+                    <input type="radio" name="avatarUsuario" value="A1" checked>
+                    <img src="../img/A1.png" alt="Avatar 1">
+                  </label>
 
-            <label class="avatar-opcion">
-              <input type="radio" name="avatarUsuario" value="A2">
-              <img src="../img/A2.png" alt="Avatar 2">
-            </label>
+                  <label class="avatar-opcion">
+                    <input type="radio" name="avatarUsuario" value="A2">
+                    <img src="../img/A2.png" alt="Avatar 2">
+                  </label>
 
-            <label class="avatar-opcion">
-              <input type="radio" name="avatarUsuario" value="A3">
-              <img src="../img/A3.png" alt="Avatar 3">
-            </label>
+                  <label class="avatar-opcion">
+                    <input type="radio" name="avatarUsuario" value="A3">
+                    <img src="../img/A3.png" alt="Avatar 3">
+                  </label>
 
-            <label class="avatar-opcion">
-              <input type="radio" name="avatarUsuario" value="A4">
-              <img src="../img/A4.png" alt="Avatar 4">
-            </label>
+                  <label class="avatar-opcion">
+                    <input type="radio" name="avatarUsuario" value="A4">
+                    <img src="../img/A4.png" alt="Avatar 4">
+                  </label>
 
-            <label class="avatar-opcion">
-              <input type="radio" name="avatarUsuario" value="A5">
-              <img src="../img/A5.png" alt="Avatar 5">
-            </label>
+                  <label class="avatar-opcion">
+                    <input type="radio" name="avatarUsuario" value="A5">
+                    <img src="../img/A5.png" alt="Avatar 5">
+                  </label>
 
-            <label class="avatar-opcion">
-              <input type="radio" name="avatarUsuario" value="A6">
-              <img src="../img/A6.png" alt="Avatar 6">
-            </label>
+                  <label class="avatar-opcion">
+                    <input type="radio" name="avatarUsuario" value="A6">
+                    <img src="../img/A6.png" alt="Avatar 6">
+                  </label>
 
-            <label class="avatar-opcion">
-              <input type="radio" name="avatarUsuario" value="A7">
-              <img src="../img/A7.png" alt="Avatar 7">
-            </label>
+                  <label class="avatar-opcion">
+                    <input type="radio" name="avatarUsuario" value="A7">
+                    <img src="../img/A7.png" alt="Avatar 7">
+                  </label>
 
-            <label class="avatar-opcion">
-              <input type="radio" name="avatarUsuario" value="A8">
-              <img src="../img/A8.png" alt="Avatar 8">
-            </label>
+                  <label class="avatar-opcion">
+                    <input type="radio" name="avatarUsuario" value="A8">
+                    <img src="../img/A8.png" alt="Avatar 8">
+                  </label>
 
-            <label class="avatar-opcion">
-              <input type="radio" name="avatarUsuario" value="A9">
-              <img src="../img/A9.png" alt="Avatar 9">
-            </label>
+                  <label class="avatar-opcion">
+                    <input type="radio" name="avatarUsuario" value="A9">
+                    <img src="../img/A9.png" alt="Avatar 9">
+                  </label>
 
-            <label class="avatar-opcion">
-              <input type="radio" name="avatarUsuario" value="A10">
-              <img src="../img/A10.png" alt="Avatar 10">
-            </label>
-          </div>
+                  <label class="avatar-opcion">
+                    <input type="radio" name="avatarUsuario" value="A10">
+                    <img src="../img/A10.png" alt="Avatar 10">
+                  </label>
+              </div>
+            </fieldset>
 
-          <div class="acciones">
-            <button type="submit" class="btn btn-primario">Guardar</button>
-            <button type="button" id="btnCancelarAvatar" class="btn btn-secundario">Cancelar</button>
-          </div>
-          <p id="mensajeImagenPerfil" role="status" aria-live="polite"></p>
-        </form>
-      </fieldset>
+            <div class="d-grid gap-2 d-sm-flex mt-4">
+              <button type="submit" class="btn btn-primary">Guardar</button>
+              <button type="button" id="btnCancelarAvatar" class="btn btn-outline-primary">Cancelar</button>
+            </div>
+            <p id="mensajeImagenPerfil" class="mt-3 mb-0" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+      </section>
     </main>
   </div>
 
