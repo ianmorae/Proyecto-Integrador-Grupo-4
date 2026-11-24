@@ -78,15 +78,53 @@ function textoTotal(total) {
 
 // Crea una celda de la tabla con el texto recibido.
 function crearCelda(texto) {
-  let celda = document.createElement("td");
+    let celda = document.createElement("td");
 
-  // Si el contenido está vacío, muestra un guion.
-  if (texto === "") {
-    texto = "—";
-  }
+    // Si el contenido está vacío, muestra un guion.
+    if (texto === "") {
+        texto = "—";
+    }
 
-  celda.textContent = texto;
-  return celda;
+    celda.textContent = texto;
+    return celda;
+}
+
+// Devuelve la clase de Bootstrap correspondiente al estado del curso.
+function claseEstado(estado) {
+    if (estado === "Borrador") {
+        return "badge-estado borrador";
+    }
+
+    if (estado === "En desarrollo") {
+        return "badge-estado en-desarrollo";
+    }
+
+    if (estado === "Aprobado") {
+        return "badge-estado aprobado";
+    }
+
+    if (estado === "En producción") {
+        return "badge-estado en-produccion";
+    }
+
+    if (estado === "Inactivo") {
+        return "badge-estado inactivo";
+    }
+
+    return "badge text-bg-secondary";
+}
+
+// Crea la celda del estado con su badge correspondiente.
+function crearCeldaEstado(estado) {
+    let celda = document.createElement("td");
+    let badge = document.createElement("span");
+
+    badge.className = claseEstado(estado);
+    badge.textContent = estado || "—";
+
+    celda.appendChild(badge);
+
+    return celda;
 }
 
 // Agrega una opción a una lista desplegable.
@@ -205,7 +243,7 @@ function dibujarTablaCursos() {
     fila.appendChild(crearCelda(String(cursos[i].creditos || "")));
     fila.appendChild(crearCelda(cursos[i].modalidad));
     fila.appendChild(crearCelda(cursos[i].moneda || ""));
-    fila.appendChild(crearCelda(cursos[i].estado));
+    fila.appendChild(crearCeldaEstado(cursos[i].estado));
     cuerpo.appendChild(fila);
   }
 
