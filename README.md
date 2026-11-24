@@ -94,6 +94,17 @@ o **Inactivo**.
 │   │   ├── cursos.js             Lista y búsqueda de cursos
 │   │   └── perfil.js             Perfil del usuario
 │   └── img/                      Logo y avatares (A1 a A10)
+├── api/                          API REST (otro proyecto de Node, puerto 4000)
+│   ├── src/
+│   │   ├── app.js                Configura y arranca la API
+│   │   ├── routes/               Direcciones de cada recurso bajo /api/v1
+│   │   ├── controllers/          Lógica de cada recurso
+│   │   ├── data/                 Datos en memoria (luego, modelos de MongoDB)
+│   │   └── middlewares/          Ruta no encontrada (404) y manejo de errores
+│   ├── .env                      PORT y ORIGEN_FRONTEND (no se sube a GitHub)
+│   ├── .gitignore                Excluye node_modules y .env
+│   ├── package.json              Dependencias (express, cors, dotenv) y scripts
+│   └── pruebas.http              Peticiones de prueba con REST Client
 ├── database/                     Script de creación de las colecciones en MongoDB
 ├── documentos/                   ERS, documento de diseño y wireframes
 ├── server.js                     Servidor Express que entrega la carpeta public
@@ -138,7 +149,11 @@ Requiere Node.js.
 2. Instalar las dependencias: `npm install`
 3. Iniciar el servidor: `npm run dev` (o `npm start`).
 4. Abrir `http://localhost:3000` en el navegador.
-5. Ingresar con el administrador inicial:
+5. En otra terminal, iniciar la API:
+   - `cd api` y `npm install`
+   - Crear `api/.env` con `PORT=4000` y `ORIGEN_FRONTEND=http://localhost:3000`
+   - `npm run dev`. La ruta de prueba es `http://localhost:4000/api/v1`.
+6. Ingresar con el administrador inicial:
    - Correo: `admin@ucenfotec.ac.cr`
    - Contraseña: `Admin2026`
 

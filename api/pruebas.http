@@ -1,0 +1,13 @@
+@api = http://localhost:4000/api/v1
+
+### 1. Ruta de prueba
+GET {{api}}
+
+### 2. Una ruta que no existe todavía: debe responder 404
+GET {{api}}/usuarios
+
+### 3. JSON mal escrito: debe responder 400
+POST {{api}}/usuarios
+Content-Type: application/json
+
+{ "nombre": "Sin cerrar"
