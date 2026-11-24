@@ -5,10 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nuevo curso | Sistema de Gestión Curricular</title>
 
-    <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-        rel="stylesheet"
-    >
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <link href="../css/styles.css" rel="stylesheet">
 </head>
@@ -25,11 +22,8 @@
 
             <h1>Nuevo curso</h1>
 
-            <p class="texto-ayuda">
-                Los campos con * son obligatorios para enviar a revisión.
-                El borrador solo necesita escuela, nombre oficial y código
-                (o la casilla marcada).
-            </p>
+            <p class="texto-ayuda"> Los campos con * son obligatorios para enviar a revisión.
+                El borrador solo necesita escuela, nombre oficial y código (o la casilla marcada).</p>
 
             <form id="formCurso" autocomplete="off" novalidate>
 
@@ -41,9 +35,7 @@
                     </legend>
 
                     <div class="card-body">
-
                         <div class="row g-3 mb-3">
-
                             <div class="col-md-6 campo">
                                 <label class="form-label" for="escuela">Escuela *</label>
                                 <select class="form-select" id="escuela" required>
@@ -63,7 +55,6 @@
 
                                 <small class="mensaje-error"></small>
                             </div>
-
                         </div>
 
                         <div class="row g-3 mb-3">
@@ -80,7 +71,6 @@
                                 <small class="contador" id="contadorPowerCampus">0 / 40</small>
                                 <small class="mensaje-error"></small>
                             </div>
-
                         </div>
 
                         <div class="row g-3 mb-3">
@@ -149,7 +139,6 @@
                                 <input class="form-control" type="text" id="fechaModificacion" readonly>
                             </div>
                         </div>
-
                     </div>
                 </fieldset>
 
@@ -216,9 +205,7 @@
                                 </select>
                                 <small class="mensaje-error"></small>
                             </div>
-
                         </div>
-
                     </div>
                 </fieldset>
 
@@ -230,9 +217,7 @@
                     </legend>
 
                     <div class="card-body">
-
                         <div class="row g-3 mb-3">
-
                             <div class="col-md-6 campo">
                                 <label class="form-label" for="requisitosIndispensables">Requisitos indispensables *</label>
                                 <textarea class="form-control" id="requisitosIndispensables" required></textarea>
@@ -245,7 +230,6 @@
                                 </label>
                                 <textarea class="form-control" id="requisitosDeseables"></textarea>
                             </div>
-
                         </div>
 
                         <div class="row g-3 mb-3">
@@ -267,7 +251,6 @@
                         </div>
 
                         <div class="row g-3 mb-3">
-
                             <div class="col-md-6 campo">
                                 <label class="form-label" for="certificacion">Certificación *</label>
                                 <select class="form-select" id="certificacion" required>
@@ -284,9 +267,7 @@
                                     <option value="">Seleccione...</option>
                                 </select>
                             </div>
-
                         </div>
-
                     </div>
                 </fieldset>
 
@@ -298,9 +279,7 @@
                     </legend>
 
                     <div class="card-body">
-
                         <div class="row g-3 mb-3">
-
                             <div class="col-md-6 campo">
                                 <label class="form-label" for="competencia">Competencia *</label>
                                 <textarea class="form-control" id="competencia" required></textarea>
@@ -312,7 +291,6 @@
                                 <textarea class="form-control" id="capacidades" required></textarea>
                                 <small class="mensaje-error"></small>
                             </div>
-
                         </div>
 
                         <div class="row g-3 mb-3">
@@ -342,19 +320,16 @@
                         </div>
 
                         <div class="row g-3 mb-3">
-
                             <div class="col-md-6 campo">
                                 <label class="form-label" for="perfilIngreso">Perfil de ingreso *</label>
                                 <textarea class="form-control" id="perfilIngreso" required></textarea>
                                 <small class="mensaje-error"></small>
                             </div>
-
                             <div class="col-md-6 campo">
                                 <label class="form-label" for="perfilSalida">Perfil de salida *</label>
                                 <textarea class="form-control" id="perfilSalida" required></textarea>
                                 <small class="mensaje-error"></small>
                             </div>
-
                         </div>
 
                         <div class="row g-3 mb-3">
@@ -370,9 +345,7 @@
                                 <input class="form-control" type="text" id="metadata" required>
                                 <small class="mensaje-error"></small>
                             </div>
-
                         </div>
-
                     </div>
                 </fieldset>
 
@@ -384,9 +357,7 @@
                     </legend>
 
                     <div class="card-body">
-
                         <div class="row g-3 mb-3">
-
                             <div class="col-md-6 campo">
                                 <label class="form-label" for="documentoWord">
                                     Programa en Word * <span class="texto-ayuda">(.doc / .docx)</span>
@@ -402,15 +373,12 @@
                                 <input class="form-control" type="file" id="documentoPdf" accept=".pdf" required>
                                 <small class="mensaje-error"></small>
                             </div>
-
                         </div>
-
                     </div>
                 </fieldset>
 
                 <!-- Botones -->
                 <div class="d-flex flex-wrap gap-2 mt-3">
-
                     <button class="btn btn-outline-primary" type="button" id="btnBorrador">
                         Guardar borrador
                     </button>
@@ -418,13 +386,10 @@
                     <button class="btn btn-primary" type="submit">
                         Enviar a revisión
                     </button>
-
                 </div>
 
                 <p class="mensaje-general oculto" id="mensajeCurso"></p>
-
             </form>
-
         </main>
     </div>
 
