@@ -180,7 +180,7 @@ function dibujarTablaCursos() {
   let cursos = obtenerCursosVisibles();
   let cuerpo = document.getElementById("tablaCursos");
   let encontrados = 0;
-
+  
   // Limpia la tabla antes de mostrar los resultados.
   cuerpo.innerHTML = "";
 
