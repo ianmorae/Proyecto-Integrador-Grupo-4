@@ -471,37 +471,6 @@ img {
   min-height: 21px;
 }
 
-.pestanas {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
-  margin-top: 16px;
-  border-bottom: 1px solid var(--borde);
-}
-
-.pestanas button {
-  padding: 8px 16px;
-  border: 1px solid var(--borde);
-  border-bottom: none;
-  border-radius: 6px 6px 0 0;
-  background-color: var(--fondo);
-  color: var(--texto);
-  font-size: 14px;
-  cursor: pointer;
-}
-
-.pestanas button:focus {
-  outline: 2px solid var(--azul);
-  outline-offset: 2px;
-}
-
-.pestanas .pestana-activa {
-  border-color: var(--azul);
-  background-color: var(--blanco);
-  color: var(--azul);
-  font-weight: bold;
-}
-
 .tabla-contenedor {
   overflow-x: auto;
 }

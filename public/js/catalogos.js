@@ -163,9 +163,9 @@ function mostrarPestana(boton) {
 
   for (let i = 0; i < botones.length; i++) {
     if (botones[i] === boton) {
-      botones[i].classList.add("pestana-activa");
+      botones[i].classList.add("pestana-activa", "active");
     } else {
-      botones[i].classList.remove("pestana-activa");
+      botones[i].classList.remove("pestana-activa", "active");
     }
   }
 
