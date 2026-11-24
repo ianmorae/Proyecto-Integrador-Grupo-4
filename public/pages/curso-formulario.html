@@ -1,322 +1,442 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nuevo curso | Sistema de Gestión Curricular</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-  <link rel="stylesheet" href="../css/styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuevo curso | Sistema de Gestión Curricular</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <link href="../css/styles.css" rel="stylesheet">
 </head>
+
 <body>
-  <header class="encabezado" id="encabezado"></header>
 
-  <div class="contenedor">
-    <nav class="menu-lateral" id="menu"></nav>
+    <header class="encabezado" id="encabezado"></header>
 
-    <main class="contenido">
-      <h1>Nuevo curso</h1>
-      <p class="texto-ayuda">Los campos con * son obligatorios para enviar a revisión. El borrador solo necesita escuela, nombre oficial y código (o la casilla marcada).</p>
+    <div class="contenedor">
 
-      <form id="formCurso" novalidate autocomplete="off">
-        <fieldset class="seccion-curso">
-          <legend>1. Datos básicos</legend>
+        <nav class="menu-lateral" id="menu"></nav>
 
-          <div class="fila">
-            <div class="campo">
-              <label for="escuela">Escuela *</label>
-              <select id="escuela" required>
-                <option value="">Seleccione...</option>
-              </select>
-              <small class="mensaje-error"></small>
-            </div>
+        <main class="contenido">
 
-            <div class="campo">
-              <label for="codigo">Código del curso *</label>
-              <input type="text" id="codigo" required>
-              <label class="opcion-casilla">
-                <input type="checkbox" id="codigoDc">
-                El código lo genera Desarrollo Curricular
-              </label>
-              <small class="mensaje-error"></small>
-            </div>
-          </div>
+            <h1>Nuevo curso</h1>
 
-          <div class="fila">
-            <div class="campo">
-              <label for="nombreOficial">Nombre oficial *</label>
-              <input type="text" id="nombreOficial" required>
-              <small class="mensaje-error"></small>
-            </div>
+            <p class="texto-ayuda">
+                Los campos con * son obligatorios para enviar a revisión.
+                El borrador solo necesita escuela, nombre oficial y código
+                (o la casilla marcada).
+            </p>
 
-            <div class="campo">
-              <label for="nombrePowerCampus">Nombre en Power Campus *</label>
-              <input type="text" id="nombrePowerCampus" maxlength="40" required>
-              <small id="contadorPowerCampus" class="contador">0 / 40</small>
-              <small class="mensaje-error"></small>
-            </div>
-          </div>
+            <form id="formCurso" autocomplete="off" novalidate>
 
-          <div class="fila">
-            <div class="fila">
-              <div class="campo">
-                <label for="periodo">Periodo *</label>
-                <select id="periodo" required>
-                  <option value="">Seleccione...</option>
-                </select>
-                <small class="mensaje-error"></small>
-              </div>
+                <!-- 1. Datos básicos -->
+                <fieldset class="seccion-curso card mb-4">
 
-              <div class="campo">
-                <label for="estado">Estado *</label>
-                <select id="estado" required>
-                  <option value="">Seleccione...</option>
-                </select>
-                <small class="mensaje-error"></small>
-              </div>
-            </div>
+                    <legend class="card-header">
+                        1. Datos básicos
+                    </legend>
 
-            <div class="campo">
-              <span class="etiqueta-grupo">Apertura en e-commerce *</span>
-              <div class="opciones-radio">
-                <label><input type="radio" name="ecommerce" value="Sí"> Sí</label>
-                <label><input type="radio" name="ecommerce" value="No" checked> No</label>
-              </div>
-            </div>
-          </div>
+                    <div class="card-body">
 
-          <div class="fila">
-            <div class="campo">
-              <label for="areaSfia">Área SFIA <span class="texto-ayuda">(opcional)</span></label>
-              <select id="areaSfia">
-                <option value="">Seleccione...</option>
-              </select>
-            </div>
+                        <div class="row g-3 mb-3">
 
-            <div class="campo">
-              <label for="tematica">Temática *</label>
-              <select id="tematica" required>
-                <option value="">Seleccione...</option>
-              </select>
-              <small class="mensaje-error"></small>
-            </div>
-          </div>
+                            <div class="col-md-6 campo">
+                                <label class="form-label" for="escuela">Escuela *</label>
+                                <select class="form-select" id="escuela" required>
+                                    <option value="">Seleccione...</option>
+                                </select>
+                                <small class="mensaje-error"></small>
+                            </div>
 
-          <div class="fila">
-            <div class="campo">
-              <label for="fechaModificacion">Fecha de última modificación <span class="texto-ayuda">(automática)</span></label>
-              <input type="text" id="fechaModificacion" readonly>
-            </div>
-          </div>
-        </fieldset>
+                            <div class="col-md-6 campo">
+                                <label class="form-label" for="codigo">Código del curso *</label>
+                                <input class="form-control" type="text" id="codigo" required>
 
-        <fieldset class="seccion-curso">
-          <legend>2. Carga académica y modalidad</legend>
+                                <label class="opcion-casilla form-check-label">
+                                    <input class="form-check-input" type="checkbox" id="codigoDc">
+                                    El código lo genera Desarrollo Curricular
+                                </label>
 
-          <div class="fila-cuatro">
-            <div class="campo">
-              <label for="creditos">Créditos *</label>
-              <input type="number" id="creditos" min="1" step="1" required>
-              <small class="mensaje-error"></small>
-            </div>
+                                <small class="mensaje-error"></small>
+                            </div>
 
-            <div class="campo">
-              <label for="horasClase">Horas de clase *</label>
-              <input type="number" id="horasClase" min="1" step="1" required>
-              <small class="mensaje-error"></small>
-            </div>
+                        </div>
 
-            <div class="campo">
-              <label for="horasExtraclase">Horas extraclase *</label>
-              <input type="number" id="horasExtraclase" min="0" step="1" required>
-              <small class="mensaje-error"></small>
-            </div>
+                        <div class="row g-3 mb-3">
 
-            <div class="campo">
-              <label for="totalHoras">Total de horas <span class="texto-ayuda">(calculado)</span></label>
-              <input type="number" id="totalHoras" readonly>
-            </div>
-          </div>
+                            <div class="col-md-6 campo">
+                                <label class="form-label" for="nombreOficial">Nombre oficial *</label>
+                                <input class="form-control" type="text" id="nombreOficial" required>
+                                <small class="mensaje-error"></small>
+                            </div>
 
-          <div class="fila">
-            <div class="fila">
-              <div class="campo">
-                <label for="modalidad">Modalidad *</label>
-                <select id="modalidad" required>
-                  <option value="">Seleccione...</option>
-                </select>
-                <small class="mensaje-error"></small>
-              </div>
+                            <div class="col-md-6 campo">
+                                <label class="form-label" for="nombrePowerCampus">Nombre en Power Campus *</label>
+                                <input class="form-control" type="text" id="nombrePowerCampus" maxlength="40" required>
+                                <small class="contador" id="contadorPowerCampus">0 / 40</small>
+                                <small class="mensaje-error"></small>
+                            </div>
 
-              <div class="campo">
-                <label for="nivel">Nivel de complejidad *</label>
-                <select id="nivel" required>
-                  <option value="">Seleccione...</option>
-                </select>
-                <small class="mensaje-error"></small>
-              </div>
-            </div>
+                        </div>
 
-            <div class="campo">
-              <label for="metodologia">Metodología de aprendizaje *</label>
-              <select id="metodologia" required>
-                <option value="">Seleccione...</option>
-              </select>
-              <small class="mensaje-error"></small>
-            </div>
-          </div>
-        </fieldset>
+                        <div class="row g-3 mb-3">
 
-        <fieldset class="seccion-curso">
-          <legend>3. Matrícula y datos comerciales</legend>
+                            <div class="col-md-6 campo">
+                                <label class="form-label" for="periodo">Periodo *</label>
+                                <select class="form-select" id="periodo" required>
+                                    <option value="">Seleccione...</option>
+                                </select>
+                                <small class="mensaje-error"></small>
+                            </div>
 
-          <div class="fila">
-            <div class="campo">
-              <label for="requisitosIndispensables">Requisitos indispensables *</label>
-              <textarea id="requisitosIndispensables" required></textarea>
-              <small class="mensaje-error"></small>
-            </div>
+                            <div class="col-md-6 campo">
+                                <label class="form-label" for="estado">Estado *</label>
+                                <select class="form-select" id="estado" required>
+                                    <option value="">Seleccione...</option>
+                                </select>
+                                <small class="mensaje-error"></small>
+                            </div>
 
-            <div class="campo">
-              <label for="requisitosDeseables">Requisitos deseables <span class="texto-ayuda">(opcional)</span></label>
-              <textarea id="requisitosDeseables"></textarea>
-            </div>
-          </div>
+                            <div class="col-md-6 campo">
+                                <span class="etiqueta-grupo">Apertura en e-commerce *</span>
 
-          <div class="fila">
-            <div class="campo">
-              <label for="programa">Programa *</label>
-              <input type="text" id="programa" required>
-              <small class="mensaje-error"></small>
-            </div>
+                                <div class="opciones-radio d-flex flex-wrap gap-3">
+                                    <label class="form-check-label">
+                                        <input class="form-check-input" type="radio" name="ecommerce" value="Sí">
+                                        Sí
+                                    </label>
 
-            <div class="campo">
-              <label for="moneda">Moneda *</label>
-              <select id="moneda" required>
-                <option value="">Seleccione...</option>
-              </select>
-              <small class="mensaje-error"></small>
-            </div>
-          </div>
+                                    <label class="form-check-label">
+                                        <input class="form-check-input" type="radio" name="ecommerce" value="No" checked>
+                                        No
+                                    </label>
+                                </div>
+                            </div>
 
-          <div class="fila">
-            <div class="campo">
-              <label for="certificacion">Certificación *</label>
-              <select id="certificacion" required>
-                <option value="">Seleccione...</option>
-              </select>
-              <small class="mensaje-error"></small>
-            </div>
+                        </div>
 
-            <div class="campo">
-              <label for="casaCertificadora">Casa certificadora <span class="texto-ayuda">(opcional)</span></label>
-              <select id="casaCertificadora">
-                <option value="">Seleccione...</option>
-              </select>
-            </div>
-          </div>
-        </fieldset>
+                        <div class="row g-3 mb-3">
 
-        <fieldset class="seccion-curso">
-          <legend>4. Información descriptiva</legend>
+                            <div class="col-md-6 campo">
+                                <label class="form-label" for="areaSfia">
+                                    Área SFIA <span class="texto-ayuda">(opcional)</span>
+                                </label>
+                                <select class="form-select" id="areaSfia">
+                                    <option value="">Seleccione...</option>
+                                </select>
+                            </div>
 
-          <div class="fila">
-            <div class="campo">
-              <label for="competencia">Competencia *</label>
-              <textarea id="competencia" required></textarea>
-              <small class="mensaje-error"></small>
-            </div>
+                            <div class="col-md-6 campo">
+                                <label class="form-label" for="tematica">Temática *</label>
+                                <select class="form-select" id="tematica" required>
+                                    <option value="">Seleccione...</option>
+                                </select>
+                                <small class="mensaje-error"></small>
+                            </div>
 
-            <div class="campo">
-              <label for="capacidades">Capacidades específicas *</label>
-              <textarea id="capacidades" required></textarea>
-              <small class="mensaje-error"></small>
-            </div>
-          </div>
+                        </div>
 
-          <div class="campo">
-            <label for="descripcionCorta">Descripción corta *</label>
-            <textarea id="descripcionCorta" required></textarea>
-            <small id="contadorDescripcionCorta" class="contador">0 / 250</small>
-            <small class="mensaje-error"></small>
-          </div>
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6 campo">
+                                <label class="form-label" for="fechaModificacion">
+                                    Fecha de última modificación
+                                    <span class="texto-ayuda">(automática)</span>
+                                </label>
+                                <input class="form-control" type="text" id="fechaModificacion" readonly>
+                            </div>
+                        </div>
 
-          <div class="campo">
-            <label for="metaDescripcion">Meta-descripción *</label>
-            <textarea id="metaDescripcion" required></textarea>
-            <small id="contadorMetaDescripcion" class="contador">0 / 155</small>
-            <small class="mensaje-error"></small>
-          </div>
+                    </div>
+                </fieldset>
 
-          <div class="campo">
-            <label for="descripcionLarga">Descripción larga *</label>
-            <textarea id="descripcionLarga" required></textarea>
-            <small class="mensaje-error"></small>
-          </div>
+                <!-- 2. Carga académica y modalidad -->
+                <fieldset class="seccion-curso card mb-4">
 
-          <div class="fila">
-            <div class="campo">
-              <label for="perfilIngreso">Perfil de ingreso *</label>
-              <textarea id="perfilIngreso" required></textarea>
-              <small class="mensaje-error"></small>
-            </div>
+                    <legend class="card-header">
+                        2. Carga académica y modalidad
+                    </legend>
 
-            <div class="campo">
-              <label for="perfilSalida">Perfil de salida *</label>
-              <textarea id="perfilSalida" required></textarea>
-              <small class="mensaje-error"></small>
-            </div>
-          </div>
+                    <div class="card-body">
 
-          <div class="fila">
-            <div class="campo">
-              <label for="palabrasClave">Palabras clave *</label>
-              <input type="text" id="palabrasClave" placeholder="arquitectura, diseño, patrones" required>
-              <small class="mensaje-error"></small>
-            </div>
+                        <div class="row g-3 mb-3">
 
-            <div class="campo">
-              <label for="metadata">Metadata *</label>
-              <input type="text" id="metadata" required>
-              <small class="mensaje-error"></small>
-            </div>
-          </div>
-        </fieldset>
+                            <div class="col-md-6 campo">
+                                <label class="form-label" for="creditos">Créditos *</label>
+                                <input class="form-control" type="number" id="creditos" min="1" step="1" required>
+                                <small class="mensaje-error"></small>
+                            </div>
 
-        <fieldset class="seccion-curso">
-          <legend>5. Documentos del programa</legend>
+                            <div class="col-md-6 campo">
+                                <label class="form-label" for="horasClase">Horas de clase *</label>
+                                <input class="form-control" type="number" id="horasClase" min="1" step="1" required>
+                                <small class="mensaje-error"></small>
+                            </div>
 
-          <div class="fila">
-            <div class="campo">
-              <label for="documentoWord">Programa en Word * <span class="texto-ayuda">(.doc / .docx)</span></label>
-              <input type="file" id="documentoWord" accept=".doc,.docx" required>
-              <small class="mensaje-error"></small>
-            </div>
+                            <div class="col-md-6 campo">
+                                <label class="form-label" for="horasExtraclase">Horas extraclase *</label>
+                                <input class="form-control" type="number" id="horasExtraclase" min="0" step="1" required>
+                                <small class="mensaje-error"></small>
+                            </div>
 
-            <div class="campo">
-              <label for="documentoPdf">Programa en PDF * <span class="texto-ayuda">(.pdf)</span></label>
-              <input type="file" id="documentoPdf" accept=".pdf" required>
-              <small class="mensaje-error"></small>
-            </div>
-          </div>
-        </fieldset>
+                            <div class="col-md-6 campo">
+                                <label class="form-label" for="totalHoras">
+                                    Total de horas <span class="texto-ayuda">(calculado)</span>
+                                </label>
+                                <input class="form-control" type="number" id="totalHoras" readonly>
+                            </div>
 
-        <div class="acciones">
-          <button type="button" id="btnBorrador" class="btn btn-secundario">Guardar borrador</button>
-          <button type="submit" class="btn btn-primario">Enviar a revisión</button>
-        </div>
+                        </div>
 
-        <p id="mensajeCurso" class="mensaje-general oculto"></p>
-      </form>
-    </main>
-  </div>
+                        <div class="row g-3 mb-3">
 
-  <footer class="pie-pagina" id="piePagina"></footer>
+                            <div class="col-md-6 campo">
+                                <label class="form-label" for="modalidad">Modalidad *</label>
+                                <select class="form-select" id="modalidad" required>
+                                    <option value="">Seleccione...</option>
+                                </select>
+                                <small class="mensaje-error"></small>
+                            </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-  <script src="../js/almacenamiento.js"></script>
-  <script src="../js/componentes.js"></script>
-  <script src="../js/menu.js"></script>
-  <script src="../js/validaciones.js"></script>
-  <script src="../js/curso-formulario.js"></script>
+                            <div class="col-md-6 campo">
+                                <label class="form-label" for="nivel">Nivel de complejidad *</label>
+                                <select class="form-select" id="nivel" required>
+                                    <option value="">Seleccione...</option>
+                                </select>
+                                <small class="mensaje-error"></small>
+                            </div>
+
+                            <div class="col-md-6 campo">
+                                <label class="form-label" for="metodologia">Metodología de aprendizaje *</label>
+                                <select class="form-select" id="metodologia" required>
+                                    <option value="">Seleccione...</option>
+                                </select>
+                                <small class="mensaje-error"></small>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </fieldset>
+
+                <!-- 3. Matrícula y datos comerciales -->
+                <fieldset class="seccion-curso card mb-4">
+
+                    <legend class="card-header">
+                        3. Matrícula y datos comerciales
+                    </legend>
+
+                    <div class="card-body">
+
+                        <div class="row g-3 mb-3">
+
+                            <div class="col-md-6 campo">
+                                <label class="form-label" for="requisitosIndispensables">Requisitos indispensables *</label>
+                                <textarea class="form-control" id="requisitosIndispensables" required></textarea>
+                                <small class="mensaje-error"></small>
+                            </div>
+
+                            <div class="col-md-6 campo">
+                                <label class="form-label" for="requisitosDeseables">
+                                    Requisitos deseables <span class="texto-ayuda">(opcional)</span>
+                                </label>
+                                <textarea class="form-control" id="requisitosDeseables"></textarea>
+                            </div>
+
+                        </div>
+
+                        <div class="row g-3 mb-3">
+
+                            <div class="col-md-6 campo">
+                                <label class="form-label" for="programa">Programa *</label>
+                                <input class="form-control" type="text" id="programa" required>
+                                <small class="mensaje-error"></small>
+                            </div>
+
+                            <div class="col-md-6 campo">
+                                <label class="form-label" for="moneda">Moneda *</label>
+                                <select class="form-select" id="moneda" required>
+                                    <option value="">Seleccione...</option>
+                                </select>
+                                <small class="mensaje-error"></small>
+                            </div>
+
+                        </div>
+
+                        <div class="row g-3 mb-3">
+
+                            <div class="col-md-6 campo">
+                                <label class="form-label" for="certificacion">Certificación *</label>
+                                <select class="form-select" id="certificacion" required>
+                                    <option value="">Seleccione...</option>
+                                </select>
+                                <small class="mensaje-error"></small>
+                            </div>
+
+                            <div class="col-md-6 campo">
+                                <label class="form-label" for="casaCertificadora">
+                                    Casa certificadora <span class="texto-ayuda">(opcional)</span>
+                                </label>
+                                <select class="form-select" id="casaCertificadora">
+                                    <option value="">Seleccione...</option>
+                                </select>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </fieldset>
+
+                <!-- 4. Información descriptiva -->
+                <fieldset class="seccion-curso card mb-4">
+
+                    <legend class="card-header">
+                        4. Información descriptiva
+                    </legend>
+
+                    <div class="card-body">
+
+                        <div class="row g-3 mb-3">
+
+                            <div class="col-md-6 campo">
+                                <label class="form-label" for="competencia">Competencia *</label>
+                                <textarea class="form-control" id="competencia" required></textarea>
+                                <small class="mensaje-error"></small>
+                            </div>
+
+                            <div class="col-md-6 campo">
+                                <label class="form-label" for="capacidades">Capacidades específicas *</label>
+                                <textarea class="form-control" id="capacidades" required></textarea>
+                                <small class="mensaje-error"></small>
+                            </div>
+
+                        </div>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-12 campo">
+                                <label class="form-label" for="descripcionCorta">Descripción corta *</label>
+                                <textarea class="form-control" id="descripcionCorta" required></textarea>
+                                <small class="contador" id="contadorDescripcionCorta">0 / 250</small>
+                                <small class="mensaje-error"></small>
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-12 campo">
+                                <label class="form-label" for="metaDescripcion">Meta-descripción *</label>
+                                <textarea class="form-control" id="metaDescripcion" required></textarea>
+                                <small class="contador" id="contadorMetaDescripcion">0 / 155</small>
+                                <small class="mensaje-error"></small>
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-12 campo">
+                                <label class="form-label" for="descripcionLarga">Descripción larga *</label>
+                                <textarea class="form-control" id="descripcionLarga" required></textarea>
+                                <small class="mensaje-error"></small>
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mb-3">
+
+                            <div class="col-md-6 campo">
+                                <label class="form-label" for="perfilIngreso">Perfil de ingreso *</label>
+                                <textarea class="form-control" id="perfilIngreso" required></textarea>
+                                <small class="mensaje-error"></small>
+                            </div>
+
+                            <div class="col-md-6 campo">
+                                <label class="form-label" for="perfilSalida">Perfil de salida *</label>
+                                <textarea class="form-control" id="perfilSalida" required></textarea>
+                                <small class="mensaje-error"></small>
+                            </div>
+
+                        </div>
+
+                        <div class="row g-3 mb-3">
+
+                            <div class="col-md-6 campo">
+                                <label class="form-label" for="palabrasClave">Palabras clave *</label>
+                                <input class="form-control" type="text" id="palabrasClave" placeholder="arquitectura, diseño, patrones" required>
+                                <small class="mensaje-error"></small>
+                            </div>
+
+                            <div class="col-md-6 campo">
+                                <label class="form-label" for="metadata">Metadata *</label>
+                                <input class="form-control" type="text" id="metadata" required>
+                                <small class="mensaje-error"></small>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </fieldset>
+
+                <!-- 5. Documentos del programa -->
+                <fieldset class="seccion-curso card mb-4">
+
+                    <legend class="card-header">
+                        5. Documentos del programa
+                    </legend>
+
+                    <div class="card-body">
+
+                        <div class="row g-3 mb-3">
+
+                            <div class="col-md-6 campo">
+                                <label class="form-label" for="documentoWord">
+                                    Programa en Word * <span class="texto-ayuda">(.doc / .docx)</span>
+                                </label>
+                                <input class="form-control" type="file" id="documentoWord" accept=".doc,.docx" required>
+                                <small class="mensaje-error"></small>
+                            </div>
+
+                            <div class="col-md-6 campo">
+                                <label class="form-label" for="documentoPdf">
+                                    Programa en PDF * <span class="texto-ayuda">(.pdf)</span>
+                                </label>
+                                <input class="form-control" type="file" id="documentoPdf" accept=".pdf" required>
+                                <small class="mensaje-error"></small>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </fieldset>
+
+                <!-- Botones -->
+                <div class="d-flex flex-wrap gap-2 mt-3">
+
+                    <button class="btn btn-outline-primary" type="button" id="btnBorrador">
+                        Guardar borrador
+                    </button>
+
+                    <button class="btn btn-primary" type="submit">
+                        Enviar a revisión
+                    </button>
+
+                </div>
+
+                <p class="mensaje-general oculto" id="mensajeCurso"></p>
+
+            </form>
+
+        </main>
+    </div>
+
+    <footer class="pie-pagina" id="piePagina"></footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="../js/almacenamiento.js"></script>
+    <script src="../js/componentes.js"></script>
+    <script src="../js/menu.js"></script>
+    <script src="../js/validaciones.js"></script>
+    <script src="../js/curso-formulario.js"></script>
+
 </body>
 </html>
