@@ -204,7 +204,8 @@ function limpiarFormularioCurso() {
   actualizarContadores();
 }
 
-function registrarCurso(campos, estadoPorDefecto, texto) {
+
+async function registrarCurso(campos, estadoPorDefecto, texto, usarApi = false) {
   ocultarMensaje("mensajeCurso");
 
   if (!validarFormulario(campos)) {
@@ -219,22 +220,35 @@ function registrarCurso(campos, estadoPorDefecto, texto) {
     return;
   }
 
-  let cursos = obtenerCursos();
-  cursos.push(crearCurso(estadoPorDefecto));
-  guardarCursos(cursos);
+  let curso = crearCurso(estadoPorDefecto);
 
-  limpiarFormularioCurso();
-  mostrarMensaje("mensajeCurso", texto, "valido");
+  try {
+    if (usarApi) {
+      let resultado = await pedirApi("POST", "/cursos", curso);
+      texto = resultado.mensaje;
+    } else {
+      let cursos = obtenerCursos();
+      cursos.push(curso);
+      guardarCursos(cursos);
+    }
+
+    limpiarFormularioCurso();
+    mostrarMensaje("mensajeCurso", texto, "valido");
+
+  } catch (error) {
+    mostrarMensaje("mensajeCurso", error.message, "error");
+  }
+
   document.getElementById("mensajeCurso").scrollIntoView({ behavior: "smooth", block: "center" });
 }
 
-function enviarCurso(evento) {
+async function enviarCurso(evento) {
   evento.preventDefault();
-  registrarCurso(camposCurso, "Borrador", "Curso registrado correctamente.");
+  await registrarCurso(camposCurso, "Borrador", "Curso registrado correctamente.");
 }
 
-function guardarBorrador() {
-  registrarCurso(camposBorrador, "Borrador", "Borrador guardado correctamente.");
+async function guardarBorrador() {
+  await registrarCurso(camposBorrador, "Borrador", "Borrador guardado correctamente.", true);
 }
 
 cargarListasCurso();
