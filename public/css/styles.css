@@ -328,6 +328,75 @@ img {
 }
 
 /* ===== 4. Formularios y estados del curso · Mariana Paniagua (BS-12) ===== */
+/* ===== 4. Formularios y estados del curso · Mariana Paniagua (BS-12) ===== */
+
+/* Etiquetas de los campos de los formularios de cursos. */
+.seccion-curso .form-label {
+    font-weight: 600;
+    color: var(--texto);
+}
+
+/* Espacio entre los campos de los formularios. */
+.seccion-curso .form-control,
+.seccion-curso .form-select {
+    width: 100%;
+}
+
+/* Apariencia de las secciones del formulario. */
+.seccion-curso.card {
+    border: 1px solid var(--borde);
+    border-radius: 8px;
+    background-color: var(--blanco);
+}
+
+/* Encabezado de cada sección del formulario. */
+.seccion-curso .card-header {
+    background-color: var(--azul-claro);
+    color: var(--azul-oscuro);
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Estilo general de los estados de los cursos. */
+.badge-estado {
+    display: inline-block;
+    padding: 6px 10px;
+    border-radius: 50rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+/* Estado: Borrador. */
+.badge-estado.borrador {
+    background-color: #666666;
+    color: #FFFFFF;
+}
+
+/* Estado: En desarrollo. */
+.badge-estado.en-desarrollo {
+    background-color: #0169E9;
+    color: #FFFFFF;
+}
+
+/* Estado: Aprobado. */
+.badge-estado.aprobado {
+    background-color: #2E7D32;
+    color: #FFFFFF;
+}
+
+/* Estado: En producción. */
+.badge-estado.en-produccion {
+    background-color: #01469A;
+    color: #FFFFFF;
+}
+
+/* Estado: Inactivo. */
+.badge-estado.inactivo {
+    background-color: #E0E0E0;
+    color: #333333;
+}
 
 /* ===== 5. Tablas, filtros y mensajes · Paulo Solano (BS-08) ===== */
 .table {
