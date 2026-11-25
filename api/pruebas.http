@@ -11,3 +11,74 @@ POST {{api}}/usuarios
 Content-Type: application/json
 
 { "nombre": "Sin cerrar"
+
+### 4. Registrar un usuario
+POST {{api}}/usuarios
+Content-Type: application/json
+
+{
+  "identificacion": "4-4444-4444",
+  "nombre": "Pedro",
+  "primerApellido": "Mora",
+  "segundoApellido": "Arias",
+  "fechaNacimiento": "1990-03-15",
+  "sexo": "Masculino",
+  "correoInstitucional": "pmora@ucenfotec.ac.cr",
+  "correoPersonal": "pedro.mora@gmail.com",
+  "celular": "85554444",
+  "rol": "Desarrollo Curricular",
+  "imagen": "A2"
+}
+
+### 5. Registrar sin nombre: debe responder 400
+POST {{api}}/usuarios
+Content-Type: application/json
+
+{
+  "identificacion": "5-5555-5555",
+  "primerApellido": "Soto",
+  "segundoApellido": "Vega",
+  "fechaNacimiento": "1992-07-01",
+  "sexo": "Femenino",
+  "correoInstitucional": "msoto@ucenfotec.ac.cr",
+  "correoPersonal": "maria.soto@gmail.com",
+  "celular": "84443333",
+  "rol": "Director de Escuela",
+  "imagen": "A4"
+}
+
+### 6. Registrar con una identificación repetida: debe responder 409
+POST {{api}}/usuarios
+Content-Type: application/json
+
+{
+  "identificacion": "1-1111-1111",
+  "nombre": "Otra",
+  "primerApellido": "Persona",
+  "segundoApellido": "Prueba",
+  "fechaNacimiento": "1990-01-01",
+  "sexo": "Femenino",
+  "correoInstitucional": "otra@ucenfotec.ac.cr",
+  "correoPersonal": "otra@gmail.com",
+  "celular": "83332222",
+  "rol": "Director de Escuela",
+  "imagen": "A6"
+}
+
+### 7. Registrar con un correo que no es institucional: debe responder 400
+POST {{api}}/usuarios
+Content-Type: application/json
+
+{
+  "identificacion": "7-7777-7777",
+  "nombre": "Luis",
+  "primerApellido": "Rojas",
+  "segundoApellido": "Pérez",
+  "fechaNacimiento": "1985-11-20",
+  "sexo": "Masculino",
+  "correoInstitucional": "luis.rojas@gmail.com",
+  "correoPersonal": "luis.rojas@gmail.com",
+  "celular": "82221111",
+  "rol": "Director de Escuela",
+  "imagen": "A7"
+}
