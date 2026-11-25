@@ -10,6 +10,11 @@ function esCorreo(valor) {
   return arroba > 0 && punto > arroba + 1 && punto < valor.length - 1;
 }
 
+// El correo institucional debe ser de la universidad.
+function esCorreoInstitucional(valor) {
+  return esCorreo(valor) && valor.toLowerCase().endsWith("@ucenfotec.ac.cr");
+}
+
 function cumplePolitica(valor) {
   let mayuscula = false;
   let minuscula = false;
@@ -221,6 +226,9 @@ function obtenerMensaje(id, valor) {
   }
   if (id === "correoInstitucional" && !esCorreo(valor)) {
     return "Ingresa un correo institucional válido.";
+  }
+  if (id === "correoInstitucional" && !esCorreoInstitucional(valor)) {
+    return "El correo institucional debe terminar en @ucenfotec.ac.cr.";
   }
   if (id === "celularUsuario" && !esCelular(valor)) {
     return "El celular debe tener 8 dígitos.";
