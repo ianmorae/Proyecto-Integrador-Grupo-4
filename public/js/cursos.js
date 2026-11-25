@@ -236,7 +236,13 @@ function dibujarTablaCursos() {
     let fila = document.createElement("tr");
 
     fila.appendChild(crearCelda(textoCodigo(cursos[i])));
-    fila.appendChild(crearCelda(cursos[i].nombreOficial));
+    // El nombre del curso es un enlace a su detalle.
+    let celdaNombre = document.createElement("td");
+    let enlace = document.createElement("a");
+    enlace.href = "curso-detalle.html?codigo=" + encodeURIComponent(cursos[i].codigo);
+    enlace.textContent = cursos[i].nombreOficial;
+    celdaNombre.appendChild(enlace);
+    fila.appendChild(celdaNombre);
     fila.appendChild(crearCelda(nombreEscuela(cursos[i].escuela)));
     fila.appendChild(crearCelda(nombreDeCatalogo(obtenerTematicas(), cursos[i].tematica)));
     fila.appendChild(crearCelda(nombreDeCatalogo(obtenerNiveles(), cursos[i].nivel)));

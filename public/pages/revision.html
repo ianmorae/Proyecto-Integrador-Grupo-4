@@ -12,18 +12,40 @@
 
   <div class="contenedor">
     <nav class="menu-lateral" id="menu"></nav>
-
+    
     <main class="contenido">
-      <h1>Revisión de cursos</h1>
+      <h1>Cursos pendientes de revisión</h1>
+      <p class="texto-ayuda">Bandeja de Desarrollo Curricular</p>
 
-      <section class="tarjeta en-construccion">
-        <p class="en-construccion-icono" aria-hidden="true">🚧</p>
-        <h2>Apartado en construcción</h2>
-        <p>Aquí Desarrollo Curricular podrá revisar, corregir y aprobar los cursos enviados.</p>
-        <p class="texto-ayuda">Estamos trabajando en esta sección.</p>
-        <a href="inicio.html" class="btn btn-primario">Volver al inicio</a>
-      </section>
+      <!-- Tabla de cursos pendientes de revisión. -->
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th scope="col">Código</th>
+                  <th scope="col">Nombre</th>
+                  <th scope="col">Escuela</th>
+                  <th scope="col">Enviado por</th>
+                  <th scope="col">Fecha de envío</th>
+                  <th scope="col">Acción</th>
+                </tr>
+              </thead>
+              <tbody id="tablaRevision">
+                <!-- JavaScript agregará aquí los cursos pendientes. -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Mensaje para cuando no hay cursos pendientes. -->
+          <p id="sinCursosRevision" class="texto-ayuda mt-3 mb-0">
+            No hay cursos pendientes de revisión.
+          </p>
+        </div>
+      </div>
     </main>
+
   </div>
 
   <footer class="pie-pagina" id="piePagina"></footer>
