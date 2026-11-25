@@ -3,8 +3,8 @@
 ### 1. Ruta de prueba
 GET {{api}}
 
-### 2. Una ruta que no existe todavía: debe responder 404
-GET {{api}}/usuarios
+### 2. Una ruta que no existe: debe responder 404
+GET {{api}}/prestamos
 
 ### 3. JSON mal escrito: debe responder 400
 POST {{api}}/usuarios
@@ -82,3 +82,15 @@ Content-Type: application/json
   "rol": "Director de Escuela",
   "imagen": "A7"
 }
+
+### 8. Listar todos los usuarios
+GET {{api}}/usuarios
+
+### 9. Filtrar por rol
+GET {{api}}/usuarios?rol=Director%20de%20Escuela
+
+### 10. Obtener un usuario por su id
+GET {{api}}/usuarios/1
+
+### 11. Un usuario que no existe: debe responder 404
+GET {{api}}/usuarios/999

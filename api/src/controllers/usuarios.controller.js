@@ -37,6 +37,29 @@ function validar(datos) {
   return null;
 }
 
+// Busca un usuario por su id. Devuelve undefined si no existe.
+function buscar(id) {
+  return usuarios.find((usuario) => usuario._id === id);
+}
+
+// GET /api/v1/usuarios o GET /api/v1/usuarios?rol=Director de Escuela
+function listar(req, res) {
+  const { rol } = req.query;
+  const resultado = rol
+    ? usuarios.filter((usuario) => usuario.rol === rol)
+    : usuarios;
+  res.json(resultado);
+}
+
+// GET /api/v1/usuarios/:id
+function obtener(req, res) {
+  const usuario = buscar(req.params.id);
+  if (!usuario) {
+    return res.status(404).json({ mensaje: 'El usuario no existe' });
+  }
+  res.json(usuario);
+}
+
 // POST /api/v1/usuarios
 function crear(req, res) {
   const error = validar(req.body);
@@ -78,4 +101,4 @@ function crear(req, res) {
   res.status(201).json({ mensaje: 'Usuario registrado', usuario });
 }
 
-module.exports = { crear };
+module.exports = { listar, obtener, crear };

@@ -12,6 +12,12 @@ function verificarPermisoRegistro() {
 /*Permite distinguir si se está registrando un usuario nuevo o modificando uno existente*/
 let identificacionUsuarioEditando = "";
 
+// _id del usuario que se edita (lo genera la API).
+let idUsuarioEditando = "";
+
+// Lista de usuarios que respondió la API.
+let usuariosApi = [];
+
 
 // Calcula la edad a partir de la fecha de nacimiento (aaaa-mm-dd).
 function calcularEdad(fechaTexto) {
@@ -37,6 +43,17 @@ function agregarCelda(fila, texto) {
   fila.appendChild(celda);
 }
 
+// Pide la lista de usuarios a la API y la dibuja.
+async function cargarUsuarios() {
+  try {
+    usuariosApi = await pedirApi("GET", "/usuarios");
+  } catch (error) {
+    usuariosApi = [];
+    mostrarMensaje("mensajeListaUsuarios", "No se pudieron cargar los usuarios.", "error");
+  }
+  dibujarUsuarios();
+}
+
 function dibujarUsuarios() {
   let tabla = document.getElementById("tablaUsuarios");
 
@@ -44,7 +61,7 @@ function dibujarUsuarios() {
     return;
   }
 
-  let usuarios = obtenerUsuarios();
+  let usuarios = usuariosApi;
   let texto = textoBusquedaUsuario();
   let encontrados = 0;
 
@@ -63,17 +80,13 @@ function dibujarUsuarios() {
     let avatar = document.createElement("img");
     let acciones = document.createElement("td");
 
-    if (!usuario.estado) {
-      usuario.estado = "Activo";
-    }
-
     avatar.src = "../img/" + (usuario.imagen || "A1") + ".png";
     avatar.alt = "Avatar de " + usuario.nombre;
     avatar.className = "avatar-tabla";
     celdaAvatar.appendChild(avatar);
     fila.appendChild(celdaAvatar);
 
-    agregarCelda(fila, (usuario.nombre || "") + " " + (usuario.apellidos || ""));
+    agregarCelda(fila, usuario.nombre + " " + usuario.primerApellido + " " + usuario.segundoApellido);
     agregarCelda(fila, usuario.identificacion || "");
     agregarCelda(fila, usuario.correoInstitucional || "");
     agregarCelda(fila, usuario.celular || "");
@@ -89,7 +102,7 @@ function dibujarUsuarios() {
     editar.textContent = "Editar";
 
     editar.addEventListener("click", function () {
-      editarUsuario(usuario.identificacion);
+      editarUsuario(usuario._id);
     });
 
     let cambiarEstado = document.createElement("button");
@@ -98,7 +111,7 @@ function dibujarUsuarios() {
     cambiarEstado.textContent = "Cambiar estado";
 
     cambiarEstado.addEventListener("click", function () {
-      cambiarEstadoUsuario(usuario.identificacion);
+      cambiarEstadoUsuario(usuario._id);
     });
 
     acciones.appendChild(editar);
@@ -107,8 +120,6 @@ function dibujarUsuarios() {
 
     tabla.appendChild(fila);
   }
-
-  guardarUsuarios(usuarios);
 
   let sinUsuarios = document.getElementById("sinUsuarios");
 
@@ -157,8 +168,8 @@ if (formularioUsuario !== null) {
     window.location.href = "inicio.html?sinPermiso=1";
   } else {
     
-    // Dibujar la lista cuando se abre la página.
-    dibujarUsuarios();
+    // Cargar la lista cuando se abre la página.
+    cargarUsuarios();
     cargarRoles();
 
     // Botón para mostrar el formulario.
@@ -302,8 +313,8 @@ if (formularioUsuario !== null) {
         return;
       }
 
-      // Recuperar los usuarios guardados.
-      let usuarios = obtenerUsuarios();
+      // Usuarios que respondió la API.
+      let usuarios = usuariosApi;
 
       // Evitar identificaciones y correos institucionales duplicados.
       let duplicado = usuarios.some(function (usuario) {
@@ -348,28 +359,26 @@ if (formularioUsuario !== null) {
       };
 
       
-      // Guardar el nuevo usuario.
-      let textoMensaje = "Usuario registrado correctamente.";
+      // Guardar el usuario en la API: PUT si se edita, POST si es nuevo.
+      let textoMensaje;
 
-      if (identificacionUsuarioEditando !== "") {
-        actualizarUsuario(usuarios, nuevoUsuario);
-        textoMensaje = "Usuario actualizado correctamente.";
-      } else {
-        // Prueba de la API: el registro se envía con POST (molde para los demás .js).
-        try {
-          let resultado = await pedirApi("POST", "/usuarios", nuevoUsuario);
-          textoMensaje = resultado.mensaje;
-        } catch (error) {
-          // La API respondió con un error, o no respondió.
-          mostrarErrorUsuario(error.message);
-          return;
+      try {
+        let resultado;
+
+        if (idUsuarioEditando !== "") {
+          resultado = await pedirApi("PUT", "/usuarios/" + idUsuarioEditando, nuevoUsuario);
+        } else {
+          resultado = await pedirApi("POST", "/usuarios", nuevoUsuario);
         }
+        textoMensaje = resultado.mensaje;
+      } catch (error) {
+        // La API respondió con un error, o no respondió.
+        mostrarErrorUsuario(error.message);
+        return;
       }
 
-      guardarUsuarios(usuarios);
-
       // Actualizar la lista de usuarios.
-      dibujarUsuarios();
+      cargarUsuarios();
 
       // Limpiar y ocultar el formulario.
       formularioUsuario.reset();
@@ -397,53 +406,43 @@ if (formularioUsuario !== null) {
 
 
 // Activa o desactiva un usuario. Un usuario inactivo no puede iniciar sesión.
-function cambiarEstadoUsuario(identificacion) {
+async function cambiarEstadoUsuario(id) {
   let sesion = obtenerSesion();
-  let usuarios = obtenerUsuarios();
+  let usuario = null;
 
-  for (let i = 0; i < usuarios.length; i++) {
-    if (usuarios[i].identificacion === identificacion) {
-
-      if (usuarios[i].correoInstitucional.toLowerCase() === sesion.correo.toLowerCase()) {
-        mostrarMensaje("mensajeListaUsuarios", "No puedes cambiar el estado de tu propio usuario.", "error");
-        return;
-      }
-
-      if (usuarios[i].estado === "Inactivo") {
-        usuarios[i].estado = "Activo";
-      } else {
-        usuarios[i].estado = "Inactivo";
-      }
-
-      guardarUsuarios(usuarios);
-      dibujarUsuarios();
-      mostrarMensaje("mensajeListaUsuarios",
-        "El usuario " + usuarios[i].nombre + " ahora está " + usuarios[i].estado.toLowerCase() + ".", "valido");
-      return;
+  for (let i = 0; i < usuariosApi.length; i++) {
+    if (usuariosApi[i]._id === id) {
+      usuario = usuariosApi[i];
     }
+  }
+
+  if (usuario.correoInstitucional.toLowerCase() === sesion.correo.toLowerCase()) {
+    mostrarMensaje("mensajeListaUsuarios", "No puedes cambiar el estado de tu propio usuario.", "error");
+    return;
+  }
+
+  let estado = usuario.estado === "Inactivo" ? "Activo" : "Inactivo";
+
+  try {
+    let resultado = await pedirApi("PATCH", "/usuarios/" + id + "/estado", { estado: estado });
+    mostrarMensaje("mensajeListaUsuarios", resultado.mensaje, "valido");
+    cargarUsuarios();
+  } catch (error) {
+    mostrarMensaje("mensajeListaUsuarios", error.message, "error");
   }
 }
 
 function limpiarEdicionUsuario() {
   identificacionUsuarioEditando = "";
+  idUsuarioEditando = "";
   limpiarEstadosUsuario();
   formularioUsuario.reset();
   document.getElementById("imagenUsuario").value = "";
   document.getElementById("identificacionUsuario").readOnly = false;
 }
 
-function buscarUsuarioPorIdentificacion(identificacion) {
-  let usuarios = obtenerUsuarios();
-
-  for (let i = 0; i < usuarios.length; i++) {
-    if (usuarios[i].identificacion === identificacion) {
-      return usuarios[i];
-    }
-  }
-  return null;
-}
-
-function editarUsuario(identificacion) {
+// Carga en el formulario los datos del usuario que responde la API.
+async function editarUsuario(id) {
   let sesion = obtenerSesion();
 
   if (sesion === null || sesion.rol !== "Administrador") {
@@ -451,20 +450,22 @@ function editarUsuario(identificacion) {
     return;
   }
 
-  let usuario = buscarUsuarioPorIdentificacion(identificacion);
+  let usuario;
 
-  if (usuario === null) {
+  try {
+    usuario = await pedirApi("GET", "/usuarios/" + id);
+  } catch (error) {
+    mostrarMensaje("mensajeListaUsuarios", error.message, "error");
     return;
   }
 
   limpiarEdicionUsuario();
   identificacionUsuarioEditando = usuario.identificacion;
+  idUsuarioEditando = usuario._id;
 
-  document.getElementById("nombreUsuario").value = usuario.nombre || "";
-  // Los usuarios antiguos solo tienen "apellidos"; se separan por el primer espacio.
-  let apellidos = (usuario.apellidos || "").split(" ");
-  document.getElementById("primerApellidoUsuario").value = usuario.primerApellido || apellidos[0];
-  document.getElementById("segundoApellidoUsuario").value = usuario.segundoApellido || apellidos.slice(1).join(" ");
+  document.getElementById("nombreUsuario").value = usuario.nombre;
+  document.getElementById("primerApellidoUsuario").value = usuario.primerApellido;
+  document.getElementById("segundoApellidoUsuario").value = usuario.segundoApellido;
   document.getElementById("identificacionUsuario").value = usuario.identificacion;
   document.getElementById("identificacionUsuario").readOnly = true;
   document.getElementById("fechaNacimiento").value = usuario.fechaNacimiento || "";
@@ -473,8 +474,9 @@ function editarUsuario(identificacion) {
   document.getElementById("correoPersonal").value = usuario.correoPersonal || "";
   document.getElementById("celularUsuario").value = usuario.celular || "";
   document.getElementById("rolUsuario").value = usuario.rol || "";
-  document.getElementById("contrasenaUsuario").value = atob(usuario.contrasena);
-  document.getElementById("confirmarContrasena").value = atob(usuario.contrasena);
+  // La API no devuelve la contraseña: se escribe de nuevo al guardar.
+  document.getElementById("contrasenaUsuario").value = "";
+  document.getElementById("confirmarContrasena").value = "";
   document.getElementById("imagenUsuario").value = usuario.imagen || "";
 
   let opcionesAvatar = document.querySelectorAll('input[name="avatarUsuario"]');
@@ -513,22 +515,12 @@ function actualizarSesionUsuario(anterior, editado) {
   }
 }
 
-function actualizarUsuario(usuarios, usuarioEditado) {
-  for (let i = 0; i < usuarios.length; i++) {
-    if (usuarios[i].identificacion === identificacionUsuarioEditando) {
-      usuarioEditado.estado = usuarios[i].estado;
-      actualizarSesionUsuario(usuarios[i], usuarioEditado);
-      usuarios[i] = usuarioEditado;
-    }
-  }
-}
-
 function rolOcupado(rol) {
   if (rol !== "Administrador" && rol !== "Rectoría" && rol !== "Vicerrectoría") {
     return false;
   }
 
-  let usuarios = obtenerUsuarios();
+  let usuarios = usuariosApi;
 
   for (let i = 0; i < usuarios.length; i++) {
     if (usuarios[i].identificacion !== identificacionUsuarioEditando && usuarios[i].rol === rol) {
@@ -575,7 +567,7 @@ function textoBusquedaUsuario() {
 function coincideUsuario(usuario, texto) {
   let identificacion = (usuario.identificacion || "").toLowerCase();
   let nombre = (usuario.nombre || "").toLowerCase();
-  let apellidos = (usuario.apellidos || "").toLowerCase();
+  let apellidos = (usuario.primerApellido + " " + usuario.segundoApellido).toLowerCase();
   let correo = (usuario.correoInstitucional || "").toLowerCase();
 
   return identificacion.includes(texto) || nombre.includes(texto) || apellidos.includes(texto) || correo.includes(texto);
