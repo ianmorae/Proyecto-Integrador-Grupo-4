@@ -1,5 +1,8 @@
 // Lista de cursos (RF-72)
 
+// Almacena los cursos recibidos desde la API.
+let cursosRegistrados = [];
+
 // Lista de estados disponibles para filtrar los cursos.
 let estadosFiltro = ["Borrador", "En desarrollo", "Aprobado", "En producción", "Inactivo"];
 
@@ -24,12 +27,12 @@ function nombreEscuela(codigo) {
 // El Director de Escuela solo ve los cursos de sus escuelas (RF-19).
 function obtenerCursosVisibles() {
   let sesion = obtenerSesion();
-  let cursos = obtenerCursos();
+  let cursos = cursosRegistrados;
   let escuelas = obtenerEscuelas();
   let visibles = [];
 
-  // Si el usuario no es Director de Escuela, devuelve todos los cursos.
-  if (sesion.rol !== "Director de Escuela") {
+  // Si no existe una sesión o no es Director de Escuela, devuelve todos los cursos.
+  if (!sesion || sesion.rol !== "Director de Escuela") {
     return cursos;
   }
 
@@ -40,7 +43,8 @@ function obtenerCursosVisibles() {
     for (let j = 0; j < escuelas.length; j++) {
 
       // Verifica que el curso pertenezca a una escuela dirigida por el usuario.
-      if (escuelas[j].codigo === cursos[i].escuela && escuelas[j].director === sesion.correo) {
+      if (escuelas[j].codigo === cursos[i].escuela &&
+          escuelas[j].director === sesion.correo) {
         visibles.push(cursos[i]);
       }
     }
@@ -172,8 +176,8 @@ function cumpleFiltros(curso) {
   let tematica = document.getElementById("filtroTematica").value;
 
   // Convierte los textos a minúsculas para facilitar la búsqueda.
-  let codigo = curso.codigo.toLowerCase();
-  let nombre = curso.nombreOficial.toLowerCase();
+  let codigo = String(curso.codigo || "").toLowerCase();
+  let nombre = String(curso.nombreOficial || "").toLowerCase();
   let escuelaTexto = nombreEscuela(curso.escuela).toLowerCase();
   let tematicaTexto = nombreDeCatalogo(obtenerTematicas(), curso.tematica).toLowerCase();
 
@@ -273,9 +277,28 @@ function dibujarTablaCursos() {
   }
 }
 
-// Carga los filtros y muestra los cursos al iniciar.
+
+// Consulta los cursos registrados en la API.
+async function cargarCursosDesdeApi() {
+  try {
+    // Solicita todos los cursos al backend.
+    cursosRegistrados = await pedirApi("GET", "/cursos");
+
+    // Actualiza la tabla con los cursos recibidos.
+    dibujarTablaCursos();
+
+  } catch (error) {
+    // Muestra el mensaje si ocurre un problema al consultar la API.
+    document.getElementById("contenedorTabla").classList.add("oculto");
+    document.getElementById("sinCursos").classList.remove("oculto");
+    document.getElementById("sinCursos").textContent = error.message;
+    document.getElementById("totalCursos").textContent = "";
+  }
+}
+
+// Carga los filtros y consulta los cursos al iniciar.
 cargarFiltros();
-dibujarTablaCursos();
+cargarCursosDesdeApi();
 
 // Evita que el formulario se envíe y recargue la página.
 document.getElementById("formFiltros").addEventListener("submit", function (evento) {

@@ -5,6 +5,7 @@ const express = require('express');
 const cors = require('cors');
 const usuariosRoutes = require('./routes/usuarios.routes');
 const casasCertificadorasRoutes = require('./routes/casasCertificadoras.routes');
+const cursosRoutes = require('./routes/cursos.routes');
 const certificacionesRoutes = require('./routes/certificaciones.routes');
 const tematicasRoutes = require('./routes/tematicas.routes');
 const metodologiasRoutes = require('./routes/metodologias.routes');
@@ -28,6 +29,7 @@ app.get('/api/v1', (req, res) => {
 // 4. Conecta cada grupo de URL con sus rutas.
 app.use('/api/v1/usuarios', usuariosRoutes);
 app.use('/api/v1/casasCertificadoras', casasCertificadorasRoutes);
+app.use('/api/v1/cursos', cursosRoutes);
 app.use('/api/v1/certificaciones', certificacionesRoutes);
 app.use('/api/v1/tematicas', tematicasRoutes);
 app.use('/api/v1/metodologias', metodologiasRoutes);
