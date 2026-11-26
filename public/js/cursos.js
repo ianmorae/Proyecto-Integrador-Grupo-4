@@ -1,7 +1,9 @@
 // Lista de cursos (RF-72)
 
-// Almacena los cursos recibidos desde la API.
+// Almacena los cursos, las escuelas y las temáticas recibidos desde la API.
 let cursosRegistrados = [];
+let escuelasApi = [];
+let tematicasApi = [];
 
 // Lista de estados disponibles para filtrar los cursos.
 let estadosFiltro = ["Borrador", "En desarrollo", "Aprobado", "En producción", "Inactivo"];
@@ -11,7 +13,7 @@ let modalidadesFiltro = ["Virtual", "En vivo", "Presencial", "Híbrida"];
 
 // Devuelve el nombre de la escuela a partir de su código.
 function nombreEscuela(codigo) {
-  let escuelas = obtenerEscuelas();
+  let escuelas = escuelasApi;
 
   // Recorre la lista de escuelas para encontrar el código recibido.
   for (let i = 0; i < escuelas.length; i++) {
@@ -28,7 +30,7 @@ function nombreEscuela(codigo) {
 function obtenerCursosVisibles() {
   let sesion = obtenerSesion();
   let cursos = cursosRegistrados;
-  let escuelas = obtenerEscuelas();
+  let escuelas = escuelasApi;
   let visibles = [];
 
   // Si no existe una sesión o no es Director de Escuela, devuelve todos los cursos.
@@ -142,7 +144,7 @@ function agregarOpcionFiltro(id, valor, texto) {
 
 // Carga las opciones disponibles en los filtros.
 function cargarFiltros() {
-  let escuelas = obtenerEscuelas();
+  let escuelas = escuelasApi;
 
   // Agrega las escuelas registradas al filtro.
   for (let i = 0; i < escuelas.length; i++) {
@@ -155,7 +157,7 @@ function cargarFiltros() {
   }
 
   // Agrega las temáticas registradas al filtro.
-  let tematicas = obtenerTematicas();
+  let tematicas = tematicasApi;
 
   for (let i = 0; i < tematicas.length; i++) {
     agregarOpcionFiltro("filtroTematica", tematicas[i].codigo, tematicas[i].nombre);
@@ -179,7 +181,7 @@ function cumpleFiltros(curso) {
   let codigo = String(curso.codigo || "").toLowerCase();
   let nombre = String(curso.nombreOficial || "").toLowerCase();
   let escuelaTexto = nombreEscuela(curso.escuela).toLowerCase();
-  let tematicaTexto = nombreDeCatalogo(obtenerTematicas(), curso.tematica).toLowerCase();
+  let tematicaTexto = nombreDeCatalogo(tematicasApi, curso.tematica).toLowerCase();
 
   // Verifica si el código, el nombre, la escuela o la temática contienen el texto buscado.
   if (texto !== "" && !codigo.includes(texto) && !nombre.includes(texto) &&
@@ -248,7 +250,7 @@ function dibujarTablaCursos() {
     celdaNombre.appendChild(enlace);
     fila.appendChild(celdaNombre);
     fila.appendChild(crearCelda(nombreEscuela(cursos[i].escuela)));
-    fila.appendChild(crearCelda(nombreDeCatalogo(obtenerTematicas(), cursos[i].tematica)));
+    fila.appendChild(crearCelda(nombreDeCatalogo(tematicasApi, cursos[i].tematica)));
     fila.appendChild(crearCelda(nombreDeCatalogo(obtenerNiveles(), cursos[i].nivel)));
     fila.appendChild(crearCelda(String(cursos[i].creditos || "")));
     fila.appendChild(crearCelda(cursos[i].modalidad));
@@ -281,6 +283,11 @@ function dibujarTablaCursos() {
 // Consulta los cursos registrados en la API.
 async function cargarCursosDesdeApi() {
   try {
+    // Solicita las escuelas y las temáticas para los filtros y los nombres.
+    escuelasApi = await pedirApi("GET", "/escuelas");
+    tematicasApi = await pedirApi("GET", "/tematicas");
+    cargarFiltros();
+
     // Solicita todos los cursos al backend.
     cursosRegistrados = await pedirApi("GET", "/cursos");
 
@@ -296,8 +303,7 @@ async function cargarCursosDesdeApi() {
   }
 }
 
-// Carga los filtros y consulta los cursos al iniciar.
-cargarFiltros();
+// Consulta los cursos y carga los filtros al iniciar.
 cargarCursosDesdeApi();
 
 // Evita que el formulario se envíe y recargue la página.

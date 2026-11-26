@@ -895,8 +895,22 @@ configurarCatalogo({
 // Lista de campos que se validan en el formulario de escuelas.
 let camposEscuela = ["codigoEscuela", "nombreEscuela", "directorEscuela"];
 
-// Directores de escuela que respondió la API.
+// Directores de escuela y escuelas que respondió la API.
 let directoresApi = [];
+let escuelasApi = [];
+
+// Pide las escuelas a la API y actualiza las tablas y la lista de carreras.
+async function cargarEscuelas() {
+  try {
+    escuelasApi = await pedirApi("GET", "/escuelas");
+  } catch (error) {
+    escuelasApi = [];
+    mostrarMensaje("mensajeEscuela", "No se pudieron cargar las escuelas.", "error");
+  }
+  dibujarTablaEscuelas();
+  cargarEscuelasCarrera();
+  dibujarTablaCarreras();
+}
 
 // Llena la lista con los usuarios que tienen el rol Director de Escuela.
 async function cargarDirectores() {
@@ -966,7 +980,7 @@ function coincideEscuela(escuela, texto) {
 // Muestra las escuelas que coinciden con la búsqueda.
 function dibujarTablaEscuelas() {
   // Obtiene las escuelas, la tabla y el texto de búsqueda.
-  let escuelas = obtenerEscuelas();
+  let escuelas = escuelasApi;
   let cuerpo = document.getElementById("tablaEscuelas");
   let texto = document.getElementById("buscarEscuela").value.trim().toLowerCase();
   let encontradas = 0;
@@ -1030,8 +1044,8 @@ function limpiarFormularioEscuela() {
   }
 }
 
-// Guarda una nueva escuela.
-function guardarEscuela(evento) {
+// Guarda una nueva escuela en la API.
+async function guardarEscuela(evento) {
   // Evita que se recargue la página al enviar el formulario.
   evento.preventDefault();
 
@@ -1045,7 +1059,7 @@ function guardarEscuela(evento) {
 
   // Obtiene el código ingresado y las escuelas registradas.
   let campoCodigo = document.getElementById("codigoEscuela");
-  let escuelas = obtenerEscuelas();
+  let escuelas = escuelasApi;
 
   // Verifica que no exista otra escuela con el mismo código.
   if (buscarEscuelaPorCodigo(campoCodigo.value.trim(), escuelas) !== null) {
@@ -1054,22 +1068,21 @@ function guardarEscuela(evento) {
     return;
   }
 
-  // Agrega la nueva escuela a la lista.
-  escuelas.push({
+  let escuela = {
     codigo: campoCodigo.value.trim(),
     nombre: document.getElementById("nombreEscuela").value.trim(),
     director: document.getElementById("directorEscuela").value
-  });
+  };
 
-  // Guarda las escuelas actualizadas.
-  guardarEscuelas(escuelas);
-
-  // Limpia el formulario y muestra un mensaje de éxito.
-  limpiarFormularioEscuela();
-
-  // Muestra las escuelas registradas en la tabla.
-  dibujarTablaEscuelas();
-  mostrarMensaje("mensajeEscuela", "Escuela guardada.", "valido");
+  // Envía la escuela a la API.
+  try {
+    let resultado = await pedirApi("POST", "/escuelas", escuela);
+    limpiarFormularioEscuela();
+    mostrarMensaje("mensajeEscuela", resultado.mensaje, "valido");
+    cargarEscuelas();
+  } catch (error) {
+    mostrarMensaje("mensajeEscuela", error.message, "error");
+  }
 }
 
 // Agrega la validación cuando se sale de cada campo.
@@ -1081,17 +1094,29 @@ document.getElementById("formEscuela").addEventListener("submit", guardarEscuela
 // Actualiza la tabla cada vez que se ingresa o modifica el texto de búsqueda.
 document.getElementById("buscarEscuela").addEventListener("input", dibujarTablaEscuelas);
 
-// Carga los directores disponibles al iniciar.
+// Carga los directores y las escuelas al iniciar.
 cargarDirectores();
-
-// Actualiza la tabla de escuelas registradas.
-dibujarTablaEscuelas();
+cargarEscuelas();
 
 let camposCarrera = ["codigoCarrera", "nombreCarrera", "escuelaCarrera"];
 
+// Carreras que respondió la API.
+let carrerasApi = [];
+
+// Pide las carreras a la API y las dibuja.
+async function cargarCarreras() {
+  try {
+    carrerasApi = await pedirApi("GET", "/carreras");
+  } catch (error) {
+    carrerasApi = [];
+    mostrarMensaje("mensajeCarrera", "No se pudieron cargar las carreras.", "error");
+  }
+  dibujarTablaCarreras();
+}
+
 function cargarEscuelasCarrera() {
   let lista = document.getElementById("escuelaCarrera");
-  let escuelas = obtenerEscuelas();
+  let escuelas = escuelasApi;
   let primera = document.createElement("option");
 
   lista.innerHTML = "";
@@ -1123,7 +1148,7 @@ function buscarCarreraPorCodigo(codigo, carreras) {
 }
 
 function obtenerNombreEscuela(codigo) {
-  let escuela = buscarEscuelaPorCodigo(codigo, obtenerEscuelas());
+  let escuela = buscarEscuelaPorCodigo(codigo, escuelasApi);
 
   if (escuela === null) {
     return codigo;
@@ -1140,7 +1165,7 @@ function coincideCarrera(carrera, texto) {
 }
 
 function dibujarTablaCarreras() {
-  let carreras = obtenerCarreras();
+  let carreras = carrerasApi;
   let cuerpo = document.getElementById("tablaCarreras");
   let texto = document.getElementById("buscarCarrera").value.trim().toLowerCase();
   let encontradas = 0;
@@ -1189,7 +1214,7 @@ function limpiarFormularioCarrera() {
   }
 }
 
-function guardarCarrera(evento) {
+async function guardarCarrera(evento) {
   evento.preventDefault();
   ocultarMensaje("mensajeCarrera");
 
@@ -1198,7 +1223,7 @@ function guardarCarrera(evento) {
   }
 
   let campoCodigo = document.getElementById("codigoCarrera");
-  let carreras = obtenerCarreras();
+  let carreras = carrerasApi;
 
   if (buscarCarreraPorCodigo(campoCodigo.value.trim(), carreras) !== null) {
     mostrarError(campoCodigo, "Ya existe una carrera con ese código.");
@@ -1206,21 +1231,24 @@ function guardarCarrera(evento) {
     return;
   }
 
-  carreras.push({
+  let carrera = {
     codigo: campoCodigo.value.trim(),
     nombre: document.getElementById("nombreCarrera").value.trim(),
     escuela: document.getElementById("escuelaCarrera").value
-  });
+  };
 
-  guardarCarreras(carreras);
-  limpiarFormularioCarrera();
-  dibujarTablaCarreras();
-  mostrarMensaje("mensajeCarrera", "Carrera guardada.", "valido");
+  try {
+    let resultado = await pedirApi("POST", "/carreras", carrera);
+    limpiarFormularioCarrera();
+    mostrarMensaje("mensajeCarrera", resultado.mensaje, "valido");
+    cargarCarreras();
+  } catch (error) {
+    mostrarMensaje("mensajeCarrera", error.message, "error");
+  }
 }
 
 agregarEventosBlur(camposCarrera);
 document.getElementById("formCarrera").addEventListener("submit", guardarCarrera);
 document.getElementById("buscarCarrera").addEventListener("input", dibujarTablaCarreras);
 document.getElementById("pestanaCarreras").addEventListener("click", cargarEscuelasCarrera);
-cargarEscuelasCarrera();
-dibujarTablaCarreras();
+cargarCarreras();

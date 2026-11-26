@@ -33,19 +33,25 @@ function agregarOpcionesFijas(id, valores) {
   }
 }
 
-function cargarListasCurso() {
-  agregarOpciones("escuela", obtenerEscuelas(), "codigo", "nombre");
-  agregarOpciones("areaSfia", obtenerAreasSfia(), "codigo", "nombre");
-  agregarOpciones("tematica", obtenerTematicas(), "codigo", "nombre");
-  agregarOpciones("nivel", obtenerNiveles(), "codigo", "nombre");
-  agregarOpciones("metodologia", obtenerMetodologias(), "codigo", "nombre");
-  agregarOpciones("casaCertificadora", obtenerCasas(), "codigo", "nombre");
+// Llena las listas del formulario. Los catálogos que ya tienen API se piden con GET.
+async function cargarListasCurso() {
   agregarOpcionesFijas("certificacion", ["No tiene"]);
-  agregarOpciones("certificacion", obtenerCertificaciones(), "codigo", "nombre");
+  agregarOpciones("areaSfia", obtenerAreasSfia(), "codigo", "nombre");
+  agregarOpciones("nivel", obtenerNiveles(), "codigo", "nombre");
   agregarOpcionesFijas("estado", estadosCurso);
   agregarOpcionesFijas("modalidad", modalidadesCurso);
   agregarOpcionesFijas("periodo", periodosCurso);
   agregarOpcionesFijas("moneda", monedas);
+
+  try {
+    agregarOpciones("escuela", await pedirApi("GET", "/escuelas"), "codigo", "nombre");
+    agregarOpciones("tematica", await pedirApi("GET", "/tematicas"), "codigo", "nombre");
+    agregarOpciones("metodologia", await pedirApi("GET", "/metodologias"), "codigo", "nombre");
+    agregarOpciones("casaCertificadora", await pedirApi("GET", "/casasCertificadoras"), "codigo", "nombre");
+    agregarOpciones("certificacion", await pedirApi("GET", "/certificaciones"), "codigo", "nombre");
+  } catch (error) {
+    mostrarMensaje("mensajeCurso", "No se pudieron cargar las listas del formulario.", "error");
+  }
 }
 
 function fechaDeHoy() {

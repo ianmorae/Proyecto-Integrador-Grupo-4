@@ -1,8 +1,11 @@
 let estadosReporte = ["Borrador", "En desarrollo", "Aprobado", "En producción", "Inactivo"];
 let periodosReporte = ["I cuatrimestre", "II cuatrimestre", "III cuatrimestre"];
 
+// Escuelas que respondió la API.
+let escuelasApi = [];
+
 function nombreEscuelaReporte(codigo) {
-  let escuelas = obtenerEscuelas();
+  let escuelas = escuelasApi;
 
   for (let i = 0; i < escuelas.length; i++) {
     if (escuelas[i].codigo === codigo) {
@@ -15,7 +18,7 @@ function nombreEscuelaReporte(codigo) {
 function cursosDelReporte() {
   let sesion = obtenerSesion();
   let cursos = obtenerCursos();
-  let escuelas = obtenerEscuelas();
+  let escuelas = escuelasApi;
   let visibles = [];
 
   if (sesion.rol !== "Director de Escuela") {
@@ -41,7 +44,7 @@ function agregarOpcionReporte(id, valor, texto) {
 }
 
 function cargarFiltrosReporte() {
-  let escuelas = obtenerEscuelas();
+  let escuelas = escuelasApi;
 
   for (let i = 0; i < estadosReporte.length; i++) {
     agregarOpcionReporte("filtroEstadoReporte", estadosReporte[i], estadosReporte[i]);
@@ -215,8 +218,18 @@ function restablecerReporte() {
   dibujarReporte();
 }
 
-cargarFiltrosReporte();
-dibujarReporte();
+// Pide las escuelas a la API y después carga los filtros y el reporte.
+async function iniciarReporte() {
+  try {
+    escuelasApi = await pedirApi("GET", "/escuelas");
+  } catch (error) {
+    escuelasApi = [];
+  }
+  cargarFiltrosReporte();
+  dibujarReporte();
+}
+
+iniciarReporte();
 
 document.getElementById("formReporte").addEventListener("submit", function (evento) {
   evento.preventDefault();
