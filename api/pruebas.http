@@ -291,45 +291,74 @@ Content-Type: application/json
   "nombre": "programación"
 }
 
-### 38. Metodologías: listar
-GET {{api}}/metodologias
 
-### 39. Metodologías: obtener una por su id
-GET {{api}}/metodologias/1
+### 38. Cursos: listar todos
+GET {{api}}/cursos
 
-### 40. Metodologías: una que no existe, debe responder 404
-GET {{api}}/metodologias/999
+### 39. Cursos: obtener uno por su id
+GET {{api}}/cursos/ID_DEL_CURSO
 
-### 41. Metodologías: registrar, el código se asigna solo
-POST {{api}}/metodologias
+### 40. Cursos: obtener uno que no existe, debe responder 404
+GET {{api}}/cursos/no-existe
+
+### 41. Cursos: registrar
+POST {{api}}/cursos
 Content-Type: application/json
 
 {
-  "nombre": "Aprendizaje colaborativo",
-  "descripcion": "Los estudiantes trabajan en equipos"
+  "escuela": "1",
+  "codigo": "CUR-101",
+  "codigoDc": false,
+  "nombreOficial": "Introducción a la programación",
+  "nombrePowerCampus": "Introducción a la programación",
+  "ecommerce": "No",
+  "periodo": "I cuatrimestre",
+  "estado": "Borrador",
+  "areaSfia": "1",
+  "tematica": "1",
+  "creditos": 3,
+  "horasClase": 20,
+  "horasExtraclase": 10,
+  "totalHoras": 30,
+  "modalidad": "Virtual",
+  "nivel": "1",
+  "metodologia": "1",
+  "requisitosIndispensables": "",
+  "requisitosDeseables": "",
+  "programa": "",
+  "moneda": "Colones",
+  "certificacion": "No tiene",
+  "casaCertificadora": "",
+  "competencia": "Desarrollar programas básicos",
+  "capacidades": "",
+  "descripcionCorta": "",
+  "metaDescripcion": "",
+  "descripcionLarga": "",
+  "perfilIngreso": "",
+  "perfilSalida": "",
+  "palabrasClave": "",
+  "metadata": "",
+  "documentoWord": "",
+  "documentoPdf": ""
 }
 
-### 42. Metodologías: registrar sin descripción, debe responder 400
-POST {{api}}/metodologias
+### 42. Cursos: registrar sin nombre, debe responder 400
+POST {{api}}/cursos
 Content-Type: application/json
 
 {
-  "nombre": "Gamificación"
+  "escuela": "1",
+  "codigo": "CUR-102",
+  "codigoDc": false
 }
 
-### 43. Metodologías: registrar sin nombre, debe responder 400
-POST {{api}}/metodologias
+### 43. Cursos: registrar con un código repetido, debe responder 409
+POST {{api}}/cursos
 Content-Type: application/json
 
 {
-  "descripcion": "Sin nombre"
-}
-
-### 44. Metodologías: nombre repetido, debe responder 409
-POST {{api}}/metodologias
-Content-Type: application/json
-
-{
-  "nombre": "aula invertida",
-  "descripcion": "Repetida"
+  "escuela": "1",
+  "codigo": "CUR-101",
+  "codigoDc": false,
+  "nombreOficial": "Otro curso"
 }
