@@ -405,3 +405,93 @@ Content-Type: application/json
   "nombre": "aula invertida",
   "descripcion": "Repetida"
 }
+
+### 51. Escuelas: listar
+GET {{api}}/escuelas
+
+### 52. Escuelas: obtener una por su id
+GET {{api}}/escuelas/1
+
+### 53. Escuelas: una que no existe, debe responder 404
+GET {{api}}/escuelas/999
+
+### 54. Escuelas: registrar
+POST {{api}}/escuelas
+Content-Type: application/json
+
+{
+  "codigo": "ESC-04",
+  "nombre": "Escuela de Inteligencia Artificial",
+  "director": "arojas@ucenfotec.ac.cr"
+}
+
+### 55. Escuelas: registrar sin director, debe responder 400
+POST {{api}}/escuelas
+Content-Type: application/json
+
+{
+  "codigo": "ESC-05",
+  "nombre": "Escuela sin director"
+}
+
+### 56. Escuelas: director sin ese rol, debe responder 400
+POST {{api}}/escuelas
+Content-Type: application/json
+
+{
+  "codigo": "ESC-06",
+  "nombre": "Escuela de prueba",
+  "director": "cvargas@ucenfotec.ac.cr"
+}
+
+### 57. Escuelas: código repetido, debe responder 409
+POST {{api}}/escuelas
+Content-Type: application/json
+
+{
+  "codigo": "ESC-01",
+  "nombre": "Otra escuela",
+  "director": "arojas@ucenfotec.ac.cr"
+}
+
+### 58. Carreras: listar
+GET {{api}}/carreras
+
+### 59. Carreras: filtrar por escuela
+GET {{api}}/carreras?escuela=ESC-01
+
+### 60. Carreras: obtener una por su id
+GET {{api}}/carreras/1
+
+### 61. Carreras: una que no existe, debe responder 404
+GET {{api}}/carreras/999
+
+### 62. Carreras: registrar
+POST {{api}}/carreras
+Content-Type: application/json
+
+{
+  "codigo": "CAR-04",
+  "nombre": "Técnico en Desarrollo Web",
+  "escuela": "ESC-01"
+}
+
+### 63. Carreras: escuela que no existe, debe responder 400
+POST {{api}}/carreras
+Content-Type: application/json
+
+{
+  "codigo": "CAR-05",
+  "nombre": "Carrera de prueba",
+  "escuela": "ESC-99"
+}
+
+### 64. Carreras: código repetido, debe responder 409
+POST {{api}}/carreras
+Content-Type: application/json
+
+{
+  "codigo": "CAR-01",
+  "nombre": "Otra carrera",
+  "escuela": "ESC-01"
+}

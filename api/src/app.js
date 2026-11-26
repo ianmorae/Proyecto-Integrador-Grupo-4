@@ -4,6 +4,8 @@ require('dotenv').config({ quiet: true });
 const express = require('express');
 const cors = require('cors');
 const usuariosRoutes = require('./routes/usuarios.routes');
+const escuelasRoutes = require('./routes/escuelas.routes');
+const carrerasRoutes = require('./routes/carreras.routes');
 const casasCertificadorasRoutes = require('./routes/casasCertificadoras.routes');
 const cursosRoutes = require('./routes/cursos.routes');
 const certificacionesRoutes = require('./routes/certificaciones.routes');
@@ -28,6 +30,8 @@ app.get('/api/v1', (req, res) => {
 
 // 4. Conecta cada grupo de URL con sus rutas.
 app.use('/api/v1/usuarios', usuariosRoutes);
+app.use('/api/v1/escuelas', escuelasRoutes);
+app.use('/api/v1/carreras', carrerasRoutes);
 app.use('/api/v1/casasCertificadoras', casasCertificadorasRoutes);
 app.use('/api/v1/cursos', cursosRoutes);
 app.use('/api/v1/certificaciones', certificacionesRoutes);

@@ -2,7 +2,7 @@
 const cursos = [
   {
     _id: '1',
-    escuela: '1',
+    escuela: 'ESC-01',
     codigo: 'SOFT-01',
     codigoDc: false,
     nombreOficial: 'Fundamentos de programación',
@@ -40,7 +40,7 @@ const cursos = [
   },
   {
     _id: '2',
-    escuela: '1',
+    escuela: 'ESC-01',
     codigo: 'SOFT-02',
     codigoDc: false,
     nombreOficial: 'Bases de datos',
@@ -78,7 +78,7 @@ const cursos = [
   },
   {
     _id: '3',
-    escuela: '1',
+    escuela: 'ESC-02',
     codigo: 'SOFT-03',
     codigoDc: false,
     nombreOficial: 'Redes de computadoras',
