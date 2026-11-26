@@ -362,3 +362,46 @@ Content-Type: application/json
   "codigoDc": false,
   "nombreOficial": "Otro curso"
 }
+
+### 44. Metodologías: listar
+GET {{api}}/metodologias
+
+### 45. Metodologías: obtener una por su id
+GET {{api}}/metodologias/1
+
+### 46. Metodologías: una que no existe, debe responder 404
+GET {{api}}/metodologias/999
+
+### 47. Metodologías: registrar, el código se asigna solo
+POST {{api}}/metodologias
+Content-Type: application/json
+
+{
+  "nombre": "Aprendizaje colaborativo",
+  "descripcion": "Los estudiantes trabajan en equipos"
+}
+
+### 48. Metodologías: registrar sin descripción, debe responder 400
+POST {{api}}/metodologias
+Content-Type: application/json
+
+{
+  "nombre": "Gamificación"
+}
+
+### 49. Metodologías: registrar sin nombre, debe responder 400
+POST {{api}}/metodologias
+Content-Type: application/json
+
+{
+  "descripcion": "Sin nombre"
+}
+
+### 50. Metodologías: nombre repetido, debe responder 409
+POST {{api}}/metodologias
+Content-Type: application/json
+
+{
+  "nombre": "aula invertida",
+  "descripcion": "Repetida"
+}
