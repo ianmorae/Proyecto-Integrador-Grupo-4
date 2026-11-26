@@ -350,6 +350,8 @@ dibujarTablaSfia();
 
 let camposCertificacion = ["codigoCertificacion", "nombreCertificacion"];
 let codigoCertificacionEditando = "";
+let idCertificacionEditando = "";
+let certificacionesApi = [];
 
 function buscarCertificacion(codigo, certificaciones) {
   for (let i = 0; i < certificaciones.length; i++) {
@@ -373,6 +375,7 @@ function obtenerOpcionesCertificacion() {
 function limpiarFormularioCertificacion() {
   document.getElementById("formCertificacion").reset();
   codigoCertificacionEditando = "";
+  idCertificacionEditando = "";
   document.getElementById("codigoCertificacion").readOnly = false;
   document.getElementById("tituloFormCertificacion").textContent = "Nueva certificación";
   document.getElementById("btnCancelarCertificacion").classList.add("oculto");
@@ -382,16 +385,30 @@ function limpiarFormularioCertificacion() {
   }
 }
 
-function editarCertificacion(codigo) {
-  let certificacion = buscarCertificacion(codigo, obtenerCertificaciones());
+async function cargarCertificaciones() {
+  try {
+    certificacionesApi = await pedirApi("GET", "/certificaciones");
+  } catch (error) {
+    certificacionesApi = [];
+    mostrarMensaje("mensajeCertificacion", "No se pudieron cargar las certificaciones.", "error");
+  }
+  dibujarTablaCertificaciones();
+}
 
-  if (certificacion === null) {
+async function editarCertificacion(id) {
+  let certificacion;
+
+  try {
+    certificacion = await pedirApi("GET", "/certificaciones/" + id);
+  } catch (error) {
+    mostrarMensaje("mensajeCertificacion", error.message, "error");
     return;
   }
 
   limpiarFormularioCertificacion();
   ocultarMensaje("mensajeCertificacion");
   codigoCertificacionEditando = certificacion.codigo;
+  idCertificacionEditando = certificacion._id;
 
   let campoCodigo = document.getElementById("codigoCertificacion");
   let campoNombre = document.getElementById("nombreCertificacion");
@@ -405,7 +422,7 @@ function editarCertificacion(codigo) {
 }
 
 function dibujarTablaCertificaciones() {
-  let certificaciones = obtenerCertificaciones();
+  let certificaciones = certificacionesApi;
   let cuerpo = document.getElementById("tablaCertificaciones");
 
   cuerpo.innerHTML = "";
@@ -439,7 +456,7 @@ function dibujarTablaCertificaciones() {
     botonEditar.className = "btn-enlace";
     botonEditar.textContent = "Editar";
     botonEditar.addEventListener("click", function () {
-      editarCertificacion(certificaciones[i].codigo);
+      editarCertificacion(certificaciones[i]._id);
     });
 
     celdaAcciones.appendChild(botonEditar);
@@ -463,7 +480,7 @@ async function guardarCertificacion(evento) {
   let campoNombre = document.getElementById("nombreCertificacion");
   let codigo = campoCodigo.value.trim();
   let nombre = campoNombre.value.trim();
-  let certificaciones = obtenerCertificaciones();
+  let certificaciones = certificacionesApi;
 
   if (nombre.toLowerCase() === "no tiene") {
     mostrarError(campoNombre, "La opción «No tiene» ya está incluida.");
@@ -471,13 +488,15 @@ async function guardarCertificacion(evento) {
     return;
   }
 
-  if (codigoCertificacionEditando !== "") {
-    let existente = buscarCertificacion(codigoCertificacionEditando, certificaciones);
-    existente.nombre = nombre;
-    guardarCertificaciones(certificaciones);
-    limpiarFormularioCertificacion();
-    dibujarTablaCertificaciones();
-    mostrarMensaje("mensajeCertificacion", "Certificación actualizada.", "valido");
+  if (idCertificacionEditando !== "") {
+    try {
+      let resultado = await pedirApi("PUT", "/certificaciones/" + idCertificacionEditando, { codigo: codigo, nombre: nombre });
+      limpiarFormularioCertificacion();
+      mostrarMensaje("mensajeCertificacion", resultado.mensaje, "valido");
+      cargarCertificaciones();
+    } catch (error) {
+      mostrarMensaje("mensajeCertificacion", error.message, "error");
+    }
     return;
   }
 
@@ -491,6 +510,7 @@ async function guardarCertificacion(evento) {
     let resultado = await pedirApi("POST", "/certificaciones", { codigo: codigo, nombre: nombre });
     limpiarFormularioCertificacion();
     mostrarMensaje("mensajeCertificacion", resultado.mensaje, "valido");
+    cargarCertificaciones();
   } catch (error) {
     mostrarMensaje("mensajeCertificacion", error.message, "error");
   }
@@ -499,7 +519,7 @@ async function guardarCertificacion(evento) {
 agregarEventosBlur(camposCertificacion);
 document.getElementById("formCertificacion").addEventListener("submit", guardarCertificacion);
 document.getElementById("btnCancelarCertificacion").addEventListener("click", limpiarFormularioCertificacion);
-dibujarTablaCertificaciones();
+cargarCertificaciones();
 
 // ===== RF-30: Nivel de complejidad =====
 let opcionesNivel = ["Básico", "Intermedio", "Avanzado", "Certificación", "Nivel variable"];
