@@ -2,11 +2,13 @@
 
 let camposCasa = ["codigoCasa", "nombreCasa"];
 let codigoEditando = "";
+let idCasaEditando = "";
+let casasApi = [];
 
 
 function buscarCasaPorCodigo(codigo, casas) {
   for (let i = 0; i < casas.length; i++) {
-    if (casas[i].codigo.toLowerCase() === codigo.toLowerCase()) {
+    if (String(casas[i].codigo).toLowerCase() === String(codigo).toLowerCase()) {
       return casas[i];
     }
   }
@@ -20,6 +22,7 @@ function limpiarFormularioCasa() {
 
   formulario.reset();
   codigoEditando = "";
+  idCasaEditando = "";
   codigo.readOnly = false;
   quitarEstadoCampo(codigo);
   quitarEstadoCampo(nombre);
@@ -27,10 +30,23 @@ function limpiarFormularioCasa() {
   document.getElementById("btnCancelarCasa").classList.add("oculto");
 }
 
-function editarCasa(codigo) {
-  let casa = buscarCasaPorCodigo(codigo, obtenerCasas());
+async function cargarCasas() {
+  try {
+    casasApi = await pedirApi("GET", "/casasCertificadoras");
+  } catch (error) {
+    casasApi = [];
+    mostrarMensaje("mensajeCasa", "No se pudieron cargar las casas certificadoras.", "error");
+  }
+  dibujarTablaCasas();
+}
 
-  if (casa === null) {
+async function editarCasa(id) {
+  let casa;
+
+  try {
+    casa = await pedirApi("GET", "/casasCertificadoras/" + id);
+  } catch (error) {
+    mostrarMensaje("mensajeCasa", error.message, "error");
     return;
   }
 
@@ -40,7 +56,8 @@ function editarCasa(codigo) {
   ocultarMensaje("mensajeCasa");
   quitarEstadoCampo(campoCodigo);
   quitarEstadoCampo(campoNombre);
-  codigoEditando = casa.codigo;
+  codigoEditando = String(casa.codigo);
+  idCasaEditando = casa._id;
   campoCodigo.value = casa.codigo;
   campoCodigo.readOnly = true;
   campoNombre.value = casa.nombre;
@@ -57,7 +74,7 @@ function coincideCasa(casa, texto) {
 }
 
 function dibujarTablaCasas() {
-  let casas = obtenerCasas();
+  let casas = casasApi;
   let cuerpo = document.getElementById("tablaCasas");
   let texto = document.getElementById("buscarCasa").value.trim().toLowerCase();
   let encontradas = 0;
@@ -83,7 +100,7 @@ function dibujarTablaCasas() {
     botonEditar.className = "btn-enlace";
     botonEditar.textContent = "Editar";
     botonEditar.addEventListener("click", function () {
-      editarCasa(casas[i].codigo);
+      editarCasa(casas[i]._id);
     });
 
     celdaAcciones.appendChild(botonEditar);
@@ -117,15 +134,17 @@ async function guardarCasa(evento) {
   let campoCodigo = document.getElementById("codigoCasa");
   let codigo = String(Number(campoCodigo.value.trim()));
   let nombre = document.getElementById("nombreCasa").value.trim();
-  let casas = obtenerCasas();
+  let casas = casasApi;
 
-  if (codigoEditando !== "") {
-    let existente = buscarCasaPorCodigo(codigoEditando, casas);
-    existente.nombre = nombre;
-    guardarCasas(casas);
-    limpiarFormularioCasa();
-    dibujarTablaCasas();
-    mostrarMensaje("mensajeCasa", "Casa certificadora actualizada.", "valido");
+  if (idCasaEditando !== "") {
+    try {
+      let resultado = await pedirApi("PUT", "/casasCertificadoras/" + idCasaEditando, { codigo: Number(codigo), nombre: nombre });
+      limpiarFormularioCasa();
+      mostrarMensaje("mensajeCasa", resultado.mensaje, "valido");
+      cargarCasas();
+    } catch (error) {
+      mostrarMensaje("mensajeCasa", error.message, "error");
+    }
     return;
   }
 
@@ -139,6 +158,7 @@ async function guardarCasa(evento) {
     let resultado = await pedirApi("POST", "/casasCertificadoras", { codigo: Number(codigo), nombre: nombre });
     limpiarFormularioCasa();
     mostrarMensaje("mensajeCasa", resultado.mensaje, "valido");
+    cargarCasas();
   } catch (error) {
     mostrarMensaje("mensajeCasa", error.message, "error");
   }
@@ -195,7 +215,7 @@ function iniciarCatalogos() {
   document.getElementById("btnCancelarCasa").addEventListener("click", limpiarFormularioCasa);
   document.getElementById("buscarCasa").addEventListener("input", dibujarTablaCasas);
 
-  dibujarTablaCasas();
+  cargarCasas();
   dibujarMonedas();
 }
 
