@@ -854,27 +854,34 @@ configurarCatalogo({
 // Lista de campos que se validan en el formulario de escuelas.
 let camposEscuela = ["codigoEscuela", "nombreEscuela", "directorEscuela"];
 
+// Directores de escuela que respondió la API.
+let directoresApi = [];
+
 // Llena la lista con los usuarios que tienen el rol Director de Escuela.
-function cargarDirectores() {
-  // Obtiene la lista de directores y los usuarios registrados.
+async function cargarDirectores() {
   let lista = document.getElementById("directorEscuela");
-  let usuarios = obtenerUsuarios();
 
-  // Recorre los usuarios registrados.
-  for (let i = 0; i < usuarios.length; i++) {
-
-    // Verifica si el usuario tiene el rol Director de Escuela.
-    if (usuarios[i].rol === "Director de Escuela") {
-      let opcion = document.createElement("option");
-
-      // Asigna el correo como valor y el nombre como texto visible.
-      opcion.value = usuarios[i].correoInstitucional;
-      opcion.textContent = usuarios[i].nombre + " " + usuarios[i].apellidos;
-
-      // Agrega el director a la lista.
-      lista.appendChild(opcion);
-    }
+  // Pide a la API solo los usuarios con ese rol.
+  try {
+    directoresApi = await pedirApi("GET", "/usuarios?rol=Director de Escuela");
+  } catch (error) {
+    mostrarMensaje("mensajeEscuela", "No se pudieron cargar los directores.", "error");
+    return;
   }
+
+  for (let i = 0; i < directoresApi.length; i++) {
+    let opcion = document.createElement("option");
+
+    // Asigna el correo como valor y el nombre como texto visible.
+    opcion.value = directoresApi[i].correoInstitucional;
+    opcion.textContent = directoresApi[i].nombre + " " + directoresApi[i].primerApellido + " " + directoresApi[i].segundoApellido;
+
+    // Agrega el director a la lista.
+    lista.appendChild(opcion);
+  }
+
+  // Vuelve a dibujar la tabla para mostrar el nombre de cada director.
+  dibujarTablaEscuelas();
 }
 
 // Busca una escuela por su código.
@@ -894,16 +901,15 @@ function buscarEscuelaPorCodigo(codigo, escuelas) {
 
 // Devuelve el nombre del director a partir de su correo.
 function nombreDirector(correo) {
-  // Busca al usuario por su correo institucional.
-  let usuario = buscarPorCorreo(correo);
-
-  // Si no encuentra al usuario, devuelve el correo.
-  if (usuario === null) {
-    return correo;
+  // Busca al director en la lista que respondió la API.
+  for (let i = 0; i < directoresApi.length; i++) {
+    if (directoresApi[i].correoInstitucional.toLowerCase() === correo.toLowerCase()) {
+      return directoresApi[i].nombre + " " + directoresApi[i].primerApellido + " " + directoresApi[i].segundoApellido;
+    }
   }
 
-  // Devuelve el nombre completo del director.
-  return usuario.nombre + " " + usuario.apellidos;
+  // Si no lo encuentra, devuelve el correo.
+  return correo;
 }
 
 // Revisa si el código o el nombre contienen el texto buscado.
