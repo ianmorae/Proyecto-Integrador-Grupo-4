@@ -350,6 +350,8 @@ dibujarTablaSfia();
 
 let camposCertificacion = ["codigoCertificacion", "nombreCertificacion"];
 let codigoCertificacionEditando = "";
+let idCertificacionEditando = "";
+let certificacionesApi = [];
 
 function buscarCertificacion(codigo, certificaciones) {
   for (let i = 0; i < certificaciones.length; i++) {
@@ -373,6 +375,7 @@ function obtenerOpcionesCertificacion() {
 function limpiarFormularioCertificacion() {
   document.getElementById("formCertificacion").reset();
   codigoCertificacionEditando = "";
+  idCertificacionEditando = "";
   document.getElementById("codigoCertificacion").readOnly = false;
   document.getElementById("tituloFormCertificacion").textContent = "Nueva certificación";
   document.getElementById("btnCancelarCertificacion").classList.add("oculto");
@@ -382,16 +385,31 @@ function limpiarFormularioCertificacion() {
   }
 }
 
-function editarCertificacion(codigo) {
-  let certificacion = buscarCertificacion(codigo, obtenerCertificaciones());
+// Pide la lista de certificaciones a la API y la dibuja.
+async function cargarCertificaciones() {
+  try {
+    certificacionesApi = await pedirApi("GET", "/certificaciones");
+  } catch (error) {
+    certificacionesApi = [];
+    mostrarMensaje("mensajeCertificacion", "No se pudieron cargar las certificaciones.", "error");
+  }
+  dibujarTablaCertificaciones();
+}
 
-  if (certificacion === null) {
+async function editarCertificacion(id) {
+  let certificacion;
+
+  try {
+    certificacion = await pedirApi("GET", "/certificaciones/" + id);
+  } catch (error) {
+    mostrarMensaje("mensajeCertificacion", error.message, "error");
     return;
   }
 
   limpiarFormularioCertificacion();
   ocultarMensaje("mensajeCertificacion");
   codigoCertificacionEditando = certificacion.codigo;
+  idCertificacionEditando = certificacion._id;
 
   let campoCodigo = document.getElementById("codigoCertificacion");
   let campoNombre = document.getElementById("nombreCertificacion");
@@ -405,7 +423,7 @@ function editarCertificacion(codigo) {
 }
 
 function dibujarTablaCertificaciones() {
-  let certificaciones = obtenerCertificaciones();
+  let certificaciones = certificacionesApi;
   let cuerpo = document.getElementById("tablaCertificaciones");
 
   cuerpo.innerHTML = "";
@@ -439,7 +457,7 @@ function dibujarTablaCertificaciones() {
     botonEditar.className = "btn-enlace";
     botonEditar.textContent = "Editar";
     botonEditar.addEventListener("click", function () {
-      editarCertificacion(certificaciones[i].codigo);
+      editarCertificacion(certificaciones[i]._id);
     });
 
     celdaAcciones.appendChild(botonEditar);
@@ -463,7 +481,7 @@ async function guardarCertificacion(evento) {
   let campoNombre = document.getElementById("nombreCertificacion");
   let codigo = campoCodigo.value.trim();
   let nombre = campoNombre.value.trim();
-  let certificaciones = obtenerCertificaciones();
+  let certificaciones = certificacionesApi;
 
   if (nombre.toLowerCase() === "no tiene") {
     mostrarError(campoNombre, "La opción «No tiene» ya está incluida.");
@@ -471,13 +489,15 @@ async function guardarCertificacion(evento) {
     return;
   }
 
-  if (codigoCertificacionEditando !== "") {
-    let existente = buscarCertificacion(codigoCertificacionEditando, certificaciones);
-    existente.nombre = nombre;
-    guardarCertificaciones(certificaciones);
-    limpiarFormularioCertificacion();
-    dibujarTablaCertificaciones();
-    mostrarMensaje("mensajeCertificacion", "Certificación actualizada.", "valido");
+  if (idCertificacionEditando !== "") {
+    try {
+      let resultado = await pedirApi("PUT", "/certificaciones/" + idCertificacionEditando, { codigo: codigo, nombre: nombre });
+      limpiarFormularioCertificacion();
+      mostrarMensaje("mensajeCertificacion", resultado.mensaje, "valido");
+      cargarCertificaciones();
+    } catch (error) {
+      mostrarMensaje("mensajeCertificacion", error.message, "error");
+    }
     return;
   }
 
@@ -491,6 +511,7 @@ async function guardarCertificacion(evento) {
     let resultado = await pedirApi("POST", "/certificaciones", { codigo: codigo, nombre: nombre });
     limpiarFormularioCertificacion();
     mostrarMensaje("mensajeCertificacion", resultado.mensaje, "valido");
+    cargarCertificaciones();
   } catch (error) {
     mostrarMensaje("mensajeCertificacion", error.message, "error");
   }
@@ -499,7 +520,7 @@ async function guardarCertificacion(evento) {
 agregarEventosBlur(camposCertificacion);
 document.getElementById("formCertificacion").addEventListener("submit", guardarCertificacion);
 document.getElementById("btnCancelarCertificacion").addEventListener("click", limpiarFormularioCertificacion);
-dibujarTablaCertificaciones();
+cargarCertificaciones();
 
 // ===== RF-30: Nivel de complejidad =====
 let opcionesNivel = ["Básico", "Intermedio", "Avanzado", "Certificación", "Nivel variable"];
@@ -651,8 +672,6 @@ dibujarNiveles();
 function configurarCatalogo({
   prefijo,
   ruta,
-  obtener,
-  guardar,
   descripcionOpcional
 }) {
   // Obtiene los elementos HTML del catálogo.
@@ -667,6 +686,10 @@ function configurarCatalogo({
   let campoBuscar = document.getElementById("buscar" + prefijo);
   let sinResultados = document.getElementById("sinResultados" + (prefijo === "Tematica" ? "Tematicas" : "Metodologias"));
   let codigoEditando = "";
+  let idEditando = "";
+
+  // Registros que respondió la API.
+  let registrosApi = [];
 
   // Campos que se validan; la descripción solo si es obligatoria.
   let campos = ["nombre" + prefijo];
@@ -689,13 +712,26 @@ function configurarCatalogo({
 
   // Muestra en el formulario el código que se va a asignar.
   function mostrarCodigo() {
-    campoCodigo.value = siguienteCodigo(obtener());
+    campoCodigo.value = siguienteCodigo(registrosApi);
+  }
+
+  // Pide los registros a la API y los dibuja.
+  async function cargar() {
+    try {
+      registrosApi = await pedirApi("GET", ruta);
+    } catch (error) {
+      registrosApi = [];
+      mostrarMensaje(mensaje.id, "No se pudieron cargar los registros.", "error");
+    }
+    mostrarCodigo();
+    dibujar();
   }
 
   // Limpia el formulario y restablece sus valores.
   function limpiar() {
     formulario.reset();
     codigoEditando = "";
+    idEditando = "";
     botonCancelar.classList.add("oculto");
     ocultarMensaje(mensaje.id);
 
@@ -707,7 +743,7 @@ function configurarCatalogo({
 
   // Muestra los registros en la tabla.
   function dibujar() {
-    let registros = obtener();
+    let registros = registrosApi;
     let texto = "";
     let encontrados = 0;
     tabla.innerHTML = "";
@@ -744,6 +780,7 @@ function configurarCatalogo({
       botonEditar.addEventListener("click", function () {
         // Carga los datos del registro seleccionado.
         codigoEditando = registros[i].codigo;
+        idEditando = registros[i]._id;
         campoCodigo.value = registros[i].codigo;
         campoNombre.value = registros[i].nombre;
         campoDescripcion.value = registros[i].descripcion || "";
@@ -781,7 +818,7 @@ function configurarCatalogo({
       return;
     }
 
-    let registros = obtener();
+    let registros = registrosApi;
 
     // Comprueba que el nombre no esté repetido.
     let duplicado = registros.some(function (registro) {
@@ -808,30 +845,19 @@ function configurarCatalogo({
       descripcion: descripcion
     };
 
-    // Modifica el registro o agrega uno nuevo.
-    if (codigoEditando !== "") {
-      registros = registros.map(function (actual) {
-        return actual.codigo === codigoEditando ? registro : actual;
-      });
-
-      // Guarda los datos y actualiza la tabla.
-      guardar(registros);
-      limpiar();
-      dibujar();
-
-      // Informa que el registro se guardó correctamente.
-      mostrarMensaje(
-        mensaje.id,
-        "Registro guardado correctamente.",
-        "valido"
-      );
-      return;
-    }
-
+    // Modifica el registro (PUT) o agrega uno nuevo (POST) en la API.
     try {
-      let resultado = await pedirApi("POST", ruta, registro);
+      let resultado;
+
+      if (idEditando !== "") {
+        resultado = await pedirApi("PUT", ruta + "/" + idEditando, registro);
+      } else {
+        resultado = await pedirApi("POST", ruta, registro);
+      }
+
       limpiar();
       mostrarMensaje(mensaje.id, resultado.mensaje, "valido");
+      cargar();
     } catch (error) {
       mostrarMensaje(mensaje.id, error.message, "error");
     }
@@ -847,16 +873,13 @@ function configurarCatalogo({
     campoBuscar.addEventListener("input", dibujar);
   }
 
-  mostrarCodigo();
-  dibujar();
+  cargar();
 }
 
 // Configura el catálogo de temáticas.
 configurarCatalogo({
   prefijo: "Tematica",
   ruta: "/tematicas",
-  obtener: obtenerTematicas,
-  guardar: guardarTematicas,
   descripcionOpcional: true
 });
 
@@ -864,8 +887,6 @@ configurarCatalogo({
 configurarCatalogo({
   prefijo: "Metodologia",
   ruta: "/metodologias",
-  obtener: obtenerMetodologias,
-  guardar: guardarMetodologias,
   descripcionOpcional: false
 });
 
