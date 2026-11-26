@@ -36,7 +36,6 @@ function agregarOpcionesFijas(id, valores) {
 // Llena las listas del formulario. Los catálogos que ya tienen API se piden con GET.
 async function cargarListasCurso() {
   agregarOpcionesFijas("certificacion", ["No tiene"]);
-  agregarOpciones("areaSfia", obtenerAreasSfia(), "codigo", "nombre");
   agregarOpciones("nivel", obtenerNiveles(), "codigo", "nombre");
   agregarOpcionesFijas("estado", estadosCurso);
   agregarOpcionesFijas("modalidad", modalidadesCurso);
@@ -44,6 +43,7 @@ async function cargarListasCurso() {
   agregarOpcionesFijas("moneda", monedas);
 
   try {
+    agregarOpciones("areaSfia", await pedirApi("GET", "/areasSfia"), "codigo", "nombre");
     agregarOpciones("escuela", await pedirApi("GET", "/escuelas"), "codigo", "nombre");
     agregarOpciones("tematica", await pedirApi("GET", "/tematicas"), "codigo", "nombre");
     agregarOpciones("metodologia", await pedirApi("GET", "/metodologias"), "codigo", "nombre");
@@ -53,6 +53,7 @@ async function cargarListasCurso() {
     mostrarMensaje("mensajeCurso", "No se pudieron cargar las listas del formulario.", "error");
   }
 }
+
 
 function fechaDeHoy() {
   let hoy = new Date();
