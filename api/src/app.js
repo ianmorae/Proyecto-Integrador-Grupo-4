@@ -4,6 +4,7 @@ require('dotenv').config({ quiet: true });
 const express = require('express');
 const cors = require('cors');
 const usuariosRoutes = require('./routes/usuarios.routes');
+const casasCertificadorasRoutes = require('./routes/casasCertificadoras.routes');
 const rutaNoEncontrada = require('./middlewares/rutaNoEncontrada');
 const manejarErrores = require('./middlewares/manejarErrores');
 
@@ -23,6 +24,7 @@ app.get('/api/v1', (req, res) => {
 
 // 4. Conecta cada grupo de URL con sus rutas.
 app.use('/api/v1/usuarios', usuariosRoutes);
+app.use('/api/v1/casasCertificadoras', casasCertificadorasRoutes);
 
 // 5. Responde las URL que no existen y los errores. Van al final.
 app.use(rutaNoEncontrada);

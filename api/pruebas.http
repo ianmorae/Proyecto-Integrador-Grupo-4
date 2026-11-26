@@ -94,3 +94,47 @@ GET {{api}}/usuarios/1
 
 ### 11. Un usuario que no existe: debe responder 404
 GET {{api}}/usuarios/999
+
+### 12. Casas certificadoras: listar
+GET {{api}}/casasCertificadoras
+
+### 13. Casas certificadoras: obtener una por su id
+GET {{api}}/casasCertificadoras/1
+
+### 14. Casas certificadoras: una que no existe, debe responder 404
+GET {{api}}/casasCertificadoras/999
+
+### 15. Casas certificadoras: registrar
+POST {{api}}/casasCertificadoras
+Content-Type: application/json
+
+{
+  "codigo": 40,
+  "nombre": "AWS"
+}
+
+### 16. Casas certificadoras: registrar sin nombre, debe responder 400
+POST {{api}}/casasCertificadoras
+Content-Type: application/json
+
+{
+  "codigo": 50
+}
+
+### 17. Casas certificadoras: código que no es entero, debe responder 400
+POST {{api}}/casasCertificadoras
+Content-Type: application/json
+
+{
+  "codigo": 2.5,
+  "nombre": "Google"
+}
+
+### 18. Casas certificadoras: código repetido, debe responder 409
+POST {{api}}/casasCertificadoras
+Content-Type: application/json
+
+{
+  "codigo": 10,
+  "nombre": "Otra casa"
+}
