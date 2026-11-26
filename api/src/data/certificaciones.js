@@ -1,3 +1,4 @@
+// certificaciones.js: datos en memoria. Más adelante se reemplazan por MongoDB.
 const certificaciones = [
   { _id: '1', codigo: 'CER-01', nombre: 'CCNA' },
   { _id: '2', codigo: 'CER-02', nombre: 'Azure Fundamentals' },

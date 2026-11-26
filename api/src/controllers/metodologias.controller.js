@@ -1,6 +1,8 @@
+// metodologias.controller.js: recibe las peticiones de /api/v1/metodologias y responde.
 const crypto = require('crypto');
 const metodologias = require('../data/metodologias');
 
+// Revisa los datos recibidos. Devuelve un mensaje de error o null.
 function validar(datos) {
   if (typeof datos.nombre !== 'string' || datos.nombre.trim() === '') {
     return 'Falta el nombre';
@@ -13,24 +15,12 @@ function validar(datos) {
   return null;
 }
 
-function buscarPorId(id) {
-  for (let i = 0; i < metodologias.length; i++) {
-    if (metodologias[i]._id === id) {
-      return metodologias[i];
-    }
-  }
-  return null;
+// Busca una metodología por su id. Devuelve undefined si no existe.
+function buscar(id) {
+  return metodologias.find((metodologia) => metodologia._id === id);
 }
 
-function nombreRepetido(nombre) {
-  for (let i = 0; i < metodologias.length; i++) {
-    if (metodologias[i].nombre.toLowerCase() === nombre.toLowerCase()) {
-      return true;
-    }
-  }
-  return false;
-}
-
+// El código es el más alto del catálogo más uno.
 function siguienteCodigo() {
   let mayor = 0;
 
@@ -42,41 +32,43 @@ function siguienteCodigo() {
   return mayor + 1;
 }
 
+// GET /api/v1/metodologias
 function listar(req, res) {
   res.json(metodologias);
 }
 
+// GET /api/v1/metodologias/:id
 function obtener(req, res) {
-  const metodologia = buscarPorId(req.params.id);
-  if (metodologia === null) {
+  const metodologia = buscar(req.params.id);
+  if (!metodologia) {
     return res.status(404).json({ mensaje: 'La metodología no existe' });
   }
   res.json(metodologia);
 }
 
+// POST /api/v1/metodologias
 function crear(req, res) {
-  const datos = req.body || {};
-  const error = validar(datos);
+  const error = validar(req.body);
   if (error) {
     return res.status(400).json({ mensaje: error });
   }
 
-  const nombre = datos.nombre.trim();
-  const descripcion = datos.descripcion.trim();
+  const nombre = req.body.nombre.trim();
+  const descripcion = req.body.descripcion.trim();
 
-  if (nombreRepetido(nombre)) {
+  if (metodologias.some((otra) => otra.nombre.toLowerCase() === nombre.toLowerCase())) {
     return res.status(409).json({ mensaje: 'Ya existe una metodología con ese nombre' });
   }
 
   const metodologia = {
     _id: crypto.randomUUID(),
     codigo: siguienteCodigo(),
-    nombre: nombre,
-    descripcion: descripcion
+    nombre,
+    descripcion
   };
 
   metodologias.push(metodologia);
-  res.status(201).json({ mensaje: 'Metodología guardada con el código ' + metodologia.codigo + '.', metodologia: metodologia });
+  res.status(201).json({ mensaje: 'Metodología guardada con el código ' + metodologia.codigo + '.', metodologia });
 }
 
 module.exports = { listar, obtener, crear };
