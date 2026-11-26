@@ -221,8 +221,25 @@ function iniciarCatalogos() {
 
 iniciarCatalogos();
 
-// ===== RF-26: Área SFIA =====
+
+ // ===== RF-26: Área SFIA =====
 let camposSfia = ["nombreSfia"];
+
+// Áreas SFIA que respondió la API.
+let areasSfiaApi = [];
+
+// Pide las áreas SFIA a la API y actualiza la tabla.
+async function cargarAreasSfia() {
+  try {
+    areasSfiaApi = await pedirApi("GET", "/areasSfia");
+  } catch (error) {
+    areasSfiaApi = [];
+    mostrarMensaje("mensajeSfia", "No se pudieron cargar las áreas SFIA.", "error");
+  }
+
+  mostrarCodigoSfia();
+  dibujarTablaSfia();
+}
 
 // Busca un área por nombre para no repetirla.
 function buscarAreaSfia(nombre, areas) {
@@ -231,6 +248,7 @@ function buscarAreaSfia(nombre, areas) {
       return areas[i];
     }
   }
+
   return null;
 }
 
@@ -240,23 +258,29 @@ function siguienteCodigoSfia(areas) {
 
   for (let i = 0; i < areas.length; i++) {
     let numero = Number(areas[i].codigo);
+
     if (numero > mayor) {
       mayor = numero;
     }
   }
+
   return mayor + 1;
 }
 
+// Muestra el siguiente código disponible.
 function mostrarCodigoSfia() {
-  document.getElementById("codigoSfia").value = siguienteCodigoSfia(obtenerAreasSfia());
+  document.getElementById("codigoSfia").value =
+    siguienteCodigoSfia(areasSfiaApi);
 }
 
+// Limpia el formulario y restablece el código.
 function limpiarFormularioSfia() {
   document.getElementById("formSfia").reset();
 
   for (let i = 0; i < camposSfia.length; i++) {
     quitarEstadoCampo(document.getElementById(camposSfia[i]));
   }
+
   mostrarCodigoSfia();
 }
 
@@ -268,17 +292,20 @@ function coincideSfia(area, texto) {
   return codigo.includes(texto) || nombre.includes(texto);
 }
 
+// Muestra las áreas SFIA que coinciden con la búsqueda.
 function dibujarTablaSfia() {
-  let areas = obtenerAreasSfia();
+  let areas = areasSfiaApi;
   let texto = document.getElementById("buscarSfia").value.trim().toLowerCase();
   let tabla = document.getElementById("tablaSfia");
   let encontradas = 0;
+
   tabla.innerHTML = "";
 
   for (let i = 0; i < areas.length; i++) {
     if (!coincideSfia(areas[i], texto)) {
       continue;
     }
+
     encontradas++;
 
     let fila = document.createElement("tr");
@@ -288,14 +315,16 @@ function dibujarTablaSfia() {
 
     celdaCodigo.textContent = areas[i].codigo;
     celdaNombre.textContent = areas[i].nombre;
-    celdaDescripcion.textContent = areas[i].descripcion;
+    celdaDescripcion.textContent = areas[i].descripcion || "";
 
     fila.appendChild(celdaCodigo);
     fila.appendChild(celdaNombre);
     fila.appendChild(celdaDescripcion);
+
     tabla.appendChild(fila);
   }
 
+  // Muestra u oculta el mensaje según existan áreas registradas.
   if (areas.length > 0) {
     document.getElementById("sinSfia").classList.add("oculto");
   } else {
@@ -310,8 +339,10 @@ function dibujarTablaSfia() {
   }
 }
 
+// Guarda una nueva área SFIA en la API.
 async function guardarAreaSfia(evento) {
   evento.preventDefault();
+
   ocultarMensaje("mensajeSfia");
 
   if (!validarFormulario(camposSfia)) {
@@ -319,34 +350,48 @@ async function guardarAreaSfia(evento) {
   }
 
   let campoNombre = document.getElementById("nombreSfia");
-  let areas = obtenerAreasSfia();
+  let areas = areasSfiaApi;
 
+  // Comprueba que el nombre no esté repetido.
   if (buscarAreaSfia(campoNombre.value.trim(), areas) !== null) {
     mostrarError(campoNombre, "Ya existe un área SFIA con ese nombre.");
     campoNombre.focus();
     return;
   }
 
+  // Crea el objeto con los datos ingresados.
   let area = {
-    codigo: siguienteCodigoSfia(areas),
     nombre: campoNombre.value.trim(),
     descripcion: document.getElementById("descripcionSfia").value.trim()
   };
 
+  // Envía el área a la API.
   try {
     let resultado = await pedirApi("POST", "/areasSfia", area);
+
     limpiarFormularioSfia();
     mostrarMensaje("mensajeSfia", resultado.mensaje, "valido");
+
+    // Actualiza la tabla con los registros de la API.
+    await cargarAreasSfia();
+
   } catch (error) {
     mostrarMensaje("mensajeSfia", error.message, "error");
   }
 }
 
+// Agrega la validación cuando se sale del campo.
 agregarEventosBlur(camposSfia);
+
+// Ejecuta el registro al enviar el formulario.
 document.getElementById("formSfia").addEventListener("submit", guardarAreaSfia);
+
+// Actualiza la tabla al escribir en el buscador.
 document.getElementById("buscarSfia").addEventListener("input", dibujarTablaSfia);
-mostrarCodigoSfia();
-dibujarTablaSfia();
+
+// Carga las áreas SFIA desde la API al iniciar.
+cargarAreasSfia();
+
 
 let camposCertificacion = ["codigoCertificacion", "nombreCertificacion"];
 let codigoCertificacionEditando = "";
