@@ -101,4 +101,68 @@ function crear(req, res) {
   res.status(201).json({ mensaje: 'Usuario registrado', usuario });
 }
 
-module.exports = { listar, obtener, crear };
+// PUT /api/v1/usuarios/:id
+function actualizar(req, res) {
+  const usuario = buscar(req.params.id);
+  if (!usuario) {
+    return res.status(404).json({ mensaje: 'El usuario no existe' });
+  }
+
+  const error = validar(req.body);
+  if (error) {
+    return res.status(400).json({ mensaje: error });
+  }
+
+  const {
+    identificacion, nombre, primerApellido, segundoApellido, fechaNacimiento,
+    sexo, correoInstitucional, correoPersonal, celular, rol, imagen
+  } = req.body;
+
+  // Se compara con los demás usuarios, no consigo mismo.
+  const otros = usuarios.filter((otro) => otro._id !== usuario._id);
+
+  if (otros.some((otro) => otro.identificacion === identificacion)) {
+    return res.status(409).json({ mensaje: 'Ya existe un usuario con esa identificación' });
+  }
+
+  if (otros.some((otro) => otro.correoInstitucional === correoInstitucional)) {
+    return res.status(409).json({ mensaje: 'Ya existe un usuario con ese correo institucional' });
+  }
+
+  // El _id y el estado no cambian al editar.
+  usuario.identificacion = identificacion;
+  usuario.nombre = nombre;
+  usuario.primerApellido = primerApellido;
+  usuario.segundoApellido = segundoApellido;
+  usuario.fechaNacimiento = fechaNacimiento;
+  usuario.sexo = sexo;
+  usuario.correoInstitucional = correoInstitucional;
+  usuario.correoPersonal = correoPersonal;
+  usuario.celular = celular;
+  usuario.rol = rol;
+  usuario.imagen = imagen;
+
+  res.json({ mensaje: 'Usuario actualizado', usuario });
+}
+
+// PATCH /api/v1/usuarios/:id/estado
+// El usuario no se elimina: se activa o se desactiva (RF-22).
+function cambiarEstado(req, res) {
+  const usuario = buscar(req.params.id);
+  if (!usuario) {
+    return res.status(404).json({ mensaje: 'El usuario no existe' });
+  }
+
+  const { estado } = req.body;
+  if (estado !== 'Activo' && estado !== 'Inactivo') {
+    return res.status(400).json({ mensaje: 'Estado no válido' });
+  }
+
+  usuario.estado = estado;
+  res.json({
+    mensaje: `El usuario ${usuario.nombre} ahora está ${estado.toLowerCase()}`,
+    usuario
+  });
+}
+
+module.exports = { listar, obtener, crear, actualizar, cambiarEstado };
