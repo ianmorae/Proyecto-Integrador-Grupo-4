@@ -7,6 +7,7 @@ const usuariosRoutes = require('./routes/usuarios.routes');
 const casasCertificadorasRoutes = require('./routes/casasCertificadoras.routes');
 const certificacionesRoutes = require('./routes/certificaciones.routes');
 const tematicasRoutes = require('./routes/tematicas.routes');
+const metodologiasRoutes = require('./routes/metodologias.routes');
 const rutaNoEncontrada = require('./middlewares/rutaNoEncontrada');
 const manejarErrores = require('./middlewares/manejarErrores');
 
@@ -29,6 +30,7 @@ app.use('/api/v1/usuarios', usuariosRoutes);
 app.use('/api/v1/casasCertificadoras', casasCertificadorasRoutes);
 app.use('/api/v1/certificaciones', certificacionesRoutes);
 app.use('/api/v1/tematicas', tematicasRoutes);
+app.use('/api/v1/metodologias', metodologiasRoutes);
 
 // 5. Responde las URL que no existen y los errores. Van al final.
 app.use(rutaNoEncontrada);
