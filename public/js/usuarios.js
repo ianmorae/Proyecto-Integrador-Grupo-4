@@ -367,6 +367,7 @@ if (formularioUsuario !== null) {
 
         if (idUsuarioEditando !== "") {
           resultado = await pedirApi("PUT", "/usuarios/" + idUsuarioEditando, nuevoUsuario);
+          actualizarSesionUsuario(buscarUsuarioApi(idUsuarioEditando), nuevoUsuario);
         } else {
           resultado = await pedirApi("POST", "/usuarios", nuevoUsuario);
         }
@@ -405,16 +406,20 @@ if (formularioUsuario !== null) {
 }
 
 
+// Busca un usuario en la lista que respondió la API.
+function buscarUsuarioApi(id) {
+  for (let i = 0; i < usuariosApi.length; i++) {
+    if (usuariosApi[i]._id === id) {
+      return usuariosApi[i];
+    }
+  }
+  return null;
+}
+
 // Activa o desactiva un usuario. Un usuario inactivo no puede iniciar sesión.
 async function cambiarEstadoUsuario(id) {
   let sesion = obtenerSesion();
-  let usuario = null;
-
-  for (let i = 0; i < usuariosApi.length; i++) {
-    if (usuariosApi[i]._id === id) {
-      usuario = usuariosApi[i];
-    }
-  }
+  let usuario = buscarUsuarioApi(id);
 
   if (usuario.correoInstitucional.toLowerCase() === sesion.correo.toLowerCase()) {
     mostrarMensaje("mensajeListaUsuarios", "No puedes cambiar el estado de tu propio usuario.", "error");

@@ -94,3 +94,69 @@ GET {{api}}/usuarios/1
 
 ### 11. Un usuario que no existe: debe responder 404
 GET {{api}}/usuarios/999
+
+### 12. Editar un usuario
+PUT {{api}}/usuarios/1
+Content-Type: application/json
+
+{
+  "identificacion": "1-1111-1111",
+  "nombre": "Ana",
+  "primerApellido": "Rojas",
+  "segundoApellido": "Mora",
+  "fechaNacimiento": "1995-05-10",
+  "sexo": "Femenino",
+  "correoInstitucional": "arojas@ucenfotec.ac.cr",
+  "correoPersonal": "ana.rojas@gmail.com",
+  "celular": "88880000",
+  "rol": "Director de Escuela",
+  "imagen": "A3"
+}
+
+### 13. Editar un usuario que no existe: debe responder 404
+PUT {{api}}/usuarios/999
+Content-Type: application/json
+
+{
+  "identificacion": "9-9999-9999",
+  "nombre": "Nadie",
+  "primerApellido": "No",
+  "segundoApellido": "Existe",
+  "fechaNacimiento": "1990-01-01",
+  "sexo": "Masculino",
+  "correoInstitucional": "nadie@ucenfotec.ac.cr",
+  "correoPersonal": "nadie@gmail.com",
+  "celular": "80000000",
+  "rol": "Director de Escuela",
+  "imagen": "A1"
+}
+
+### 14. Editar con el correo de otro usuario: debe responder 409
+PUT {{api}}/usuarios/2
+Content-Type: application/json
+
+{
+  "identificacion": "2-2222-2222",
+  "nombre": "Carlos",
+  "primerApellido": "Vargas",
+  "segundoApellido": "Solís",
+  "fechaNacimiento": "1988-09-21",
+  "sexo": "Masculino",
+  "correoInstitucional": "arojas@ucenfotec.ac.cr",
+  "correoPersonal": "carlos.vargas@gmail.com",
+  "celular": "87776666",
+  "rol": "Desarrollo Curricular",
+  "imagen": "A1"
+}
+
+### 15. Desactivar un usuario
+PATCH {{api}}/usuarios/2/estado
+Content-Type: application/json
+
+{ "estado": "Inactivo" }
+
+### 16. Estado no válido: debe responder 400
+PATCH {{api}}/usuarios/2/estado
+Content-Type: application/json
+
+{ "estado": "Borrado" }
