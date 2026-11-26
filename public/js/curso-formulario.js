@@ -238,7 +238,7 @@ async function enviarCurso(evento) {
 }
 
 async function guardarBorrador() {
-  await registrarCurso(camposBorrador, "Borrador", "Borrador guardado correctamente.", true);
+  await registrarCurso(camposBorrador, "Borrador", "Borrador guardado correctamente.");
 }
 
 cargarListasCurso();
