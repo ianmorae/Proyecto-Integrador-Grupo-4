@@ -11,6 +11,7 @@ const cursosRoutes = require('./routes/cursos.routes');
 const certificacionesRoutes = require('./routes/certificaciones.routes');
 const tematicasRoutes = require('./routes/tematicas.routes');
 const metodologiasRoutes = require('./routes/metodologias.routes');
+const areasSfiaRoutes = require('./routes/areasSfia.routes');
 const rutaNoEncontrada = require('./middlewares/rutaNoEncontrada');
 const manejarErrores = require('./middlewares/manejarErrores');
 
@@ -37,6 +38,7 @@ app.use('/api/v1/cursos', cursosRoutes);
 app.use('/api/v1/certificaciones', certificacionesRoutes);
 app.use('/api/v1/tematicas', tematicasRoutes);
 app.use('/api/v1/metodologias', metodologiasRoutes);
+app.use('/api/v1/areasSfia', areasSfiaRoutes);
 
 // 5. Responde las URL que no existen y los errores. Van al final.
 app.use(rutaNoEncontrada);
