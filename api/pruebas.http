@@ -204,3 +204,47 @@ Content-Type: application/json
   "codigo": 10,
   "nombre": "Otra casa"
 }
+
+### 24. Certificaciones: listar
+GET {{api}}/certificaciones
+
+### 25. Certificaciones: obtener una por su id
+GET {{api}}/certificaciones/1
+
+### 26. Certificaciones: una que no existe, debe responder 404
+GET {{api}}/certificaciones/999
+
+### 27. Certificaciones: registrar
+POST {{api}}/certificaciones
+Content-Type: application/json
+
+{
+  "codigo": "CER-04",
+  "nombre": "AWS Cloud Practitioner"
+}
+
+### 28. Certificaciones: registrar sin código, debe responder 400
+POST {{api}}/certificaciones
+Content-Type: application/json
+
+{
+  "nombre": "Scrum Master"
+}
+
+### 29. Certificaciones: registrar «No tiene», debe responder 400
+POST {{api}}/certificaciones
+Content-Type: application/json
+
+{
+  "codigo": "CER-05",
+  "nombre": "No tiene"
+}
+
+### 30. Certificaciones: código repetido, debe responder 409
+POST {{api}}/certificaciones
+Content-Type: application/json
+
+{
+  "codigo": "cer-01",
+  "nombre": "Otra certificación"
+}
