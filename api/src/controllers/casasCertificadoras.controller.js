@@ -1,6 +1,8 @@
+// casasCertificadoras.controller.js: recibe las peticiones de /api/v1/casasCertificadoras y responde.
 const crypto = require('crypto');
 const casas = require('../data/casasCertificadoras');
 
+// Revisa los datos recibidos. Devuelve un mensaje de error o null.
 function validar(datos) {
   if (datos.codigo === undefined || datos.codigo === null || datos.codigo === '') {
     return 'Falta el código';
@@ -18,67 +20,47 @@ function validar(datos) {
   return null;
 }
 
-function buscarPorId(id) {
-  for (let i = 0; i < casas.length; i++) {
-    if (casas[i]._id === id) {
-      return casas[i];
-    }
-  }
-  return null;
+// Busca una casa certificadora por su id. Devuelve undefined si no existe.
+function buscar(id) {
+  return casas.find((casa) => casa._id === id);
 }
 
-function codigoRepetido(codigo) {
-  for (let i = 0; i < casas.length; i++) {
-    if (casas[i].codigo === codigo) {
-      return true;
-    }
-  }
-  return false;
-}
-
-function nombreRepetido(nombre) {
-  for (let i = 0; i < casas.length; i++) {
-    if (casas[i].nombre.toLowerCase() === nombre.toLowerCase()) {
-      return true;
-    }
-  }
-  return false;
-}
-
+// GET /api/v1/casasCertificadoras
 function listar(req, res) {
   res.json(casas);
 }
 
+// GET /api/v1/casasCertificadoras/:id
 function obtener(req, res) {
-  const casa = buscarPorId(req.params.id);
-  if (casa === null) {
+  const casa = buscar(req.params.id);
+  if (!casa) {
     return res.status(404).json({ mensaje: 'La casa certificadora no existe' });
   }
   res.json(casa);
 }
 
+// POST /api/v1/casasCertificadoras
 function crear(req, res) {
-  const datos = req.body || {};
-  const error = validar(datos);
+  const error = validar(req.body);
   if (error) {
     return res.status(400).json({ mensaje: error });
   }
 
-  const codigo = Number(datos.codigo);
-  const nombre = datos.nombre.trim();
+  const codigo = Number(req.body.codigo);
+  const nombre = req.body.nombre.trim();
 
-  if (codigoRepetido(codigo)) {
+  if (casas.some((casa) => casa.codigo === codigo)) {
     return res.status(409).json({ mensaje: 'Ya existe una casa certificadora con ese código' });
   }
 
-  if (nombreRepetido(nombre)) {
+  if (casas.some((casa) => casa.nombre.toLowerCase() === nombre.toLowerCase())) {
     return res.status(409).json({ mensaje: 'Ya existe una casa certificadora con ese nombre' });
   }
 
   const casa = {
     _id: crypto.randomUUID(),
-    codigo: codigo,
-    nombre: nombre
+    codigo,
+    nombre
   };
 
   casas.push(casa);

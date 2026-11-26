@@ -296,7 +296,7 @@ Content-Type: application/json
 GET {{api}}/cursos
 
 ### 39. Cursos: obtener uno por su id
-GET {{api}}/cursos/ID_DEL_CURSO
+GET {{api}}/cursos/1
 
 ### 40. Cursos: obtener uno que no existe, debe responder 404
 GET {{api}}/cursos/no-existe

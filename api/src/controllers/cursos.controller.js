@@ -1,9 +1,12 @@
-
 // cursos.controller.js: recibe las peticiones de /api/v1/cursos y responde.
 const crypto = require('crypto');
 const cursos = require('../data/cursos');
 
+// Estados que puede tener un curso.
+const ESTADOS = ['Borrador', 'En desarrollo', 'Aprobado', 'En producción', 'Inactivo'];
+
 // Revisa los datos recibidos. Devuelve un mensaje de error o null.
+// Un borrador solo necesita la escuela, el código (o la casilla de DC) y el nombre oficial.
 function validar(datos) {
   if (!datos.escuela) {
     return 'Falta la escuela';
@@ -17,7 +20,16 @@ function validar(datos) {
     return 'Falta el nombre oficial del curso';
   }
 
+  if (datos.estado && !ESTADOS.includes(datos.estado)) {
+    return 'Estado no válido';
+  }
+
   return null;
+}
+
+// Busca un curso por su id. Devuelve undefined si no existe.
+function buscar(id) {
+  return cursos.find((curso) => curso._id === id);
 }
 
 // GET /api/v1/cursos
@@ -27,48 +39,81 @@ function listar(req, res) {
 
 // GET /api/v1/cursos/:id
 function obtener(req, res) {
-  const curso = cursos.find((curso) => curso._id === req.params.id);
-
+  const curso = buscar(req.params.id);
   if (!curso) {
     return res.status(404).json({ mensaje: 'El curso no existe' });
   }
-
   res.json(curso);
 }
 
 // POST /api/v1/cursos
 function crear(req, res) {
-  const datos = req.body || {};
-
-  const error = validar(datos);
-
+  const error = validar(req.body);
   if (error) {
     return res.status(400).json({ mensaje: error });
   }
 
-  // Comprueba que no exista otro curso con el mismo código.
-  if (datos.codigo && cursos.some(
-    (curso) => curso.codigo &&
-      curso.codigo.toLowerCase() === datos.codigo.trim().toLowerCase()
-  )) {
-    return res.status(409).json({
-      mensaje: 'Ya existe un curso con ese código'
-    });
+  // Solo se toman los campos del esquema de la colección cursos.
+  const {
+    escuela, codigo, codigoDc, nombreOficial, nombrePowerCampus, ecommerce,
+    periodo, estado, areaSfia, tematica, fechaModificacion, creditos, horasClase,
+    horasExtraclase, totalHoras, modalidad, nivel, metodologia,
+    requisitosIndispensables, requisitosDeseables, programa, moneda,
+    certificacion, casaCertificadora, competencia, capacidades, descripcionCorta,
+    metaDescripcion, descripcionLarga, perfilIngreso, perfilSalida, palabrasClave,
+    metadata, documentoWord, documentoPdf
+  } = req.body;
+
+  const codigoLimpio = codigo ? codigo.trim() : '';
+
+  const repetido = cursos.some(
+    (curso) => codigoLimpio !== '' && curso.codigo.toLowerCase() === codigoLimpio.toLowerCase()
+  );
+  if (repetido) {
+    return res.status(409).json({ mensaje: 'Ya existe un curso con ese código' });
   }
 
-  // Crea el curso con los datos recibidos.
   const curso = {
     _id: crypto.randomUUID(),
-    ...datos,
-    codigo: datos.codigo ? datos.codigo.trim() : ''
+    escuela,
+    codigo: codigoLimpio,
+    codigoDc: codigoDc === true,
+    nombreOficial: nombreOficial.trim(),
+    nombrePowerCampus,
+    ecommerce,
+    periodo,
+    estado: estado || 'Borrador',
+    areaSfia,
+    tematica,
+    fechaModificacion,
+    creditos,
+    horasClase,
+    horasExtraclase,
+    totalHoras,
+    modalidad,
+    nivel,
+    metodologia,
+    requisitosIndispensables,
+    requisitosDeseables,
+    programa,
+    moneda,
+    certificacion,
+    casaCertificadora,
+    competencia,
+    capacidades,
+    descripcionCorta,
+    metaDescripcion,
+    descripcionLarga,
+    perfilIngreso,
+    perfilSalida,
+    palabrasClave,
+    metadata,
+    documentoWord,
+    documentoPdf
   };
 
   cursos.push(curso);
-
-  res.status(201).json({
-    mensaje: 'Curso registrado correctamente',
-    curso
-  });
+  res.status(201).json({ mensaje: 'Curso registrado correctamente', curso });
 }
 
 module.exports = { listar, obtener, crear };

@@ -385,6 +385,7 @@ function limpiarFormularioCertificacion() {
   }
 }
 
+// Pide la lista de certificaciones a la API y la dibuja.
 async function cargarCertificaciones() {
   try {
     certificacionesApi = await pedirApi("GET", "/certificaciones");
@@ -671,8 +672,6 @@ dibujarNiveles();
 function configurarCatalogo({
   prefijo,
   ruta,
-  obtener,
-  guardar,
   descripcionOpcional
 }) {
   // Obtiene los elementos HTML del catálogo.
@@ -687,6 +686,10 @@ function configurarCatalogo({
   let campoBuscar = document.getElementById("buscar" + prefijo);
   let sinResultados = document.getElementById("sinResultados" + (prefijo === "Tematica" ? "Tematicas" : "Metodologias"));
   let codigoEditando = "";
+  let idEditando = "";
+
+  // Registros que respondió la API.
+  let registrosApi = [];
 
   // Campos que se validan; la descripción solo si es obligatoria.
   let campos = ["nombre" + prefijo];
@@ -709,13 +712,26 @@ function configurarCatalogo({
 
   // Muestra en el formulario el código que se va a asignar.
   function mostrarCodigo() {
-    campoCodigo.value = siguienteCodigo(obtener());
+    campoCodigo.value = siguienteCodigo(registrosApi);
+  }
+
+  // Pide los registros a la API y los dibuja.
+  async function cargar() {
+    try {
+      registrosApi = await pedirApi("GET", ruta);
+    } catch (error) {
+      registrosApi = [];
+      mostrarMensaje(mensaje.id, "No se pudieron cargar los registros.", "error");
+    }
+    mostrarCodigo();
+    dibujar();
   }
 
   // Limpia el formulario y restablece sus valores.
   function limpiar() {
     formulario.reset();
     codigoEditando = "";
+    idEditando = "";
     botonCancelar.classList.add("oculto");
     ocultarMensaje(mensaje.id);
 
@@ -727,7 +743,7 @@ function configurarCatalogo({
 
   // Muestra los registros en la tabla.
   function dibujar() {
-    let registros = obtener();
+    let registros = registrosApi;
     let texto = "";
     let encontrados = 0;
     tabla.innerHTML = "";
@@ -764,6 +780,7 @@ function configurarCatalogo({
       botonEditar.addEventListener("click", function () {
         // Carga los datos del registro seleccionado.
         codigoEditando = registros[i].codigo;
+        idEditando = registros[i]._id;
         campoCodigo.value = registros[i].codigo;
         campoNombre.value = registros[i].nombre;
         campoDescripcion.value = registros[i].descripcion || "";
@@ -801,7 +818,7 @@ function configurarCatalogo({
       return;
     }
 
-    let registros = obtener();
+    let registros = registrosApi;
 
     // Comprueba que el nombre no esté repetido.
     let duplicado = registros.some(function (registro) {
@@ -828,30 +845,19 @@ function configurarCatalogo({
       descripcion: descripcion
     };
 
-    // Modifica el registro o agrega uno nuevo.
-    if (codigoEditando !== "") {
-      registros = registros.map(function (actual) {
-        return actual.codigo === codigoEditando ? registro : actual;
-      });
-
-      // Guarda los datos y actualiza la tabla.
-      guardar(registros);
-      limpiar();
-      dibujar();
-
-      // Informa que el registro se guardó correctamente.
-      mostrarMensaje(
-        mensaje.id,
-        "Registro guardado correctamente.",
-        "valido"
-      );
-      return;
-    }
-
+    // Modifica el registro (PUT) o agrega uno nuevo (POST) en la API.
     try {
-      let resultado = await pedirApi("POST", ruta, registro);
+      let resultado;
+
+      if (idEditando !== "") {
+        resultado = await pedirApi("PUT", ruta + "/" + idEditando, registro);
+      } else {
+        resultado = await pedirApi("POST", ruta, registro);
+      }
+
       limpiar();
       mostrarMensaje(mensaje.id, resultado.mensaje, "valido");
+      cargar();
     } catch (error) {
       mostrarMensaje(mensaje.id, error.message, "error");
     }
@@ -867,16 +873,13 @@ function configurarCatalogo({
     campoBuscar.addEventListener("input", dibujar);
   }
 
-  mostrarCodigo();
-  dibujar();
+  cargar();
 }
 
 // Configura el catálogo de temáticas.
 configurarCatalogo({
   prefijo: "Tematica",
   ruta: "/tematicas",
-  obtener: obtenerTematicas,
-  guardar: guardarTematicas,
   descripcionOpcional: true
 });
 
@@ -884,8 +887,6 @@ configurarCatalogo({
 configurarCatalogo({
   prefijo: "Metodologia",
   ruta: "/metodologias",
-  obtener: obtenerMetodologias,
-  guardar: guardarMetodologias,
   descripcionOpcional: false
 });
 
