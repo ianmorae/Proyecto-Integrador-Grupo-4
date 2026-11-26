@@ -248,3 +248,45 @@ Content-Type: application/json
   "codigo": "cer-01",
   "nombre": "Otra certificación"
 }
+
+### 31. Temáticas: listar
+GET {{api}}/tematicas
+
+### 32. Temáticas: obtener una por su id
+GET {{api}}/tematicas/1
+
+### 33. Temáticas: una que no existe, debe responder 404
+GET {{api}}/tematicas/999
+
+### 34. Temáticas: registrar, el código se asigna solo
+POST {{api}}/tematicas
+Content-Type: application/json
+
+{
+  "nombre": "Bases de datos",
+  "descripcion": "Diseño y administración de bases de datos"
+}
+
+### 35. Temáticas: registrar sin descripción
+POST {{api}}/tematicas
+Content-Type: application/json
+
+{
+  "nombre": "Inteligencia artificial"
+}
+
+### 36. Temáticas: registrar sin nombre, debe responder 400
+POST {{api}}/tematicas
+Content-Type: application/json
+
+{
+  "descripcion": "Sin nombre"
+}
+
+### 37. Temáticas: nombre repetido, debe responder 409
+POST {{api}}/tematicas
+Content-Type: application/json
+
+{
+  "nombre": "programación"
+}
